@@ -1,19 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import theme from "../core/theme";
+import Header from "../components/Header";
 
 export default function CategoriesScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Categories Screen</Text>
-    </View>
-  );
+    return (
+        <SafeAreaView style={styles.container}>
+            <Header title={"Mes catégories"} />
+            <Text style={styles.text}>Categories Screen</Text>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: theme.colors.bg_White,
+    },
 });

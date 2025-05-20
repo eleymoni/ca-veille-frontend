@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
+import { Keyboard } from "react-native";
 
 const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
     // search bar state
@@ -32,6 +33,7 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
         // search action, use searchRange for defining the range of search
         console.log(searchText);
         setSearchText("");
+        Keyboard.dismiss();
     };
 
     const handleMenuPress = () => {
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        zIndex: 1,
+        zIndex: 2,
     },
     title: {
         fontSize: theme.fontSizes.large,
@@ -141,9 +143,10 @@ const styles = StyleSheet.create({
         color: theme.colors.icon_gray,
     },
     shadow: {
-        backgroundColor: theme.colors.bg_White,
+        backgroundColor: theme.colors.bg_gray,
         width: "100%",
         height: 1,
+        zIndex: 1,
         ...Platform.select({
             ios: {
                 shadowColor: theme.colors.text_dark,
