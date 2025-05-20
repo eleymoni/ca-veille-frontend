@@ -2,12 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import {
-  Comfortaa_600SemiBold,
-  Comfortaa_700Bold,
+    Comfortaa_600SemiBold,
+    Comfortaa_700Bold,
 } from "@expo-google-fonts/comfortaa";
 import {
-  OpenSans_400Regular,
-  OpenSans_600SemiBold,
+    OpenSans_400Regular,
+    OpenSans_600SemiBold,
 } from "@expo-google-fonts/open-sans";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -71,12 +71,12 @@ const TabNavigator = () => {
 };
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    Comfortaa_600SemiBold,
-    Comfortaa_700Bold,
-    OpenSans_400Regular,
-    OpenSans_600SemiBold,
-  });
+    const [fontsLoaded] = useFonts({
+        Comfortaa_600SemiBold,
+        Comfortaa_700Bold,
+        OpenSans_400Regular,
+        OpenSans_600SemiBold,
+    });
 
   if (!fontsLoaded) {
     return (
@@ -99,10 +99,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 });
