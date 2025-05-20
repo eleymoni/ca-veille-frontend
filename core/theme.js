@@ -15,9 +15,9 @@ const theme = {
     openSansSemiBold: "OpenSans_600SemiBold",
   },
   fontSizes: {
-    small: "12px",
-    medium: "16px",
-    large: "20px",
+    small: 12,
+    medium: 16,
+    large: 20,
   },
 };
 
