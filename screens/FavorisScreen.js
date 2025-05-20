@@ -8,7 +8,14 @@ export default function FavorisScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <Header title={"Mes articles favoris"} />
-            <Text style={styles.text}>Categories Screen</Text>
+            <View
+                style={{
+                    backgroundColor: theme.colors.bg_gray,
+                    height: "100%",
+                }}
+            >
+                <Text style={styles.text}>Favoris Screen</Text>
+            </View>
         </SafeAreaView>
     );
 }

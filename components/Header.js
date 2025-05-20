@@ -14,6 +14,7 @@ import { Keyboard } from "react-native";
 
 const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
     // search bar state
+
     const [showSearch, setShowSearch] = useState(false);
     const [searchText, setSearchText] = useState("");
     // if the title length is too long, maxLength is the max length ofthe title
@@ -31,14 +32,12 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
 
     const handleSearch = () => {
         // search action, use searchRange for defining the range of search
-        console.log(searchText);
         setSearchText("");
         Keyboard.dismiss();
     };
 
     const handleMenuPress = () => {
         //action burger menu
-        console.log("menu");
     };
 
     return (
@@ -54,8 +53,8 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
                     </Text>
                 ) : !showSearch ? (
                     <Image
-                        style={{ width: 180 }}
-                        resizeMode="center"
+                        style={{ width: 180, height: 60 }}
+                        resizeMode="contain"
                         source={require("../assets/images/logo_light_mode.png")}
                     />
                 ) : (

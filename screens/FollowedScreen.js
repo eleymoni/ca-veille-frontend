@@ -8,7 +8,14 @@ export default function FollowedScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <Header title={"Mes abonnements"} />
-            <Text style={styles.text}>Categories Screen</Text>
+            <View
+                style={{
+                    backgroundColor: theme.colors.bg_gray,
+                    height: "100%",
+                }}
+            >
+                <Text style={styles.text}>Categories Screen</Text>
+            </View>
         </SafeAreaView>
     );
 }

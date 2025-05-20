@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Platform } from "react-native";
 import { useFonts } from "expo-font";
 import {
     Comfortaa_600SemiBold,
@@ -17,7 +17,6 @@ import {
     SafeAreaProvider,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
-
 import HomeScreen from "./screens/HomeScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import PopularScreen from "./screens/PopularScreen";
@@ -25,15 +24,32 @@ import FollowedScreen from "./screens/FollowedScreen";
 import FavorisScreen from "./screens/FavorisScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-
 import theme from "./core/theme";
+import { Provider } from "react-redux";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import users from "./reducers/users";
 
+const reducers = combineReducers({ users });
+const persistConfig = {
+    key: "ça veille",
+    storage: AsyncStorage,
+};
+const store = configureStore({
+    reducer: persistReducer(persistConfig, reducers),
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({ serializableCheck: false }),
+});
+const persistor = persistStore(store);
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
     // marge android
-    const insets = useSafeAreaInsets();
+
+    const insets = useSafeAreaInsets().bottom;
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -61,13 +77,12 @@ const TabNavigator = () => {
                 headerShown: false,
                 tabBarStyle: {
                     backgroundColor: theme.colors.blue,
-                    height: 76 + insets.bottom,
-                    paddingBottom: 22 + insets.bottom,
+                    height: 80 + insets,
+                    paddingTop: 10,
+                    paddingBottom: 15 + insets,
                 },
-                tabBarIconStyle: { marginTop: 10 },
                 tabBarLabelStyle: {
                     fontSize: theme.fontSizes.small,
-                    marginTop: 4,
                 },
             })}
         >
@@ -104,19 +119,28 @@ export default function App() {
 
     return (
         // <View style={{ fontFamily: theme.fonts.comfortaaBold }}>
-
-        <SafeAreaProvider>
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="Login" component={LoginScreen} />
-                    <Stack.Screen name="Register" component={RegisterScreen} />
-                    <Stack.Screen
-                        name="TabNavigator"
-                        component={TabNavigator}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </SafeAreaProvider>
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <SafeAreaProvider>
+                    <NavigationContainer>
+                        <Stack.Navigator screenOptions={{ headerShown: false }}>
+                            <Stack.Screen
+                                name="Login"
+                                component={LoginScreen}
+                            />
+                            <Stack.Screen
+                                name="Register"
+                                component={RegisterScreen}
+                            />
+                            <Stack.Screen
+                                name="TabNavigator"
+                                component={TabNavigator}
+                            />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </SafeAreaProvider>
+            </PersistGate>
+        </Provider>
     );
 }
 
