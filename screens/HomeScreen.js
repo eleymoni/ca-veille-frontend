@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    // SafeAreaView,
     View,
     Text,
     StyleSheet,
@@ -11,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import Header from "../components/Header";
+import ArticleCard from "../components/ArticleCard";
 
 const veilleData = [
     {
@@ -24,8 +24,8 @@ const veilleData = [
     },
     {
         id: "2",
-        title: "Le retour des crypto-monnaies",
-        description: "Nouveau bull run? Analyse des signaux.",
+        title: "Test titre mega looooooooooooooooooooooooong Le retour des crypto-monnaies",
+        description: "Test description plus longue Nouveau bull run? Analyse des signaux.",
         category: "Finance",
         date: "19 mai 2025",
         image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
@@ -43,17 +43,13 @@ const veilleData = [
 ];
 
 const renderVeilleItem = ({ item }) => (
-    <View style={styles.card}>
-        <FontAwesome5 name="star" size={22} style={styles.icon} />
-        <View style={styles.row}>
-            <Image source={{ uri: item.image }} style={styles.image} />
-            <View style={styles.textContainer}>
-                <Text>{item.category}</Text>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.description}>{item.description}</Text>
-            </View>
-        </View>
-    </View>
+    <ArticleCard
+        title={item.title}
+        description={item.description}
+        image={item.image}
+        category={item.category}
+        isFavorite={item.isFavorite}
+    />
 );
 
 export default function HomeScreen() {
@@ -84,49 +80,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.bg_White,
-    },
-    card: {
-        backgroundColor: theme.colors.bg_White,
-        borderRadius: 18,
-        padding: 16,
-        marginBottom: 24,
-        shadowColor: "#335561",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 3,
-        position: "relative",
-        width: "100%",
-    },
-    image: {
-        width: 80,
-        height: 80,
-        borderRadius: 12,
-        marginBottom: 12,
-        marginRight: 12,
-    },
-    row: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 5,
-    },
-    title: {
-        fontSize: theme.fontSizes.medium,
-        marginBottom: 2,
-        color: theme.colors.text_dark,
-    },
-    description: {
-        color: theme.colors.text_gray,
-        fontSize: theme.fontSizes.small,
-    },
-    icon: {
-        position: "absolute",
-        top: 12,
-        right: 14,
-    },
-    textContainer: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-    },
+    }
 });
