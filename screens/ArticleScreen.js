@@ -7,21 +7,10 @@ import { useRoute } from "@react-navigation/native";
 export default function ArticleScreen() {
     const route = useRoute();
     // articlesId is the id of the all the articles of the category sort by date
-    const {
-        categoryId,
-        category,
-        title,
-        color,
-        articleId,
-        articleUrl,
-        ArticleDescription,
-        articleMedia,
-        aritcleDate,
-        articleAuthor,
-    } = route.params;
+    const { categoryId, categoryName, categoryColor, value } = route.params;
     return (
         <SafeAreaView style={styles.container}>
-            <Header title={title} />
+            <Header title={value.title} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -32,13 +21,25 @@ export default function ArticleScreen() {
                     id de la categorie : {categoryId}
                 </Text>
                 <Text style={styles.text}>
-                    titre de la categorie : {category}
+                    titre de la categorie : {categoryName}
                 </Text>
                 <Text style={styles.text}>
-                    couleur de la catégorie : {color}
+                    couleur de la catégorie : {categoryColor}
                 </Text>
-                <Text style={styles.text}>titre de l'article : {title}</Text>
-                <Text style={styles.text}>id de l'article : {articleId}</Text>
+                <Text style={styles.text}>
+                    titre de l'article : {value.title}
+                </Text>
+                <Text style={styles.text}>id de l'article : {value._id}</Text>
+                <Text style={styles.text}>
+                    date de l'article :{" "}
+                    {new Date(value.date).toLocaleDateString("fr-FR", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    })}
+                </Text>
             </View>
         </SafeAreaView>
     );

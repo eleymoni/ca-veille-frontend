@@ -26,12 +26,12 @@ export default function ArticlesSection({ articlesArray: categoryObj }) {
     const handleArticlePress = (value) => {
         // element to sends :
         // category id, title category, color category. check for the others value to send
+        value.date = value.date.toString();
         navigation.navigate("Article", {
             categoryId: categoryObj._id,
-            title: value.title,
-            category: categoryObj.name,
-            color: categoryObj.color,
-            articleId: value._id,
+            categoryName: categoryObj.name,
+            categoryColor: categoryObj.color,
+            value,
         });
     };
     const renderCardItem = ({ item }) => (
