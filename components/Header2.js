@@ -46,7 +46,7 @@ const Header2 = ({
                 <Text style={{...styles.title, color: colorText}}>
                     {displayTitle}
                 </Text>
-                <TouchableOpacity onPress={onTreePoints}>                                       //Fais rien pour l'instant
+                <TouchableOpacity onPress={onTreePoints}>                                   
                     <Entypo name="dots-three-vertical" size={26} style={styles.icon} />
                 </TouchableOpacity>
              </View>
