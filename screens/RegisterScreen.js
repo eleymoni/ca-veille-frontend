@@ -5,7 +5,11 @@ import FormFieldWithIcon from "../components/FormFieldWithIcon";
 
 export default function RegisterScreen({ navigation }) {
     // TODO : Connect with Google
-    const handleConnectBtn = () => {};
+    const handleConnectWithGoogle = () => {};
+
+    const handleRegisterBtn = () => {
+        navigation.navigate("TabNavigator");
+    };
 
     const handleSubscribeBtn = () => {
         navigation.navigate("Login");
@@ -33,7 +37,7 @@ export default function RegisterScreen({ navigation }) {
                 label={"Confirmer le mot de passe"}
                 placeHolder={"Confirmez votre mot de passe..."}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleRegisterBtn}>
                 <Text style={styles.btn}>S'inscrire</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSubscribeBtn}>
