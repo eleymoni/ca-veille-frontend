@@ -33,10 +33,7 @@ export default function ArticlesSection({ articlesArray }) {
 
     const handleCategoryPress = () => {
         // element to sends :
-        // id => articlesArray._id
-        // title = > articlesArray.name,
-        // color => articlesArray.color
-        // articles ID =s articlesId
+        // category id => articlesArray._id
         const articlesId = articleSortDate.map((item) => item._id);
         navigation.navigate("Category", {
             categoryId: articlesArray._id,

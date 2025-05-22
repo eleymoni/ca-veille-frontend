@@ -17,11 +17,13 @@ export default function RegisterScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")}>
             <Image
                 style={{ width: 320, height: 90 }}
                 resizeMode="contain"
                 source={require("../assets/images/logo_light_mode.png")}
             />
+            </TouchableOpacity>
             <Text style={styles.heading}>Ne cherchez plus, veillez.</Text>
 
             <FormField
