@@ -11,10 +11,11 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
+import MenuBurger from "./MenuBurger";
 
 const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
+    const [showMenuBurger, setShowMenuBurger] = useState(false);
     // search bar state
-
     const [showSearch, setShowSearch] = useState(false);
     const [searchText, setSearchText] = useState("");
     // if the title length is too long, maxLength is the max length ofthe title
@@ -44,7 +45,12 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
         <View>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleMenuPress}>
-                    <Ionicons style={styles.icon} name="menu" size={28} />
+                    <Ionicons
+                        style={styles.icon}
+                        name="menu"
+                        size={28}
+                        onPress={() => setShowMenuBurger(true)}
+                    />
                 </TouchableOpacity>
                 {/* if the props title is empty show the logo */}
                 {title && !showSearch ? (
@@ -93,6 +99,10 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
                 )}
             </View>
             <View style={styles.shadow}></View>
+            <MenuBurger
+                menuVisible={showMenuBurger}
+                onClose={() => setShowMenuBurger(false)}
+            />
         </View>
     );
 };
