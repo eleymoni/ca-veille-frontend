@@ -18,7 +18,7 @@ const veilleData = [
         title: "L’intelligence artificielle en 2025",
         description: "Les tendances IA à suivre absolument cette année.",
         category: "Tech",
-        date: "20 mai 2025",
+        date: "2025-09-17T00:00:00.000Z",
         image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80",
         isFavorite: true,
     },
@@ -27,7 +27,7 @@ const veilleData = [
         title: "Test titre mega looooooooooooooooooooooooong Le retour des crypto-monnaies",
         description: "Test description plus longue Nouveau bull run? Analyse des signaux.",
         category: "Finance",
-        date: "19 mai 2025",
+        date: "2025-07-17T00:00:00.000Z",
         image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
         isFavorite: false,
     },
@@ -36,7 +36,7 @@ const veilleData = [
         title: "Accessibilité web",
         description: "Bonnes pratiques pour rendre vos sites inclusifs.",
         category: "Web",
-        date: "17 mai 2025",
+        date: "2025-05-17T00:00:00.000Z",
         image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
         isFavorite: false,
     },
@@ -49,6 +49,8 @@ const renderVeilleItem = ({ item }) => (
         image={item.image}
         category={item.category}
         isFavorite={item.isFavorite}
+        // showDate={true}
+        // date={item.date}
     />
 );
 

@@ -3,18 +3,34 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 
-function truncate(text, maxLength) {
-    if (!text) return "";
-    return text.length > maxLength ? text.substring(0, maxLength -1) + "..." : text;
-}
 
 export default function ArticleCard({
     title, 
     description, 
     image, 
     category,
-    isFavorite
+    categoryColor,
+    isFavorite, 
+    showDate = false,
+    date
 }) {
+    
+    //fonction pour tronquer le texte où on veut
+    function truncate(text, maxLength) {
+        if (!text) return "";
+        return text.length > maxLength ? text.substring(0, maxLength -1) + "..." : text;
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return "";
+        const d = new Date(dateString);
+        return d.toLocaleDateString("fr-FR", {
+            weekday: "short",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
+    }
 
     const MAX_TITLE_LENGTH = 70;
     const MAX_DESCRIPTION_LENGTH = 90;
@@ -23,17 +39,26 @@ export default function ArticleCard({
 
     return (
         <View style={styles.card}>
-            <FontAwesome5
-            name="star"
-            size={22}
-            solid={isFavorite}
-            color={isFavorite ? theme.colors.blue : theme.colors.blue}
-            style={styles.icon}
-            />
+            <View style={styles.topBar}>
+                <View style={styles.topLeft}>
+                    {showDate ? (
+                        <Text style={styles.date}>{formatDate(date)}</Text>
+                    ) : (
+                        <Text style={[styles.category, {color: categoryColor}]}>{category}</Text>
+                    )}
+                </View>
+                <FontAwesome5
+                name="star"
+                size={22}
+                solid={isFavorite}
+                color={isFavorite ? theme.colors.blue : theme.colors.blue}
+                style={styles.icon}
+                />
+            </View>
+
             <View style={styles.row}>
                 <Image source={{ uri: image }} style={styles.image} />
                 <View style={styles.textContainer}>
-                    <Text style={styles.category}>{category}</Text>
                     <Text style={styles.title}>{truncate(title, MAX_TITLE_LENGTH)}</Text>
                     {!isTitleTooLong && description && (
                         <Text style={styles.description}>
@@ -43,7 +68,7 @@ export default function ArticleCard({
                 </View>
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -57,46 +82,53 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 10,
         elevation: 3,
-        position: "relative",
         width: "100%",
+    },
+    topBar: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 2,
+    },
+    topLeft: {
+        flex: 1,
     },
     image: {
         width: 80,
         height: 80,
         borderRadius: 12,
-        marginBottom: 12,
-        marginRight: 12,
+        margin: 5,
     },
     row: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: 5,
     },
     title: {
         fontSize: theme.fontSizes.medium,
         marginBottom: 2,
         color: theme.colors.text_dark,
-        fontFamily: theme.fonts.openSansRegular
+        fontFamily: theme.fonts.openSansSemiBold,
     },
     category: {
-        color: theme.colors.primary,
+        // color: theme.colors.primary,
         fontSize: theme.fontSizes.small,
         marginBottom: 4,
         fontFamily: theme.fonts.openSansRegular
+    },
+    date: {
+        color: theme.colors.text_dark,
+        fontFamily: theme.fonts.openSansRegular,
+        fontSize: theme.fontSizes.small,
     },
     description: {
         color: theme.colors.text_gray,
         fontSize: theme.fontSizes.small,
         fontFamily: theme.fonts.openSansRegular
     },
-    icon: {
-        position: "absolute",
-        top: 12,
-        right: 14,
-    },
     textContainer: {
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
+        marginLeft: 5,
     },
 });

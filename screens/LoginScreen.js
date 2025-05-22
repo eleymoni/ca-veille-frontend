@@ -7,6 +7,10 @@ export default function RegisterScreen({ navigation }) {
     // TODO : Connect with Google
     const handleConnectBtn = () => {};
 
+    const handleLoginBtn = () => {
+        navigation.navigate("TabNavigator");
+    };
+
     const handleSubscribeBtn = () => {
         navigation.navigate("Register");
     };
@@ -31,7 +35,7 @@ export default function RegisterScreen({ navigation }) {
                 label={"Mot de passe"}
                 placeHolder={"Entrez votre mot de passe..."}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleLoginBtn}>
                 <Text style={styles.btn}>Connexion</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSubscribeBtn}>

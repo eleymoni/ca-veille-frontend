@@ -24,6 +24,7 @@ import FollowedScreen from "./screens/FollowedScreen";
 import FavorisScreen from "./screens/FavorisScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import CategoryScreen from "./screens/CategoryScreen";
 import AddFeedScreen from "./screens/AddFeedScreen";
 import ManageFeedsScreen from "./screens/ManageFeedsScreen";
 import AddCategoryScreen from "./screens/AddCategoryScreen";
@@ -137,6 +138,10 @@ export default function App() {
                             <Stack.Screen
                                 name="Login"
                                 component={LoginScreen}
+                            />
+                            <Stack.Screen
+                                name="Category"
+                                component={CategoryScreen}
                             />
                             <Stack.Screen
                                 name="TabNavigator"
