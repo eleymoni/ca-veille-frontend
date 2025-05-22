@@ -25,6 +25,7 @@ import FavorisScreen from "./screens/FavorisScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import CategoryScreen from "./screens/CategoryScreen";
+import ArticleScreen from "./screens/ArticleScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -136,6 +137,10 @@ export default function App() {
                             <Stack.Screen
                                 name="Category"
                                 component={CategoryScreen}
+                            />
+                            <Stack.Screen
+                                name="Article"
+                                component={ArticleScreen}
                             />
                             <Stack.Screen
                                 name="TabNavigator"

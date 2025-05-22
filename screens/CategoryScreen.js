@@ -1,11 +1,10 @@
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import { useRoute } from "@react-navigation/native";
 
-export default function FollowedScreen() {
+export default function CategoryScreenScreen() {
     const route = useRoute();
     // articlesId is the id of the all the articles of the category sort by date
     const { categoryId, title, color, articlesId } = route.params;

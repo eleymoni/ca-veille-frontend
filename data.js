@@ -1,7 +1,7 @@
 export const categories = [
     {
         _id: "cat1",
-        name: "Technologie",
+        name: "Technologie dsfds sdf sdf sdf sdf sdf sdf sdfdfsdfsdfsd fds",
         color: "#FF5733",
         ownerId: "user123",
         feeds: [
