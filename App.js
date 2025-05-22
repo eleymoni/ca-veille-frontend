@@ -24,6 +24,7 @@ import FollowedScreen from "./screens/FollowedScreen";
 import FavorisScreen from "./screens/FavorisScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import CategoryScreen from "./screens/CategoryScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -131,6 +132,10 @@ export default function App() {
                             <Stack.Screen
                                 name="Login"
                                 component={LoginScreen}
+                            />
+                            <Stack.Screen
+                                name="Category"
+                                component={CategoryScreen}
                             />
                             <Stack.Screen
                                 name="TabNavigator"
