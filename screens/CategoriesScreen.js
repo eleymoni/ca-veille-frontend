@@ -6,15 +6,26 @@ import Header from "../components/Header";
 import ArticlesSection from "../components/ArticlesSection";
 // fausse doonnée à remplacer par store redux
 import { categories } from "../data";
+import { useState } from "react";
 
 export default function CategoriesScreen() {
+    const [data, setData] = useState(categories);
     const renderSectionItem = ({ item }) => (
         <ArticlesSection articlesArray={item} />
     );
-
+    //function reverse dataflow for header search
+    function searchRange(value) {
+        // const test = data.map((item) => {
+        //     item.feeds.map((feed) =>
+        //         feed.articles.filter((article) => article.title.includes(value))
+        //     );
+        // });
+        console.log(value);
+    }
+    const filteredData = data.filter((item) => item.feeds.length > 0);
     return (
         <SafeAreaView style={styles.container}>
-            <Header title={"Mes catégories"} />
+            <Header title={"Mes catégories"} searchRange={searchRange} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -22,7 +33,7 @@ export default function CategoriesScreen() {
                 }}
             >
                 <FlatList
-                    data={categories}
+                    data={filteredData}
                     renderItem={renderSectionItem}
                     keyExtractor={(item) => item._id}
                     contentContainerStyle={{

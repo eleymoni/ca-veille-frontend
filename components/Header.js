@@ -24,12 +24,13 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
     const toggleSearch = () => {
         // switch to search on header on click of search icon
         setShowSearch((prev) => !prev);
+        searchRange("");
         setSearchText("");
     };
 
     const handleSearch = () => {
-        // search action, use searchRange for defining the range of search
-        setSearchText("");
+        // search action, use searchRange for send to parent searched te
+        searchRange(searchText);
         Keyboard.dismiss();
     };
 

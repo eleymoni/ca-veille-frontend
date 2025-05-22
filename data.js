@@ -79,4 +79,11 @@ export const categories = [
             },
         ],
     },
+    {
+        _id: "cat3",
+        name: "Santé 2",
+        color: "#33B5FF",
+        ownerId: "user123",
+        feeds: [],
+    },
 ];
