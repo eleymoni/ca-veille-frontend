@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     View,
     Text,
@@ -11,28 +11,26 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
+import MenuBurger from "./MenuBurger";
+import truncate from "../utils/truncate";
 
 const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
+    const [showMenuBurger, setShowMenuBurger] = useState(false);
     // search bar state
-
     const [showSearch, setShowSearch] = useState(false);
     const [searchText, setSearchText] = useState("");
     // if the title length is too long, maxLength is the max length ofthe title
-    const maxLength = 55;
-    title =
-        title?.length > maxLength
-            ? title.substring(0, maxLength) + "..."
-            : title;
-
+    title = truncate(title, 55);
     const toggleSearch = () => {
         // switch to search on header on click of search icon
         setShowSearch((prev) => !prev);
+        searchRange("");
         setSearchText("");
     };
 
     const handleSearch = () => {
-        // search action, use searchRange for defining the range of search
-        setSearchText("");
+        // search action, use searchRange for send to parent searched te
+        searchRange(searchText);
         Keyboard.dismiss();
     };
 
@@ -44,7 +42,12 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
         <View>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleMenuPress}>
-                    <Ionicons style={styles.icon} name="menu" size={28} />
+                    <Ionicons
+                        style={styles.icon}
+                        name="menu"
+                        size={28}
+                        onPress={() => setShowMenuBurger(true)}
+                    />
                 </TouchableOpacity>
                 {/* if the props title is empty show the logo */}
                 {title && !showSearch ? (
@@ -93,6 +96,10 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
                 )}
             </View>
             <View style={styles.shadow}></View>
+            <MenuBurger
+                menuVisible={showMenuBurger}
+                onClose={() => setShowMenuBurger(false)}
+            />
         </View>
     );
 };

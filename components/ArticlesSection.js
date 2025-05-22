@@ -2,14 +2,13 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
     TouchableOpacity,
     FlatList,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import ArticleSmallCard from "./ArticleSmallCard";
 import { useNavigation } from "@react-navigation/native";
+import truncate from "../utils/truncate";
 
 export default function ArticlesSection({ articlesArray }) {
     const navigation = useNavigation();
@@ -34,10 +33,7 @@ export default function ArticlesSection({ articlesArray }) {
 
     const handleCategoryPress = () => {
         // element to sends :
-        // id => articlesArray._id
-        // title = > articlesArray.name,
-        // color => articlesArray.color
-        // articles ID =s articlesId
+        // category id => articlesArray._id
         const articlesId = articleSortDate.map((item) => item._id);
         navigation.navigate("Category", {
             categoryId: articlesArray._id,
@@ -47,7 +43,23 @@ export default function ArticlesSection({ articlesArray }) {
         });
     };
 
-    const renderCardItem = ({ item }) => <ArticleSmallCard article={item} />;
+    const handleArticlePress = (value) => {
+        // element to sends :
+        // category id, title category, color category. check for the others value to send
+        navigation.navigate("Article", {
+            categoryId: articlesArray._id,
+            title: value.title,
+            category: articlesArray.name,
+            color: articlesArray.color,
+            articleId: value._id,
+        });
+    };
+
+    const renderCardItem = ({ item }) => (
+        <TouchableOpacity onPress={() => handleArticlePress(item)}>
+            <ArticleSmallCard article={item} />
+        </TouchableOpacity>
+    );
     return (
         <View
             style={{
@@ -61,7 +73,7 @@ export default function ArticlesSection({ articlesArray }) {
                         color: articlesArray.color,
                     }}
                 >
-                    {articlesArray.name + " ›"}
+                    {truncate(articlesArray.name, 29) + " ›"}
                 </Text>
             </TouchableOpacity>
             <FlatList
@@ -69,11 +81,6 @@ export default function ArticlesSection({ articlesArray }) {
                 renderItem={renderCardItem}
                 keyExtractor={(item) => item._id}
                 horizontal={true}
-                contentContainerStyle={
-                    {
-                        // justifyContent: "flex-start",
-                    }
-                }
             />
         </View>
     );

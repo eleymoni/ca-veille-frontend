@@ -25,6 +25,13 @@ import FavorisScreen from "./screens/FavorisScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import CategoryScreen from "./screens/CategoryScreen";
+import AddFeedScreen from "./screens/AddFeedScreen";
+import ManageFeedsScreen from "./screens/ManageFeedsScreen";
+import AddCategoryScreen from "./screens/AddCategoryScreen";
+import ManageCategoriesScreen from "./screens/ManageCategoriesScreen";
+import SettingsUserScreen from "./screens/SettingsUserScreen";
+import SettingsAppScreen from "./screens/SettingsAppScreen";
+import ArticleScreen from "./screens/ArticleScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -138,8 +145,36 @@ export default function App() {
                                 component={CategoryScreen}
                             />
                             <Stack.Screen
+                                name="Article"
+                                component={ArticleScreen}
+                            />
+                            <Stack.Screen
                                 name="TabNavigator"
                                 component={TabNavigator}
+                            />
+                            <Stack.Screen
+                                name="AddFeedScreen"
+                                component={AddFeedScreen}
+                            />
+                            <Stack.Screen
+                                name="ManageFeedsScreen"
+                                component={ManageFeedsScreen}
+                            />
+                            <Stack.Screen
+                                name="AddCategoryScreen"
+                                component={AddCategoryScreen}
+                            />
+                            <Stack.Screen
+                                name="ManageCategoriesScreen"
+                                component={ManageCategoriesScreen}
+                            />
+                            <Stack.Screen
+                                name="SettingsUserScreen"
+                                component={SettingsUserScreen}
+                            />
+                            <Stack.Screen
+                                name="SettingsAppScreen"
+                                component={SettingsAppScreen}
                             />
                         </Stack.Navigator>
                     </NavigationContainer>
