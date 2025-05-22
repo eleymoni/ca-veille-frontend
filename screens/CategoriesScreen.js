@@ -1,31 +1,45 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import ArticlesSection from "../components/ArticlesSection";
-// fausse doonnée à remplacer par store redux
-import { categories } from "../data";
 import { useState } from "react";
+// fausse doonnée à remplacer par store redux
+import { categoriesUniqueFeed } from "../data";
 
 export default function CategoriesScreen() {
-    const [data, setData] = useState(categories);
+    const [data, setData] = useState(categoriesUniqueFeed);
+    const [searchText, setSearchText] = useState("");
     const renderSectionItem = ({ item }) => (
         <ArticlesSection articlesArray={item} />
     );
-    //function reverse dataflow for header search
-    function searchRange(value) {
-        // const test = data.map((item) => {
-        //     item.feeds.map((feed) =>
-        //         feed.articles.filter((article) => article.title.includes(value))
-        //     );
-        // });
-        console.log(value);
-    }
-    const filteredData = data.filter((item) => item.feeds.length > 0);
+    // filter the articles in category with the header input
+    const filteredData = data.map((cat) => ({
+        _id: cat._id,
+        name: cat.name,
+        color: cat.color,
+        ownerId: cat.ownerId,
+        articles: cat.articles.filter(
+            (article) =>
+                article.title
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase()) ||
+                article.description
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())
+        ),
+    }));
+    // check if the category has articles
+    const dataWithArticle = filteredData.filter(
+        (cat) => cat.articles.length > 0
+    );
     return (
         <SafeAreaView style={styles.container}>
-            <Header title={"Mes catégories"} searchRange={searchRange} />
+            <Header
+                title={"Mes catégories"}
+                inputValue={searchText}
+                setInput={setSearchText}
+            />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -33,7 +47,7 @@ export default function CategoriesScreen() {
                 }}
             >
                 <FlatList
-                    data={filteredData}
+                    data={dataWithArticle}
                     renderItem={renderSectionItem}
                     keyExtractor={(item) => item._id}
                     contentContainerStyle={{

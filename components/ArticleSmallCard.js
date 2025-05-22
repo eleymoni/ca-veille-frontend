@@ -3,7 +3,7 @@ import theme from "../core/theme";
 import truncate from "../utils/truncate";
 
 export default function ArticleSmallCard({ article }) {
-    const source = article.media || article.defaultImage;
+    const source = article.media || article.defaultMedia;
     return (
         <View style={styles.card}>
             <Text style={styles.title}>{truncate(article.title, 30)}</Text>
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 8,
         marginRight: 20,
+        zIndex: 1,
     },
     title: {
         color: theme.colors.text_dark,

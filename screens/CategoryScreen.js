@@ -7,15 +7,14 @@ import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 
-export default function CategoryScreen({navigation}) {
+export default function CategoryScreen({ navigation }) {
     const route = useRoute();
 
     const { categoryId, title, color, articlesId } = route.params;
 
     const [searchValue, setSearchValue] = useState("");
 
-    const [veilleData, setVeilleData] = useState(
-    [
+    const [veilleData, setVeilleData] = useState([
         {
             id: "1",
             title: "L’intelligence artificielle en 2025",
@@ -28,7 +27,8 @@ export default function CategoryScreen({navigation}) {
         {
             id: "2",
             title: "Test titre mega looooooooooooooooooooooooong Le retour des crypto-monnaies",
-            description: "Test description plus longue Nouveau bull run? Analyse des signaux.",
+            description:
+                "Test description plus longue Nouveau bull run? Analyse des signaux.",
             category: "Finance",
             date: "2025-07-17T00:00:00.000Z",
             image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
@@ -45,9 +45,10 @@ export default function CategoryScreen({navigation}) {
         },
     ]);
 
-    const filteredData = veilleData.filter(item => 
-        item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchValue.toLowerCase())
+    const filteredData = veilleData.filter(
+        (item) =>
+            item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchValue.toLowerCase())
     );
 
     const renderVeilleItem = ({ item }) => (
@@ -64,7 +65,13 @@ export default function CategoryScreen({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Header2 title={title} colorText={color} onBack={() => navigation.goBack()} searchValue={searchValue} onChangeSearch={setSearchValue} />
+            <Header2
+                title={title}
+                colorText={color}
+                onBack={() => navigation.goBack()}
+                searchValue={searchValue}
+                onChangeSearch={setSearchValue}
+            />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -80,7 +87,13 @@ export default function CategoryScreen({navigation}) {
                         paddingVertical: 12,
                     }}
                     ListEmptyComponent={
-                        <Text style={{ textAlign: "center", marginTop: 50, color: theme.colors.text_dark }}>
+                        <Text
+                            style={{
+                                textAlign: "center",
+                                marginTop: 50,
+                                color: theme.colors.text_dark,
+                            }}
+                        >
                             Aucun article trouvé.
                         </Text>
                     }

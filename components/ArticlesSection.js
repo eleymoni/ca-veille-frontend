@@ -10,51 +10,30 @@ import ArticleSmallCard from "./ArticleSmallCard";
 import { useNavigation } from "@react-navigation/native";
 import truncate from "../utils/truncate";
 
-export default function ArticlesSection({ articlesArray }) {
+export default function ArticlesSection({ articlesArray: categoryObj }) {
     const navigation = useNavigation();
-    function getArticlesArray(array) {
-        // get all articles from all feeds in a array sort by date
-        const newArray = [];
-        array.feeds.map((item) => {
-            const defaultImage = item.defaultMedia;
-            item.articles.map((article) =>
-                newArray.push({ ...article, defaultImage })
-            );
-        });
-        // Sort in descending order
-        newArray.sort((a, b) => {
-            const dateA = new Date(a.date);
-            const dateB = new Date(b.date);
-            return dateB - dateA;
-        });
-        return newArray;
-    }
-    const articleSortDate = getArticlesArray(articlesArray);
-
     const handleCategoryPress = () => {
         // element to sends :
         // category id => articlesArray._id
-        const articlesId = articleSortDate.map((item) => item._id);
+        const articlesId = categoryObj.articles.map((item) => item._id);
         navigation.navigate("Category", {
-            categoryId: articlesArray._id,
-            title: articlesArray.name,
-            color: articlesArray.color,
+            categoryId: categoryObj._id,
+            title: categoryObj.name,
+            color: categoryObj.color,
             articlesId: articlesId,
         });
     };
-
     const handleArticlePress = (value) => {
         // element to sends :
         // category id, title category, color category. check for the others value to send
         navigation.navigate("Article", {
-            categoryId: articlesArray._id,
+            categoryId: categoryObj._id,
             title: value.title,
-            category: articlesArray.name,
-            color: articlesArray.color,
+            category: categoryObj.name,
+            color: categoryObj.color,
             articleId: value._id,
         });
     };
-
     const renderCardItem = ({ item }) => (
         <TouchableOpacity onPress={() => handleArticlePress(item)}>
             <ArticleSmallCard article={item} />
@@ -70,14 +49,14 @@ export default function ArticlesSection({ articlesArray }) {
                 <Text
                     style={{
                         ...styles.sectionTitle,
-                        color: articlesArray.color,
+                        color: categoryObj.color,
                     }}
                 >
-                    {truncate(articlesArray.name, 29) + " ›"}
+                    {truncate(categoryObj.name, 29) + " ›"}
                 </Text>
             </TouchableOpacity>
             <FlatList
-                data={articleSortDate}
+                data={categoryObj.articles}
                 renderItem={renderCardItem}
                 keyExtractor={(item) => item._id}
                 horizontal={true}
