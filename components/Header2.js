@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5, Entypo, Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
+import truncate from "../utils/truncate";
 
 const Header2 = ({
     title, 
@@ -22,11 +23,7 @@ const Header2 = ({
     // onSearch mais sert que si on veut rechercher qu'à validation
 }) => {
 
-    const maxLength = 55;
-    const displayTitle =
-        title?.length > maxLength
-            ? title.substring(0, maxLength) + "..."
-            : title;
+    const displayTitle = truncate(title, 40);
 
     const handleClearSearch = () => {
         onChangeSearch("");

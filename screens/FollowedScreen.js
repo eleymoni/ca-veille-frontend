@@ -64,7 +64,7 @@ export default function FollowedScreen() {
     };
         
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header
                 title={"Mes abonnements"}
                 inputValue={searchText}
@@ -73,7 +73,7 @@ export default function FollowedScreen() {
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
-                    height: "100%",
+                    flex: 1,
                 }}
             >
                         <FlatList
@@ -87,7 +87,7 @@ export default function FollowedScreen() {
                             }}
                         />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

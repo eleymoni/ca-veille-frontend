@@ -7,7 +7,7 @@ import Header from "../components/Header";
 export default function PopularScreen() {
     const [searchText, setSearchText] = useState("");
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header
                 title={"Populaire"}
                 inputValue={searchText}
@@ -21,7 +21,7 @@ export default function PopularScreen() {
             >
                 <Text style={styles.text}>Populars Screen</Text>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 
