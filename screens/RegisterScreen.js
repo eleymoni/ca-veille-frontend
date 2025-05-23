@@ -2,8 +2,27 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
+import { useState } from "react";
 
 export default function RegisterScreen({ navigation }) {
+    const [username, setUsername] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(null);
+
+    const handleUsername = (newUsername) => {
+        setUsername(newUsername);
+    };
+    const handleEmail = (newEmail) => {
+        setEmail(newEmail);
+    };
+    const handlePassword = (newPassword) => {
+        setPassword(newPassword);
+    };
+    const handleConfirmPassword = (passwordConfirm) => {
+        setConfirmPassword(passwordConfirm);
+    };
+
     // TODO : Connect with Google
     const handleConnectWithGoogle = () => {};
 
@@ -17,12 +36,14 @@ export default function RegisterScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate("TabNavigator")}>
-            <Image
-                style={{ width: 320, height: 90 }}
-                resizeMode="contain"
-                source={require("../assets/images/logo_light_mode.png")}
-            />
+            <TouchableOpacity
+                onPress={() => navigation.navigate("TabNavigator")}
+            >
+                <Image
+                    style={{ width: 320, height: 90 }}
+                    resizeMode="contain"
+                    source={require("../assets/images/logo_light_mode.png")}
+                />
             </TouchableOpacity>
             <Text style={styles.heading}>Ne cherchez plus, veillez.</Text>
 

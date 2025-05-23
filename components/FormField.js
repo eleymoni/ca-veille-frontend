@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
         top: -8,
         left: 14,
         fontSize: theme.fontSizes.small,
+        backgroundColor: theme.colors.bg_White,
+        zIndex: 1,
+        paddingInline: 4,
     },
     textInput: {
         borderColor: theme.colors.text_gray,
