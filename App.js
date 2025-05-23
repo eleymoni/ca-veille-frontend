@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import {
     Comfortaa_600SemiBold,
@@ -142,8 +141,8 @@ export default function App() {
                                 component={LoginScreen}
                             />
                             <Stack.Screen
-                                name="Category"
-                                component={CategoryScreen}
+                                name="TabNavigator"
+                                component={TabNavigator}
                             />
                             <Stack.Screen
                                 name="Article"
@@ -154,8 +153,8 @@ export default function App() {
                                 component={OneFollowScreen}
                             />
                             <Stack.Screen
-                                name="TabNavigator"
-                                component={TabNavigator}
+                                name="Category"
+                                component={CategoryScreen}
                             />
                             <Stack.Screen
                                 name="AddFeedScreen"

@@ -36,19 +36,14 @@ const Header = ({
     };
 
     const handleMenuPress = () => {
-        //action burger menu
+        setShowMenuBurger(true);
     };
 
     return (
         <SafeAreaView style={styles.headerContainer} edges={["top"]}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleMenuPress}>
-                    <Ionicons
-                        style={styles.icon}
-                        name="menu"
-                        size={28}
-                        onPress={() => setShowMenuBurger(true)}
-                    />
+                    <Ionicons style={styles.icon} name="menu" size={28} />
                 </TouchableOpacity>
                 {/* if the props title is empty show the logo */}
                 {title && !showSearch ? (
