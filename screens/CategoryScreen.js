@@ -64,7 +64,8 @@ export default function CategoryScreen({ navigation }) {
     );
 
     return (
-        <SafeAreaView style={styles.container}>
+        // <SafeAreaView style={styles.container} edges={["top"]}>
+        <View style={styles.container}>
             <Header2
                 title={title}
                 colorText={color}
@@ -75,7 +76,7 @@ export default function CategoryScreen({ navigation }) {
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
-                    height: "100%",
+                    flex:1
                 }}
             >
                 <FlatList
@@ -99,7 +100,8 @@ export default function CategoryScreen({ navigation }) {
                     }
                 />
             </View>
-        </SafeAreaView>
+            </View>
+        // {/* </SafeAreaView> */}
     );
 }
 

@@ -11,7 +11,7 @@ export default function CategoriesScreen() {
     const [data, setData] = useState(categoriesUniqueFeed);
     const [searchText, setSearchText] = useState("");
     const renderSectionItem = ({ item }) => (
-        <ArticlesSection articlesArray={item} />
+        <ArticlesSection articlesArray={item} screen="category" />
     );
     // filter the articles in category with the header input
     const filteredData = data.map((cat) => ({

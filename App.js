@@ -32,6 +32,7 @@ import ManageCategoriesScreen from "./screens/ManageCategoriesScreen";
 import SettingsUserScreen from "./screens/SettingsUserScreen";
 import SettingsAppScreen from "./screens/SettingsAppScreen";
 import ArticleScreen from "./screens/ArticleScreen";
+import OneFollowScreen from "./screens/OneFollowScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -147,6 +148,10 @@ export default function App() {
                             <Stack.Screen
                                 name="Article"
                                 component={ArticleScreen}
+                            />
+                            <Stack.Screen
+                                name="OneFollowScreen"
+                                component={OneFollowScreen}
                             />
                             <Stack.Screen
                                 name="TabNavigator"

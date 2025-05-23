@@ -7,6 +7,7 @@ import {
     Platform,
     TextInput,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5, Entypo, Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
@@ -38,7 +39,8 @@ const Header2 = ({
     // }
 
     return (
-        <View>
+         <SafeAreaView style={styles.headerContainer} edges={["top"]}>
+        {/* <View style={styles.headerContainer}> */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={onBack}>
                     <FontAwesome5 name="arrow-left" size={26} style={styles.icon} />
@@ -70,22 +72,35 @@ const Header2 = ({
                     )}
                 </View>
             </View>
-            <View style={styles.shadow}></View>
-        </View>
+        {/* </View> */}
+        </SafeAreaView>
     );     
 };
 
 export default Header2;
 
 const styles = StyleSheet.create({
-    header: {
-        height: 75,
+    headerContainer: {
         paddingHorizontal: 25,
         backgroundColor: theme.colors.bg_White,
+        ...Platform.select({
+            ios: {
+                shadowColor: theme.colors.text_dark,
+                shadowOffset: { width: 0, height: 5 },
+                shadowOpacity: 0.2,
+                shadowRadius: 8,
+            },
+            android: {
+                elevation: 15,
+            },
+        }),
+        zIndex: 2,
+    },
+    header: {
+        height: 75,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        zIndex: 2,
     },
     title:{
         fontSize: theme.fontSizes.large,
