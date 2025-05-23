@@ -145,10 +145,6 @@ export default function App() {
                                 component={TabNavigator}
                             />
                             <Stack.Screen
-                                name="Category"
-                                component={CategoryScreen}
-                            />
-                            <Stack.Screen
                                 name="Article"
                                 component={ArticleScreen}
                             />
