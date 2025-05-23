@@ -6,7 +6,7 @@ export default function ArticleSmallCard({ article }) {
     const source = article.media || article.defaultMedia;
     return (
         <View style={styles.card}>
-            <Text style={styles.title}>{truncate(article.title, 30)}</Text>
+            <Text style={styles.title}>{truncate(article.title, 27)}</Text>
             <Image
                 source={{ uri: source }}
                 style={{
