@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     View,
     Text,
@@ -38,19 +38,14 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
     };
 
     const handleMenuPress = () => {
-        //action burger menu
+        setShowMenuBurger(true);
     };
 
     return (
         <View>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleMenuPress}>
-                    <Ionicons
-                        style={styles.icon}
-                        name="menu"
-                        size={28}
-                        onPress={() => setShowMenuBurger(true)}
-                    />
+                    <Ionicons style={styles.icon} name="menu" size={28} />
                 </TouchableOpacity>
                 {/* if the props title is empty show the logo */}
                 {title && !showSearch ? (
