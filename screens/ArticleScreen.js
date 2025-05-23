@@ -4,13 +4,19 @@ import theme from "../core/theme";
 import Header from "../components/Header";
 import { useRoute } from "@react-navigation/native";
 import { FontAwesome5, Entypo, Ionicons, FontAwesome } from "@expo/vector-icons";
+import truncate from "../utils/truncate";
 
 export default function ArticleScreen() {
+
+    //Attention : nouvelle méthode react native : Linking (voir doc)
+
     const route = useRoute();
     // articlesId is the id of the all the articles of the category sort by date
     const { categoryId, categoryName, categoryColor, value } = route.params;
 
     const isFavorite = value.isFavorite || false;
+
+    const truncatedCategoryName = truncate(categoryName, 40);
 
     return (
         <View style={styles.container}>
@@ -23,8 +29,8 @@ export default function ArticleScreen() {
             >
                 <View style={styles.card}>
                 <View style={styles.topRow}>
-                    <Text style={[styles.category, {color: categoryColor}]}>{categoryName}</Text>
-                    <TouchableOpacity style={styles.linkBtn} onPress={() => {Linking.canOpenURL(value.url)}}>
+                    <Text style={[styles.category, {color: categoryColor}]}>{truncatedCategoryName}</Text>
+                    <TouchableOpacity style={styles.linkBtn} onPress={() => {Linking.openURL(value.url)}}>
                     <Text style={[styles.textLink, {color:categoryColor}]}>Lien vers l'article</Text>
                     <FontAwesome5 name="link" size={24} color={categoryColor} />
                     </TouchableOpacity>
@@ -83,19 +89,22 @@ const styles = StyleSheet.create({
     category: {
         fontSize: theme.fontSizes.small,
         fontFamily: theme.fonts.openSansSemiBold,
+        width: "50%",
     },
     linkBtn: {
         flexDirection: "row",
     },
     image: {
         width: "100%",
-        height: 80,
+        height: 150,
         borderRadius: 10,
+        marginBottom: 20,
     },
     articleTitle: {
         fontFamily: theme.fonts.openSansSemiBold,
         fontSize: theme.fontSizes.medium, 
         color: theme.colors.text_dark,
+        marginVertical: 10,
     },
     articleDesc: {
         fontSize: theme.fontSizes.small,

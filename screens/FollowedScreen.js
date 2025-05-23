@@ -73,7 +73,7 @@ export default function FollowedScreen() {
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
-                    height: "100%",
+                    flex: 1,
                 }}
             >
                         <FlatList

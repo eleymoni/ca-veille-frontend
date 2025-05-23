@@ -25,7 +25,9 @@ const Header = ({
     // search bar state
     const [showSearch, setShowSearch] = useState(false);
     // if the title length is too long, maxLength is the max length ofthe title
-    title = truncate(title, 55);
+
+    title = truncate(title, 40);
+
     const toggleSearch = () => {
         // switch to search on header on click of search icon
         setShowSearch((prev) => !prev);
