@@ -52,7 +52,7 @@ const renderVeilleItem = ({ item }) => (
 export default function HomeScreen() {
     const [searchText, setSearchText] = useState("");
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header inputValue={searchText} setInput={setSearchText} />
             <View
                 style={{
@@ -70,7 +70,7 @@ export default function HomeScreen() {
                     }}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

@@ -13,6 +13,7 @@ import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import MenuBurger from "./MenuBurger";
 import truncate from "../utils/truncate";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Header = ({
     title,
@@ -37,7 +38,7 @@ const Header = ({
     };
 
     return (
-        <View>
+        <SafeAreaView style={styles.headerContainer} edges={["top"]}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleMenuPress}>
                     <Ionicons
@@ -85,19 +86,34 @@ const Header = ({
                         <Ionicons name="search" size={28} style={styles.icon} />
                     </TouchableOpacity>
                 )}
-            </View>
-            <View style={styles.shadow}></View>
             <MenuBurger
                 menuVisible={showMenuBurger}
                 onClose={() => setShowMenuBurger(false)}
-            />
-        </View>
+                />
+                </View>
+        </SafeAreaView>
     );
 };
 
 export default Header;
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        paddingHorizontal: 25,
+        backgroundColor: theme.colors.bg_White,
+        ...Platform.select({
+            ios: {
+                shadowColor: theme.colors.text_dark,
+                shadowOffset: { width: 0, height: 5 },
+                shadowOpacity: 0.2,
+                shadowRadius: 8,
+            },
+            android: {
+                elevation: 15,
+            },
+        }),
+        zIndex: 2,
+    },
     searchContainer: {
         width: "90%",
         flexDirection: "row",

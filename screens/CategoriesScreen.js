@@ -34,7 +34,7 @@ export default function CategoriesScreen() {
         (cat) => cat.articles.length > 0
     );
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header
                 title={"Mes catégories"}
                 inputValue={searchText}
@@ -55,7 +55,7 @@ export default function CategoriesScreen() {
                     }}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

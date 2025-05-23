@@ -64,7 +64,7 @@ export default function FollowedScreen() {
     };
         
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header
                 title={"Mes abonnements"}
                 inputValue={searchText}
@@ -87,7 +87,7 @@ export default function FollowedScreen() {
                             }}
                         />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 
