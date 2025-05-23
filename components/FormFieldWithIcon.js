@@ -27,7 +27,7 @@ export default function FormFieldWithIcon({ label, placeHolder }) {
                 />
                 <TouchableOpacity onPress={toggleSecureTextEntry}>
                     <FontAwesome5
-                        name="eye-slash"
+                        name={secureTextEntry ? "eye-slash" : "eye"}
                         size={20}
                         color={theme.colors.icon_gray}
                     />
