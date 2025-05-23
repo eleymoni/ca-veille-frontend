@@ -1,13 +1,18 @@
-import React from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
 
 export default function FavorisScreen() {
+    const [searchText, setSearchText] = useState("");
     return (
         <SafeAreaView style={styles.container}>
-            <Header title={"Mes articles favoris"} />
+            <Header
+                title={"Mes articles favoris"}
+                inputValue={searchText}
+                setInput={setSearchText}
+            />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,

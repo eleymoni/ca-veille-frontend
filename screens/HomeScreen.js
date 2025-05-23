@@ -1,16 +1,10 @@
-import React from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    Image,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import ArticleCard from "../components/ArticleCard";
+import { useState } from "react";
 
 const veilleData = [
     {
@@ -25,7 +19,8 @@ const veilleData = [
     {
         id: "2",
         title: "Test titre mega looooooooooooooooooooooooong Le retour des crypto-monnaies",
-        description: "Test description plus longue Nouveau bull run? Analyse des signaux.",
+        description:
+            "Test description plus longue Nouveau bull run? Analyse des signaux.",
         category: "Finance",
         date: "2025-07-17T00:00:00.000Z",
         image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
@@ -55,9 +50,10 @@ const renderVeilleItem = ({ item }) => (
 );
 
 export default function HomeScreen() {
+    const [searchText, setSearchText] = useState("");
     return (
         <SafeAreaView style={styles.container}>
-            <Header />
+            <Header inputValue={searchText} setInput={setSearchText} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -82,5 +78,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.bg_White,
-    }
+    },
 });

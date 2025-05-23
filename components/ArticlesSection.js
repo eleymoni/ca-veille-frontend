@@ -2,78 +2,85 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
     TouchableOpacity,
     FlatList,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import ArticleSmallCard from "./ArticleSmallCard";
 import { useNavigation } from "@react-navigation/native";
+import truncate from "../utils/truncate";
 
-export default function ArticlesSection({ articlesArray }) {
+export default function ArticlesSection({ articlesArray: categoryObj, screen }) {
     const navigation = useNavigation();
-    function getArticlesArray(array) {
-        // get all articles from all feeds in a array sort by date
-        const newArray = [];
-        array.feeds.map((item) => {
-            const defaultImage = item.defaultMedia;
-            item.articles.map((article) =>
-                newArray.push({ ...article, defaultImage })
-            );
-        });
-        // Sort in descending order
-        newArray.sort((a, b) => {
-            const dateA = new Date(a.date);
-            const dateB = new Date(b.date);
-            return dateB - dateA;
-        });
-        return newArray;
-    }
-    const articleSortDate = getArticlesArray(articlesArray);
 
     const handleCategoryPress = () => {
         // element to sends :
-        // id => articlesArray._id
-        // title = > articlesArray.name,
-        // color => articlesArray.color
-        // articles ID =s articlesId
-        const articlesId = articleSortDate.map((item) => item._id);
-        navigation.navigate("Category", {
-            categoryId: articlesArray._id,
-            title: articlesArray.name,
-            color: articlesArray.color,
-            articlesId: articlesId,
+        // category id => articlesArray._id
+
+        if (screen === "category") {
+            const articlesId = categoryObj.articles.map((item) => item._id);
+            navigation.navigate("Category", {
+                categoryId: categoryObj._id,
+                title: categoryObj.name,
+                color: categoryObj.color,
+                articlesId: articlesId,
+            });
+
+        } else if (screen === "followed") {
+            navigation.navigate("OneFollowScreen", {
+                userId: categoryObj._id,
+                username: categoryObj.name,
+                articles: categoryObj.articles,
+            });
+        }
+    };
+
+    const handleArticlePress = (value) => {
+        // element to sends :
+        // category id, title category, color category. check for the others value to send
+        // value.date = value.date.toString();
+        navigation.navigate("Article", {
+            categoryId: categoryObj._id,
+            categoryName: categoryObj.name,
+            categoryColor: categoryObj.color,
+            value :{
+                ...value, 
+                date: value.date ? value.date.toString() : undefined,
+            },
         });
     };
 
-    const renderCardItem = ({ item }) => <ArticleSmallCard article={item} />;
+    const renderCardItem = ({ item }) => (
+        <TouchableOpacity onPress={() => handleArticlePress(item)}>
+            <ArticleSmallCard article={item} />
+        </TouchableOpacity>
+    );
+
+    const renderSectionTitle = () => (
+        <TouchableOpacity onPress={() => handleCategoryPress()}>
+                <Text
+                    style={{
+                        ...styles.sectionTitle,
+                        color: screen === "category" ? categoryObj.color : theme.colors.dark,
+                    }}
+                >
+                    {truncate(categoryObj.name, 29) + " ›"}
+                </Text>
+            </TouchableOpacity>
+    );
+
     return (
         <View
             style={{
                 backgroundColor: theme.colors.bg_gray,
             }}
         >
-            <TouchableOpacity onPress={() => handleCategoryPress()}>
-                <Text
-                    style={{
-                        ...styles.sectionTitle,
-                        color: articlesArray.color,
-                    }}
-                >
-                    {articlesArray.name + " ›"}
-                </Text>
-            </TouchableOpacity>
+            {renderSectionTitle()}
             <FlatList
-                data={articleSortDate}
+                data={categoryObj.articles}
                 renderItem={renderCardItem}
-                keyExtractor={(item) => item._id}
+                keyExtractor={(item) => item._id || item.id}
                 horizontal={true}
-                contentContainerStyle={
-                    {
-                        // justifyContent: "flex-start",
-                    }
-                }
             />
         </View>
     );

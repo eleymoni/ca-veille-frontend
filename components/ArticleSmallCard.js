@@ -1,23 +1,20 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import theme from "../core/theme";
-
-function truncate(text, maxLength) {
-    if (!text) return "";
-    return text.length > maxLength
-        ? text.substring(0, maxLength - 1) + "..."
-        : text;
-}
+import truncate from "../utils/truncate";
 
 export default function ArticleSmallCard({ article }) {
-    const maxTitleLength = 30;
-    const source = article.media || article.defaultImage;
+    const source = article.media || article.defaultMedia;
     return (
-        <TouchableOpacity style={styles.card}>
-            <Text style={styles.title}>
-                {truncate(article.title, maxTitleLength)}
-            </Text>
-            <Image source={{ uri: source }} style={styles.image} />
-        </TouchableOpacity>
+        <View style={styles.card}>
+            <Text style={styles.title}>{truncate(article.title, 30)}</Text>
+            <Image
+                source={{ uri: source }}
+                style={{
+                    ...styles.image,
+                    resizeMode: article.media ? "cover" : "contain",
+                }}
+            />
+        </View>
     );
 }
 
@@ -31,6 +28,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 8,
         marginRight: 20,
+        zIndex: 1,
     },
     title: {
         color: theme.colors.text_dark,

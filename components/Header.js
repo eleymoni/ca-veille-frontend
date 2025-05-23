@@ -12,28 +12,23 @@ import { Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import MenuBurger from "./MenuBurger";
+import truncate from "../utils/truncate";
 
-const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
+const Header = ({
+    title,
+    colorText = theme.colors.text_dark,
+    inputValue,
+    setInput,
+}) => {
     const [showMenuBurger, setShowMenuBurger] = useState(false);
     // search bar state
     const [showSearch, setShowSearch] = useState(false);
-    const [searchText, setSearchText] = useState("");
     // if the title length is too long, maxLength is the max length ofthe title
-    const maxLength = 55;
-    title =
-        title?.length > maxLength
-            ? title.substring(0, maxLength) + "..."
-            : title;
-
+    title = truncate(title, 55);
     const toggleSearch = () => {
         // switch to search on header on click of search icon
         setShowSearch((prev) => !prev);
-        setSearchText("");
-    };
-
-    const handleSearch = () => {
-        // search action, use searchRange for defining the range of search
-        setSearchText("");
+        setInput("");
         Keyboard.dismiss();
     };
 
@@ -60,19 +55,12 @@ const Header = ({ title, colorText = theme.colors.text_dark, searchRange }) => {
                     />
                 ) : (
                     <View style={styles.searchContainer}>
-                        <TouchableOpacity onPress={handleSearch}>
-                            <Ionicons
-                                name="search"
-                                size={28}
-                                style={styles.icon}
-                            />
-                        </TouchableOpacity>
+                        <Ionicons name="search" size={28} style={styles.icon} />
                         <TextInput
                             style={styles.searchInput}
                             placeholder="Rechercher..."
-                            onChangeText={(value) => setSearchText(value)}
-                            value={searchText}
-                            onSubmitEditing={handleSearch}
+                            onChangeText={setInput}
+                            value={inputValue}
                             autoFocus={true}
                         />
                         <TouchableOpacity
