@@ -18,3 +18,18 @@ export const getCategories = async (url, array) => {
 
     return data;
 };
+
+export const getPopulars = async (url) => {
+    const token =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgyODMxMCwiZXhwIjoxNzQ5MDM3OTEwfQ.rUCpWVNV5uttkBRmwcIqzmgCGG8zQY9CEm-aBVASnZ8";
+    const response = await fetch(`${backendUrl}/categories/populars`, {
+        method: "GET",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+
+    return data;
+};

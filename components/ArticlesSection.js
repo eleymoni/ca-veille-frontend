@@ -10,9 +10,11 @@ import ArticleSmallCard from "./ArticleSmallCard";
 import { useNavigation } from "@react-navigation/native";
 import truncate from "../utils/truncate";
 
-export default function ArticlesSection({ articlesArray: categoryObj, screen }) {
+export default function ArticlesSection({
+    articlesArray: categoryObj,
+    screen,
+}) {
     const navigation = useNavigation();
-
     const handleCategoryPress = () => {
         // element to sends :
         // category id => articlesArray._id
@@ -23,9 +25,8 @@ export default function ArticlesSection({ articlesArray: categoryObj, screen }) 
                 categoryId: categoryObj._id,
                 title: categoryObj.name,
                 color: categoryObj.color,
-                articlesId: articlesId,
+                articlesId: categoryObj.articles,
             });
-
         } else if (screen === "followed") {
             navigation.navigate("OneFollowScreen", {
                 userId: categoryObj._id,
@@ -43,8 +44,8 @@ export default function ArticlesSection({ articlesArray: categoryObj, screen }) 
             categoryId: categoryObj._id,
             categoryName: categoryObj.name,
             categoryColor: categoryObj.color,
-            value :{
-                ...value, 
+            value: {
+                ...value,
                 date: value.date ? value.date.toString() : undefined,
             },
         });
@@ -58,15 +59,15 @@ export default function ArticlesSection({ articlesArray: categoryObj, screen }) 
 
     const renderSectionTitle = () => (
         <TouchableOpacity onPress={() => handleCategoryPress()}>
-                <Text
-                    style={{
-                        ...styles.sectionTitle,
-                        color: screen === "category" ? categoryObj.color : theme.colors.dark,
-                    }}
-                >
-                    {truncate(categoryObj.name, 29) + " ›"}
-                </Text>
-            </TouchableOpacity>
+            <Text
+                style={{
+                    ...styles.sectionTitle,
+                    color: categoryObj.color || theme.colors.dark,
+                }}
+            >
+                {truncate(categoryObj.name, 29) + " ›"}
+            </Text>
+        </TouchableOpacity>
     );
 
     return (
