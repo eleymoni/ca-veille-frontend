@@ -14,8 +14,10 @@ import theme from "../core/theme";
 export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState(theme.colors.blue);
+    const [textError, setTextError] = useState("");
 
     const handleClose = () => {
+        setTextError("");
         setInputCategory("");
         setInputColor(theme.colors.blue);
         onClose();
@@ -31,7 +33,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
                 method: "POST",
                 headers: {
                     Authorization:
-                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzA5NGRjZThjM2Y5YmYwMGE5YzZmOSIsImlhdCI6MTc0ODAxNDMwMCwiZXhwIjoxNzQ4MDE0MzYwfQ.C0yvIsbndyVLsH25TShBhUyOC7tvNxaPk4sVtkE-77o",
+                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgzMjkwOSwiZXhwIjoxNzQ5MDQyNTA5fQ.v7_Ogjn0vViA8TjgZoNYGQFrHxqwR27BJUlrDEandn8",
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
@@ -40,14 +42,21 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
                 }),
             }
         );
-        const data = response.json;
+        const data = await response.json();
 
-        if (data.response) {
-            onCreate({ name: data.category.name, color: data.category.color });
+        if (data.result) {
+            onCreate({
+                _id: data.category._id,
+                name: data.category.name,
+                color: data.category.color,
+            });
+            setTextError("");
             setInputCategory("");
             setInputColor(theme.colors.blue);
             onClose();
         }
+
+        setTextError("Cette catégorie existe déjà");
     };
 
     return (
@@ -80,7 +89,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
                         value={inputCategory}
                         onChangeText={setInputCategory}
                     />
-
+                    <Text style={styles.textError}>{textError}</Text>
                     {/* Boutons Valider / Annuler */}
                     <View style={styles.buttonRow}>
                         <TouchableOpacity
@@ -135,7 +144,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     pickerWrapper: {
-        height: 200,
+        height: 250,
         borderRadius: 12,
         overflow: "hidden",
         marginBottom: 16,
@@ -145,6 +154,12 @@ const styles = StyleSheet.create({
         borderColor: theme.colors.icon_gray,
         borderRadius: 8,
         paddingHorizontal: 12,
+        marginBottom: 16,
+        fontFamily: theme.fonts.openSansRegular,
+    },
+    textError: {
+        alignSelf: "flex-end",
+        color: "red",
         marginBottom: 16,
         fontFamily: theme.fonts.openSansRegular,
     },
