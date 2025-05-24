@@ -7,7 +7,7 @@ import Header from "../components/Header";
 export default function FavorisScreen() {
     const [searchText, setSearchText] = useState("");
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header
                 title={"Mes articles favoris"}
                 inputValue={searchText}
@@ -21,7 +21,7 @@ export default function FavorisScreen() {
             >
                 <Text style={styles.text}>Favoris Screen</Text>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 
