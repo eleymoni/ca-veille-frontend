@@ -28,7 +28,7 @@ const Header3 = ({
             <SafeAreaView style={styles.headerContainer} edges={["top"]}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={onBack}>
-                        <FontAwesome5 name="arrow-left" size={26} style={styles.icon} />
+                        <FontAwesome5 name="arrow-left" size={26} color= {theme.colors.text_gray} />
                     </TouchableOpacity>
                     <Text style={styles.title}>
                         {displayTitle}
@@ -39,8 +39,7 @@ const Header3 = ({
                         name="star"
                         size={24}
                         solid={isFavorite}
-                        color={isFavorite ? theme.colors.blue : theme.colors.icon_gray}
-                        style={styles.icon}
+                        color={theme.colors.blue}
                     />
                     </TouchableOpacity>
                 </View>
@@ -81,9 +80,7 @@ const styles = StyleSheet.create({
         width: "75%",
         textAlign: "center",
     },
-    icon: {
-        color: theme.colors.icon_gray,
-    },
+
     shadow: {
         backgroundColor: theme.colors.bg_gray,
         width: "100%",
