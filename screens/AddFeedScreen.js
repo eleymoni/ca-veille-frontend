@@ -11,47 +11,53 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import theme from "../core/theme";
-import { categories as allCategories } from "../data";
+import { categoriesUniqueFeed } from "../data";
 import ModalAddCategory from "../components/ModalAddCategory";
 
 export default function AddFeedScreen() {
     const navigation = useNavigation();
     // récupération des catégories
-    const [categories, setCategories] = useState(allCategories);
+    const [categories, setCategories] = useState(categoriesUniqueFeed || []);
+
     // inputs
     const [inputUrl, setInputUrl] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState({
+        id: null,
+        name: "",
+    });
 
-    const [urlFind, setUrlFind] = useState({ result: false, url: "" });
+    const [isFeedCreated, setIsfeedCreated] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const handleSearch = async () => {
-        // const response = await fetch("http://localhost:3000/feeds/create", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({
-        //         url: inputUrl,
-        //     }),
-        // });
-        // const data = response.json;
-
-        // if (data.response) {
-        //     return setUrlFind(data.url);
-        // }
-
-        setUrlFind({
-            result: true,
-            url: "https://www.lesnumeriques.com/rss.xml",
+    const handleAddFeed = async () => {
+        const response = await fetch("http://192.168.1.150:3000/feeds/create", {
+            method: "POST",
+            headers: {
+                Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzA5NGRjZThjM2Y5YmYwMGE5YzZmOSIsImlhdCI6MTc0ODAxNDMwMCwiZXhwIjoxNzQ4MDE0MzYwfQ.C0yvIsbndyVLsH25TShBhUyOC7tvNxaPk4sVtkE-77o",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                url: inputUrl,
+                categoryId: selectedCategory.id,
+            }),
         });
+        const data = response.json;
+
+        if (data.response) {
+            return setIsfeedCreated({
+                result: data.response,
+                url: data.url,
+            });
+        }
+
+        setIsfeedCreated(
+            `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
+        );
     };
 
     const handleCreateCategory = (Inputcategory) => {
         setCategories((prev) => [...prev, Inputcategory]);
-    };
-
-    const handleAddFeed = () => {
-        // Valider inputUrl et selectedCategory avant d’envoyer
-        console.log("Ajout du feed", inputUrl, "dans", selectedCategory);
     };
 
     return (
@@ -76,15 +82,6 @@ export default function AddFeedScreen() {
                 autoCapitalize="none"
                 keyboardType="inputUrl"
             />
-            <TouchableOpacity style={styles.button} onPress={handleSearch}>
-                <Text style={styles.buttonText}>Rechercher</Text>
-            </TouchableOpacity>
-            {urlFind.result && (
-                <Text style={styles.feedInfo}>
-                    Vous allez ajouter ce feed :{"\n"}
-                    {urlFind.url}
-                </Text>
-            )}
             <Text style={[styles.label, { marginTop: 30 }]}>
                 Dans quelle catégorie souhaiter vous l'ajouter ?
             </Text>
@@ -93,15 +90,20 @@ export default function AddFeedScreen() {
                 contentContainerStyle={{ paddingVertical: 4 }}
                 showsVerticalScrollIndicator
             >
-                {categories.map((category) => (
+                {(categories ?? []).map((category) => (
                     <TouchableOpacity
-                        key={category.name}
+                        key={category._id}
                         style={[
                             styles.catItem,
                             selectedCategory.name === category.name &&
                                 styles.catItemSelected,
                         ]}
-                        onPress={() => setSelectedCategory(category.name)}
+                        onPress={() =>
+                            setSelectedCategory({
+                                id: category._id,
+                                name: category.name,
+                            })
+                        }
                     >
                         <View
                             style={{
@@ -131,7 +133,7 @@ export default function AddFeedScreen() {
                                 {category.name}
                             </Text>
                         </View>
-                        {selectedCategory === category.name && (
+                        {selectedCategory.name === category.name && (
                             <FontAwesome
                                 name="check"
                                 size={16}
@@ -153,23 +155,14 @@ export default function AddFeedScreen() {
                 onClose={() => setIsModalVisible(false)}
                 onCreate={handleCreateCategory}
             />
+            <Text style={{ marginTop: 30, color: "green" }}>
+                {isFeedCreated}
+            </Text>
             <TouchableOpacity
-                style={[
-                    !urlFind.result ? styles.disabledButton : styles.button,
-                    { marginTop: 60 },
-                ]}
+                style={{ ...styles.button, marginTop: 30 }}
                 onPress={handleAddFeed}
-                disabled={!urlFind.result}
             >
-                <Text
-                    style={
-                        !urlFind.result
-                            ? styles.disabledButtonText
-                            : styles.buttonText
-                    }
-                >
-                    Ajouter le feed
-                </Text>
+                <Text style={styles.buttonText}>Ajouter le feed</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -208,15 +201,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderWidth: 1,
         borderColor: theme.colors.blue,
-        borderRadius: 8,
-        paddingHorizontal: 24,
-        paddingVertical: 12,
-    },
-    disabledButton: {
-        marginTop: 12,
-        alignSelf: "center",
-        borderWidth: 1,
-        borderColor: theme.colors.icon_gray,
         borderRadius: 8,
         paddingHorizontal: 24,
         paddingVertical: 12,

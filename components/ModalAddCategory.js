@@ -25,29 +25,29 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
         const trimmed = inputCategory.trim();
         if (!trimmed) return;
 
-        // const response = await fetch(
-        //     "http://localhost:3000/categories/newCategory",
-        //     {
-        //         method: "POST",
-        //         headers: { "Content-Type": "application/json" },
-        //         body: JSON.stringify({
-        //             name: trimmed,
-        //             color: inputColor,
-        //         }),
-        //     }
-        // );
-        // const data = response.json;
+        const response = await fetch(
+            "http://192.168.1.150:3000/categories/newCategory",
+            {
+                method: "POST",
+                headers: {
+                    Authorization:
+                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzA5NGRjZThjM2Y5YmYwMGE5YzZmOSIsImlhdCI6MTc0ODAxNDMwMCwiZXhwIjoxNzQ4MDE0MzYwfQ.C0yvIsbndyVLsH25TShBhUyOC7tvNxaPk4sVtkE-77o",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: trimmed,
+                    color: inputColor,
+                }),
+            }
+        );
+        const data = response.json;
 
-        // if (data.response) {
-        //     onCreate({ name: data.category.name, color: data.category.color });
-        //     setInputCategory("");
-        //     setInputColor(theme.colors.blue);
-        //     onClose();
-        // }
-        onCreate({ name: trimmed, color: inputColor });
-        setInputCategory("");
-        setInputColor(theme.colors.blue);
-        onClose();
+        if (data.response) {
+            onCreate({ name: data.category.name, color: data.category.color });
+            setInputCategory("");
+            setInputColor(theme.colors.blue);
+            onClose();
+        }
     };
 
     return (
