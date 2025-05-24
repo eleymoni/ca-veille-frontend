@@ -30,30 +30,35 @@ export default function AddFeedScreen() {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleAddFeed = async () => {
-        const response = await fetch("http://192.168.1.150:3000/feeds/create", {
-            method: "POST",
-            headers: {
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzA5NGRjZThjM2Y5YmYwMGE5YzZmOSIsImlhdCI6MTc0ODAxNDMwMCwiZXhwIjoxNzQ4MDE0MzYwfQ.C0yvIsbndyVLsH25TShBhUyOC7tvNxaPk4sVtkE-77o",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                url: inputUrl,
-                categoryId: selectedCategory.id,
-            }),
-        });
-        const data = response.json;
+        if (inputUrl && selectedCategory) {
+            const response = await fetch(
+                "http://192.168.1.150:3000/feeds/create",
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization:
+                            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgzMjkwOSwiZXhwIjoxNzQ5MDQyNTA5fQ.v7_Ogjn0vViA8TjgZoNYGQFrHxqwR27BJUlrDEandn8",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        url: inputUrl,
+                        categoryId: selectedCategory.id,
+                    }),
+                }
+            );
+            const data = response.json;
 
-        if (data.response) {
-            return setIsfeedCreated({
-                result: data.response,
-                url: data.url,
-            });
+            if (data.result) {
+                setSelectedCategory({
+                    id: null,
+                    name: "",
+                });
+                setInputUrl("");
+                setIsfeedCreated(
+                    `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
+                );
+            }
         }
-
-        setIsfeedCreated(
-            `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
-        );
     };
 
     const handleCreateCategory = (Inputcategory) => {
