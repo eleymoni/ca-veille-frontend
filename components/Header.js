@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     },
     header: {
         height: 80,
-        paddingHorizontal: 25,
         backgroundColor: theme.colors.bg_White,
         flexDirection: "row",
         alignItems: "center",

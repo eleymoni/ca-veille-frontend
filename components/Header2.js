@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         zIndex: 2,
     },
     header: {
-        height: 75,
+        height: 80,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",

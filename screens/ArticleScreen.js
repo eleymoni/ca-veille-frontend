@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
-import Header from "../components/Header";
+import Header3 from "../components/Header3";
 import { useRoute } from "@react-navigation/native";
 import { FontAwesome5, Entypo, Ionicons, FontAwesome } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
@@ -20,7 +20,7 @@ export default function ArticleScreen() {
 
     return (
         <View style={styles.container}>
-            <Header title={value.title} />
+            <Header3 title={value.title} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
