@@ -53,9 +53,9 @@ export default function ArticleScreen() {
                 <Text style={styles.articleDesc}>{value.description}</Text>
             </View>
 
-            <TouchableOpacity style={styles.similar}>
+            {/* <TouchableOpacity style={styles.similar}>
                 <Text style={styles.similarText}>Voir des articles similaires</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>  A voir à la fin si on laisse */}
             </View>
         </View>
     );
@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.bg_White,
         borderRadius: 18,
         padding: 18,
-        marginHorizontal: 12,
-        marginVertical: 24,
-        height: "60%",
+        marginHorizontal: 10,
+        marginVertical: 25,
+        height: "70%",
         width: "95%",
         shadowColor: theme.colors.text_dark,
         shadowOffset: { width: 0, height: 4 },
@@ -84,15 +84,21 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        margin: 10
+        marginVertical: 10,
     },
     category: {
-        fontSize: theme.fontSizes.small,
+        fontSize: theme.fontSizes.medium,
         fontFamily: theme.fonts.openSansSemiBold,
         width: "50%",
     },
     linkBtn: {
         flexDirection: "row",
+    },
+    textLink: {
+        marginRight: 8,
+        fontFamily: theme.fonts.openSansRegular,
+        fontSize: theme.fontSizes.medium, 
+        color: theme.colors.text_dark,
     },
     image: {
         width: "100%",
@@ -100,32 +106,39 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 20,
     },
+    date: {
+        fontSize: theme.fontSizes.small,
+        fontFamily: theme.fonts.openSansRegular,
+        color: theme.colors.text_dark,
+        marginVertical: 5,
+    },
     articleTitle: {
         fontFamily: theme.fonts.openSansSemiBold,
-        fontSize: theme.fontSizes.medium, 
+        fontSize: theme.fontSizes.large, 
         color: theme.colors.text_dark,
-        marginVertical: 10,
+        marginVertical: 5,
     },
     articleDesc: {
         fontSize: theme.fontSizes.small,
         fontFamily: theme.fonts.openSansRegular,
         color: theme.colors.text_dark,
+        marginVertical: 5,
     },
-    similar: {
-        backgroundColor: theme.colors.bg_White,
-        borderRadius: 18,
-        shadowColor: theme.colors.text_dark,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 3,
-        padding: 18,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    similarText: {
-        fontSize: theme.fontSizes.small,
-        fontFamily: theme.fonts.openSansRegular,
-        color: theme.colors.text_dark,
-    }
+    // similar: {
+    //     backgroundColor: theme.colors.bg_White,
+    //     borderRadius: 18,
+    //     shadowColor: theme.colors.text_dark,
+    //     shadowOffset: { width: 0, height: 4 },
+    //     shadowOpacity: 0.1,
+    //     shadowRadius: 10,
+    //     elevation: 3,
+    //     padding: 18,
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    // },
+    // similarText: {
+    //     fontSize: theme.fontSizes.small,
+    //     fontFamily: theme.fonts.openSansRegular,
+    //     color: theme.colors.text_dark,
+    // }
 });
