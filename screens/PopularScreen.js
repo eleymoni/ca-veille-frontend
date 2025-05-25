@@ -5,21 +5,23 @@ import Header from "../components/Header";
 import Sections from "../components/Sections";
 import { useState, useEffect } from "react";
 import { getPopulars } from "../constants/Urls";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PopularScreen() {
+    const user = useSelector((state) => state.user.value);
     const [data, setData] = useState([]);
-    const [searchText, setSearchText] = useState("");
+    const [searchValue, setSearchValue] = useState("");
     useEffect(() => {
-        getPopulars("populars").then((res) => setData(res.users));
+        getPopulars().then((res) => setData(res.users));
     }, []);
     return (
         <View style={styles.container}>
             <Header
                 title={"Populaire"}
-                inputValue={searchText}
-                setInput={setSearchText}
+                inputValue={searchValue}
+                setInput={setSearchValue}
             />
-            <Sections data={data} searchText={searchText} screen={"popular"} />
+            <Sections data={data} searchText={searchValue} screen={"popular"} />
         </View>
     );
 }

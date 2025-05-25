@@ -4,7 +4,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import ArticleCard from "../components/ArticleCard";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { addUser } from "../reducers/user";
 
 const veilleData = [
     {
@@ -55,6 +57,26 @@ const renderVeilleItem = ({ item }) => (
 
 export default function HomeScreen() {
     const [searchText, setSearchText] = useState("");
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
+    useEffect(() => {
+        dispatch(
+            addUser({
+                username: "pierre",
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgzMjkwOSwiZXhwIjoxNzQ5MDQyNTA5fQ.v7_Ogjn0vViA8TjgZoNYGQFrHxqwR27BJUlrDEandn8",
+                categories: [
+                    "682dd7f1cff4700fb23cf77d",
+                    "682dd8b14263208c7bc4038f",
+                ],
+                followedUser: ["683094dce8c3f9bf00a9c6f9"],
+                articles: [
+                    "68303c1dac0a986ebc1bd383",
+                    "68303c1dac0a986ebc1bd385",
+                ],
+                isPublic: true,
+            })
+        );
+    }, []);
     return (
         <View style={styles.container}>
             <Header inputValue={searchText} setInput={setSearchText} />

@@ -39,9 +39,9 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import users from "./reducers/users";
+import user from "./reducers/user";
 
-const reducers = combineReducers({ users });
+const reducers = combineReducers({ user });
 const persistConfig = {
     key: "ça veille",
     storage: AsyncStorage,

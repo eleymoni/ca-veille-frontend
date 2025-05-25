@@ -1,15 +1,17 @@
-export const backendUrl = "http://192.168.0.75:3000";
+import { useSelector } from "react-redux";
 
-export const getCategories = async (url, array) => {
-    const token =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgyODMxMCwiZXhwIjoxNzQ5MDM3OTEwfQ.rUCpWVNV5uttkBRmwcIqzmgCGG8zQY9CEm-aBVASnZ8";
+export const backendUrl = "http://192.168.0.75:3000";
+const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgyODMxMCwiZXhwIjoxNzQ5MDM3OTEwfQ.rUCpWVNV5uttkBRmwcIqzmgCGG8zQY9CEm-aBVASnZ8";
+
+export const getCategories = async (array) => {
     const newArray = array.join(",");
     const response = await fetch(
-        `${backendUrl}/categories/${url}?ids=${newArray}`,
+        `${backendUrl}/categories/categoriesId?ids=${newArray}`,
         {
             method: "GET",
             headers: {
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         }
@@ -20,15 +22,30 @@ export const getCategories = async (url, array) => {
 };
 
 export const getPopulars = async (url) => {
-    const token =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgyODMxMCwiZXhwIjoxNzQ5MDM3OTEwfQ.rUCpWVNV5uttkBRmwcIqzmgCGG8zQY9CEm-aBVASnZ8";
     const response = await fetch(`${backendUrl}/categories/populars`, {
         method: "GET",
         headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
         },
     });
+    const data = await response.json();
+
+    return data;
+};
+
+export const getFavoritesArticles = async (array) => {
+    const newArray = array.join(",");
+    const response = await fetch(
+        `${backendUrl}/articles/favoritesArticlesId?ids=${newArray}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
     const data = await response.json();
 
     return data;
