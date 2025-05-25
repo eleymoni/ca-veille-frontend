@@ -68,6 +68,12 @@ export default function HomeScreen() {
         GetHomeCategories(user.categories).then((res) => setData(res.articles));
     }, []);
 
+    const filteredArticles = data?.filter(
+        (item) =>
+            item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
     const renderVeilleItem = ({ item }) => (
         <ArticleCard
             _id={item._id}
@@ -97,7 +103,7 @@ export default function HomeScreen() {
                 }}
             >
                 <FlatList
-                    data={data}
+                    data={filteredArticles}
                     renderItem={renderVeilleItem}
                     keyExtractor={(item) => item._id}
                     contentContainerStyle={{
