@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { categoriesUniqueFeed } from "../data";
 import ModalAddCategory from "../components/ModalAddCategory";
@@ -72,10 +72,10 @@ export default function AddFeedScreen() {
                 style={styles.back}
                 onPress={() => navigation.goBack()}
             >
-                <Ionicons
-                    name="arrow-back"
+                <FontAwesome6
+                    name="arrow-left"
                     size={28}
-                    color={theme.colors.text}
+                    color={theme.colors.icon_gray}
                 />
             </TouchableOpacity>
             <Text style={styles.label}>Entrer l'URL du site web</Text>
@@ -139,10 +139,10 @@ export default function AddFeedScreen() {
                             </Text>
                         </View>
                         {selectedCategory.name === category.name && (
-                            <FontAwesome
+                            <FontAwesome6
                                 name="check"
                                 size={16}
-                                color={theme.colors.primary}
+                                color={"green"}
                             />
                         )}
                     </TouchableOpacity>
@@ -175,11 +175,12 @@ export default function AddFeedScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 32,
     },
     back: {
-        marginTop: 10,
-        marginBottom: 20,
+        padding: 10,
+        paddingLeft: 0,
+        marginVertical: 15,
     },
     label: {
         fontFamily: theme.fonts.openSansRegular,
@@ -238,8 +239,10 @@ const styles = StyleSheet.create({
     },
     catItemSelected: {
         backgroundColor: theme.colors.bg_light,
+        paddingHorizontal: 20,
     },
     catText: {
+        width: "90%",
         fontFamily: theme.fonts.openSansRegular,
         fontSize: theme.fontSizes.medium,
     },
