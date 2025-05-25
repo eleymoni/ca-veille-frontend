@@ -25,7 +25,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
 
     const handleAddCategory = async () => {
         const trimmed = inputCategory.trim();
-        if (!trimmed) return;
+        if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
 
         const response = await fetch(
             "http://192.168.1.150:3000/categories/newCategory",
@@ -54,9 +54,9 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
             setInputCategory("");
             setInputColor(theme.colors.blue);
             onClose();
+        } else {
+            setTextError("Cette catégorie existe déjà");
         }
-
-        setTextError("Cette catégorie existe déjà");
     };
 
     return (
@@ -64,7 +64,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
             visible={modalVisible}
             animationType="slide"
             transparent
-            onRequestClose={onClose}
+            onRequestClose={handleClose}
         >
             <View style={styles.backdrop}>
                 <View style={styles.content}>
@@ -79,6 +79,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
                             sliderSize={30}
                             noSnap={true}
                             row={false}
+                            shadeSliderThumb={true}
                         />
                     </View>
 
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     pickerWrapper: {
-        height: 250,
+        height: 190,
         borderRadius: 12,
         overflow: "hidden",
         marginBottom: 16,
