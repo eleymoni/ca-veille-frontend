@@ -10,6 +10,7 @@ export default function ArticleCard({
     description,
     image,
     category,
+    username,
     categoryColor,
     isFavorite,
     showDate = false,
@@ -17,6 +18,7 @@ export default function ArticleCard({
     date,
     url,
     author,
+    sectionId,
 }) {
     const navigation = useNavigation();
     //fonction pour tronquer le texte où on veut
@@ -42,7 +44,7 @@ export default function ArticleCard({
             articleId: _id,
             title: title,
             description: description,
-            sectionName: category,
+            sectionName: category || username,
             categoryColor: categoryColor,
             media: image,
             defaultMedia: defaultMedia,

@@ -18,7 +18,7 @@ export default function FavorisScreen() {
         );
     }, []);
 
-    const filteredData = data.filter(
+    const filteredData = data?.filter(
         (item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
             item.description.toLowerCase().includes(searchValue.toLowerCase())

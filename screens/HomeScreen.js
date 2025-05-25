@@ -7,6 +7,7 @@ import ArticleCard from "../components/ArticleCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { addUser } from "../reducers/user";
+import { GetHomeCategories } from "../constants/Urls";
 
 const veilleData = [
     {
@@ -42,23 +43,11 @@ const veilleData = [
     },
 ];
 
-const renderVeilleItem = ({ item }) => (
-    <ArticleCard
-        title={item.title}
-        description={item.description}
-        image={item.image}
-        category={item.category}
-        categoryColor={item.color}
-        isFavorite={item.isFavorite}
-        // showDate={true}
-        // date={item.date}
-    />
-);
-
 export default function HomeScreen() {
-    const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
+    const [searchValue, setSearchValue] = useState("");
+    const [data, setData] = useState([]);
     useEffect(() => {
         dispatch(
             addUser({
@@ -70,16 +59,37 @@ export default function HomeScreen() {
                 ],
                 followedUser: ["683094dce8c3f9bf00a9c6f9"],
                 articles: [
-                    "68303c1dac0a986ebc1bd383",
-                    "68303c1dac0a986ebc1bd385",
+                    "68335c7096a3b5548e85122f",
+                    "68335c7096a3b5548e851231",
                 ],
                 isPublic: true,
             })
         );
+        GetHomeCategories(user.categories).then((res) => setData(res.articles));
     }, []);
+
+    const renderVeilleItem = ({ item }) => (
+        <ArticleCard
+            _id={item._id}
+            title={item.title}
+            description={item.description}
+            image={item.media}
+            category={item.categoryName}
+            username={item.username}
+            categoryColor={item.categoryColor}
+            sectionId={item.categoryId || item.userId}
+            defaultMedia={item.defaultMedia}
+            date={item.date}
+            url={item.url}
+            author={item.author}
+            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
+            isFavorite={item.isFavorite}
+            showDate={false}
+        />
+    );
     return (
         <View style={styles.container}>
-            <Header inputValue={searchText} setInput={setSearchText} />
+            <Header inputValue={searchValue} setInput={setSearchValue} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -87,9 +97,9 @@ export default function HomeScreen() {
                 }}
             >
                 <FlatList
-                    data={veilleData}
+                    data={data}
                     renderItem={renderVeilleItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item._id}
                     contentContainerStyle={{
                         paddingHorizontal: 16,
                         paddingVertical: 12,

@@ -1,4 +1,4 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import theme from "../core/theme";
 import ArticlesSection from "../components/ArticlesSection";
 
@@ -41,6 +41,17 @@ export default function Sections({ data, searchText, screen }) {
                 contentContainerStyle={{
                     paddingLeft: 16,
                 }}
+                ListEmptyComponent={
+                    <Text
+                        style={{
+                            textAlign: "center",
+                            marginTop: 50,
+                            color: theme.colors.text_dark,
+                        }}
+                    >
+                        Aucun article trouvé.
+                    </Text>
+                }
             />
         </View>
     );
