@@ -20,12 +20,11 @@ export default function ArticlesSection({
         // category id => articlesArray._id
 
         if (screen === "category") {
-            const articlesId = categoryObj.articles.map((item) => item._id);
             navigation.navigate("Category", {
                 categoryId: categoryObj._id,
                 title: categoryObj.name,
                 color: categoryObj.color,
-                articlesId: categoryObj.articles,
+                articles: categoryObj.articles,
             });
         } else if (screen === "followed") {
             navigation.navigate("OneFollowScreen", {
@@ -33,21 +32,29 @@ export default function ArticlesSection({
                 username: categoryObj.name,
                 articles: categoryObj.articles,
             });
+        } else if (screen === "popular") {
+            navigation.navigate("OnePopular", {
+                userId: categoryObj._id,
+                username: categoryObj.name,
+                articles: categoryObj.articles,
+            });
         }
     };
-
     const handleArticlePress = (value) => {
         // element to sends :
         // category id, title category, color category. check for the others value to send
         // value.date = value.date.toString();
         navigation.navigate("Article", {
-            categoryId: categoryObj._id,
-            categoryName: categoryObj.name,
+            _id: value._id,
+            title: value.title,
+            description: value.description,
+            sectionName: categoryObj.name,
             categoryColor: categoryObj.color,
-            value: {
-                ...value,
-                date: value.date ? value.date.toString() : undefined,
-            },
+            media: value.media,
+            defaultMedia: value.defaultMedia,
+            date: value.date ? value.date.toString() : undefined,
+            url: value.url,
+            author: value.author,
         });
     };
 

@@ -4,7 +4,7 @@ import ArticlesSection from "../components/ArticlesSection";
 
 export default function Sections({ data, searchText, screen }) {
     const renderSectionItem = ({ item }) => (
-        <ArticlesSection articlesArray={item} screen="category" />
+        <ArticlesSection articlesArray={item} screen={screen} />
     );
     // filter the articles in category with the header input
     const filteredData = data.map((cat) => {

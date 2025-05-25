@@ -19,7 +19,7 @@ export default function PopularScreen() {
                 inputValue={searchText}
                 setInput={setSearchText}
             />
-            <Sections data={data} searchText={searchText} screen={"Category"} />
+            <Sections data={data} searchText={searchText} screen={"popular"} />
         </View>
     );
 }

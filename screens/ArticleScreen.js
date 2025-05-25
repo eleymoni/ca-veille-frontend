@@ -1,26 +1,47 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, Linking } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    Linking,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header3 from "../components/Header3";
-import { useRoute } from "@react-navigation/native";
-import { FontAwesome5, Entypo, Ionicons, FontAwesome } from "@expo/vector-icons";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import {
+    FontAwesome5,
+    Entypo,
+    Ionicons,
+    FontAwesome,
+} from "@expo/vector-icons";
 import truncate from "../utils/truncate";
 
 export default function ArticleScreen() {
-
     //Attention : nouvelle méthode react native : Linking (voir doc)
-
+    const navigation = useNavigation();
     const route = useRoute();
     // articlesId is the id of the all the articles of the category sort by date
-    const { categoryId, categoryName, categoryColor, value } = route.params;
+    const {
+        articleId,
+        title,
+        description,
+        sectionName,
+        categoryColor,
+        media,
+        defaultMedia,
+        date,
+        url,
+        author,
+    } = route.params;
 
-    const isFavorite = value.isFavorite || false;
+    // const isFavorite = value.isFavorite || false;
 
-    const truncatedCategoryName = truncate(categoryName, 40);
-
+    const truncatedCategoryName = truncate(sectionName, 40);
     return (
         <View style={styles.container}>
-            <Header3 title={value.title} />
+            <Header3 onBack={() => navigation.goBack()} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
@@ -28,32 +49,59 @@ export default function ArticleScreen() {
                 }}
             >
                 <View style={styles.card}>
-                <View style={styles.topRow}>
-                    <Text style={[styles.category, {color: categoryColor}]}>{truncatedCategoryName}</Text>
-                    <TouchableOpacity style={styles.linkBtn} onPress={() => {Linking.openURL(value.url)}}>
-                    <Text style={[styles.textLink, {color:categoryColor}]}>Lien vers l'article</Text>
-                    <FontAwesome5 name="link" size={24} color={categoryColor} />
-                    </TouchableOpacity>
+                    <View style={styles.topRow}>
+                        <Text
+                            style={[styles.category, { color: categoryColor }]}
+                        >
+                            {truncatedCategoryName}
+                        </Text>
+                        <TouchableOpacity
+                            style={styles.linkBtn}
+                            onPress={() => {
+                                Linking.openURL(url);
+                            }}
+                        >
+                            <Text
+                                style={[
+                                    styles.textLink,
+                                    { color: categoryColor },
+                                ]}
+                            >
+                                Lien vers l'article
+                            </Text>
+                            <FontAwesome5
+                                name="link"
+                                size={24}
+                                color={categoryColor}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    {(media || defaultMedia) && (
+                        <Image
+                            source={{ uri: media || defaultMedia }}
+                            style={{
+                                ...styles.image,
+                                resizeMode: media ? "cover" : "contain",
+                            }}
+                        />
+                    )}
+
+                    <Text style={styles.date}>
+                        date de l'article :{" "}
+                        {new Date(date).toLocaleDateString("fr-FR", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })}
+                    </Text>
+                    <Text style={styles.articleTitle}>{title}</Text>
+                    <Text style={styles.articleDesc}>{description}</Text>
                 </View>
 
-                {value.media && (
-                    <Image source={{uri: value.media}} style={styles.image} />
-                )}
-
-                <Text style={styles.date}>
-                    date de l'article :{" "}
-                    {new Date(value.date).toLocaleDateString("fr-FR", {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    })}</Text>
-                <Text style={styles.articleTitle}>{value.title}</Text>
-                <Text style={styles.articleDesc}>{value.description}</Text>
-            </View>
-
-            {/* <TouchableOpacity style={styles.similar}>
+                {/* <TouchableOpacity style={styles.similar}>
                 <Text style={styles.similarText}>Voir des articles similaires</Text>
             </TouchableOpacity>  A voir à la fin si on laisse */}
             </View>
@@ -97,7 +145,7 @@ const styles = StyleSheet.create({
     textLink: {
         marginRight: 8,
         fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.medium, 
+        fontSize: theme.fontSizes.medium,
         color: theme.colors.text_dark,
     },
     image: {
@@ -114,7 +162,7 @@ const styles = StyleSheet.create({
     },
     articleTitle: {
         fontFamily: theme.fonts.openSansSemiBold,
-        fontSize: theme.fontSizes.large, 
+        fontSize: theme.fontSizes.large,
         color: theme.colors.text_dark,
         marginVertical: 5,
     },

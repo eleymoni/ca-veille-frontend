@@ -1,49 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 
-export default function CategoryScreen({ navigation }) {
+export default function OnePopularScreen({ navigation }) {
     const route = useRoute();
-
-    const { categoryId, title, color, articles } = route.params;
+    const { userId, username, articles } = route.params;
     const [searchValue, setSearchValue] = useState("");
-    const [veilleData, setVeilleData] = useState([
-        {
-            id: "1",
-            title: "L’intelligence artificielle en 2025",
-            description: "Les tendances IA à suivre absolument cette année.",
-            category: "Tech",
-            date: "2025-09-17T00:00:00.000Z",
-            image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80",
-            isFavorite: true,
-        },
-        {
-            id: "2",
-            title: "Test titre mega looooooooooooooooooooooooong Le retour des crypto-monnaies",
-            description:
-                "Test description plus longue Nouveau bull run? Analyse des signaux.",
-            category: "Finance",
-            date: "2025-07-17T00:00:00.000Z",
-            image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
-            isFavorite: false,
-        },
-        {
-            id: "3",
-            title: "Accessibilité web",
-            description: "Bonnes pratiques pour rendre vos sites inclusifs.",
-            category: "Web",
-            date: "2025-05-17T00:00:00.000Z",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-            isFavorite: false,
-        },
-    ]);
 
-    const filteredData = articles.filter(
+    const filteredArticles = articles.filter(
         (item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
             item.description.toLowerCase().includes(searchValue.toLowerCase())
@@ -55,8 +23,7 @@ export default function CategoryScreen({ navigation }) {
             title={item.title}
             description={item.description}
             image={item.media}
-            category={title}
-            categoryColor={color}
+            category={username}
             defaultMedia={item.defaultMedia}
             date={item.date}
             url={item.url}
@@ -67,25 +34,20 @@ export default function CategoryScreen({ navigation }) {
     );
 
     return (
-        // <SafeAreaView style={styles.container} edges={["top"]}>
         <View style={styles.container}>
             <Header2
-                title={title}
-                colorText={color}
+                title={username}
+                colorText={theme.colors.text_dark}
                 onBack={() => navigation.goBack()}
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
             />
-            <View
-                style={{
-                    backgroundColor: theme.colors.bg_gray,
-                    flex: 1,
-                }}
-            >
+
+            <View style={{ backgroundColor: theme.colors.bg_gray, flex: 1 }}>
                 <FlatList
-                    data={filteredData}
+                    data={filteredArticles}
                     renderItem={renderVeilleItem}
-                    keyExtractor={(item) => item._id}
+                    keyExtractor={(item) => item._id || item.id}
                     contentContainerStyle={{
                         paddingHorizontal: 16,
                         paddingVertical: 12,
@@ -104,7 +66,6 @@ export default function CategoryScreen({ navigation }) {
                 />
             </View>
         </View>
-        // {/* </SafeAreaView> */}
     );
 }
 

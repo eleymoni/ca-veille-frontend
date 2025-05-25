@@ -2,23 +2,29 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
-
+import { useNavigation } from "@react-navigation/native";
 
 export default function ArticleCard({
-    title, 
-    description, 
-    image, 
+    _id,
+    title,
+    description,
+    image,
     category,
     categoryColor,
-    isFavorite, 
+    isFavorite,
     showDate = false,
-    date
+    defaultMedia,
+    date,
+    url,
+    author,
 }) {
-    
+    const navigation = useNavigation();
     //fonction pour tronquer le texte où on veut
     function truncate(text, maxLength) {
         if (!text) return "";
-        return text.length > maxLength ? text.substring(0, maxLength -1) + "..." : text;
+        return text.length > maxLength
+            ? text.substring(0, maxLength - 1) + "..."
+            : text;
     }
 
     function formatDate(dateString) {
@@ -31,6 +37,20 @@ export default function ArticleCard({
             year: "numeric",
         });
     }
+    const handleArticlePress = () => {
+        navigation.navigate("Article", {
+            articleId: _id,
+            title: title,
+            description: description,
+            sectionName: category,
+            categoryColor: categoryColor,
+            media: image,
+            defaultMedia: defaultMedia,
+            date: date ? date.toString() : undefined,
+            url: url,
+            author: author,
+        });
+    };
 
     const MAX_TITLE_LENGTH = 70;
     const MAX_DESCRIPTION_LENGTH = 90;
@@ -38,36 +58,55 @@ export default function ArticleCard({
     const isTitleTooLong = title.length > MAX_TITLE_LENGTH;
 
     return (
-        <View style={styles.card}>
-            <View style={styles.topBar}>
-                <View style={styles.topLeft}>
-                    {showDate ? (
-                        <Text style={styles.date}>{formatDate(date)}</Text>
-                    ) : (
-                        <Text style={[styles.category, {color: categoryColor}]}>{category}</Text>
-                    )}
+        <TouchableOpacity onPress={() => handleArticlePress()}>
+            <View style={styles.card}>
+                <View style={styles.topBar}>
+                    <View style={styles.topLeft}>
+                        {showDate ? (
+                            <Text style={styles.date}>{formatDate(date)}</Text>
+                        ) : (
+                            <Text
+                                style={[
+                                    styles.category,
+                                    { color: categoryColor },
+                                ]}
+                            >
+                                {category}
+                            </Text>
+                        )}
+                    </View>
+                    <FontAwesome5
+                        name="star"
+                        size={22}
+                        solid={isFavorite}
+                        color={
+                            isFavorite ? theme.colors.blue : theme.colors.blue
+                        }
+                        style={styles.icon}
+                    />
                 </View>
-                <FontAwesome5
-                name="star"
-                size={22}
-                solid={isFavorite}
-                color={isFavorite ? theme.colors.blue : theme.colors.blue}
-                style={styles.icon}
-                />
-            </View>
 
-            <View style={styles.row}>
-                <Image source={{ uri: image }} style={styles.image} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>{truncate(title, MAX_TITLE_LENGTH)}</Text>
-                    {!isTitleTooLong && description && (
-                        <Text style={styles.description}>
-                            {truncate(description, MAX_DESCRIPTION_LENGTH)}
+                <View style={styles.row}>
+                    <Image
+                        source={{ uri: image || defaultMedia }}
+                        style={{
+                            ...styles.image,
+                            resizeMode: image ? "cover" : "contain",
+                        }}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title}>
+                            {truncate(title, MAX_TITLE_LENGTH)}
                         </Text>
-                    )}
+                        {!isTitleTooLong && description && (
+                            <Text style={styles.description}>
+                                {truncate(description, MAX_DESCRIPTION_LENGTH)}
+                            </Text>
+                        )}
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -113,7 +152,7 @@ const styles = StyleSheet.create({
         // color: theme.colors.primary,
         fontSize: theme.fontSizes.small,
         marginBottom: 4,
-        fontFamily: theme.fonts.openSansRegular
+        fontFamily: theme.fonts.openSansRegular,
     },
     date: {
         color: theme.colors.text_dark,
@@ -123,7 +162,7 @@ const styles = StyleSheet.create({
     description: {
         color: theme.colors.text_gray,
         fontSize: theme.fontSizes.small,
-        fontFamily: theme.fonts.openSansRegular
+        fontFamily: theme.fonts.openSansRegular,
     },
     textContainer: {
         flex: 1,

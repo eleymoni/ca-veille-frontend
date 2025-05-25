@@ -32,6 +32,7 @@ import SettingsUserScreen from "./screens/SettingsUserScreen";
 import SettingsAppScreen from "./screens/SettingsAppScreen";
 import ArticleScreen from "./screens/ArticleScreen";
 import OneFollowScreen from "./screens/OneFollowScreen";
+import OnePopularScreen from "./screens/OnePopularScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -151,6 +152,10 @@ export default function App() {
                             <Stack.Screen
                                 name="OneFollowScreen"
                                 component={OneFollowScreen}
+                            />
+                            <Stack.Screen
+                                name="OnePopular"
+                                component={OnePopularScreen}
                             />
                             <Stack.Screen
                                 name="Category"
