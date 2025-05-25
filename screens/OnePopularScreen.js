@@ -28,6 +28,7 @@ export default function OnePopularScreen({ navigation }) {
             date={item.date}
             url={item.url}
             author={item.author}
+            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
             isFavorite={item.isFavorite}
             showDate={true}
         />

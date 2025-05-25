@@ -12,36 +12,6 @@ export default function CategoryScreen({ navigation }) {
 
     const { categoryId, title, color, articles } = route.params;
     const [searchValue, setSearchValue] = useState("");
-    const [veilleData, setVeilleData] = useState([
-        {
-            id: "1",
-            title: "L’intelligence artificielle en 2025",
-            description: "Les tendances IA à suivre absolument cette année.",
-            category: "Tech",
-            date: "2025-09-17T00:00:00.000Z",
-            image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80",
-            isFavorite: true,
-        },
-        {
-            id: "2",
-            title: "Test titre mega looooooooooooooooooooooooong Le retour des crypto-monnaies",
-            description:
-                "Test description plus longue Nouveau bull run? Analyse des signaux.",
-            category: "Finance",
-            date: "2025-07-17T00:00:00.000Z",
-            image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
-            isFavorite: false,
-        },
-        {
-            id: "3",
-            title: "Accessibilité web",
-            description: "Bonnes pratiques pour rendre vos sites inclusifs.",
-            category: "Web",
-            date: "2025-05-17T00:00:00.000Z",
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-            isFavorite: false,
-        },
-    ]);
 
     const filteredData = articles.filter(
         (item) =>
@@ -61,6 +31,7 @@ export default function CategoryScreen({ navigation }) {
             date={item.date}
             url={item.url}
             author={item.author}
+            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
             isFavorite={item.isFavorite}
             showDate={true}
         />
@@ -70,6 +41,7 @@ export default function CategoryScreen({ navigation }) {
         // <SafeAreaView style={styles.container} edges={["top"]}>
         <View style={styles.container}>
             <Header2
+                // voir commment gérer la modification via les 3 points de la catégorie avec categoryId, title et color
                 title={title}
                 colorText={color}
                 onBack={() => navigation.goBack()}

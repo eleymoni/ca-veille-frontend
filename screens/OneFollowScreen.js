@@ -24,6 +24,7 @@ export default function OneFollowScreen({ navigation }) {
             title={item.title}
             description={item.description}
             image={item.image}
+            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
             isFavorite={item.isFavorite}
             showDate={true}
             date={item.date}
@@ -71,5 +72,4 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: theme.colors.bg_White,
     },
-
 });

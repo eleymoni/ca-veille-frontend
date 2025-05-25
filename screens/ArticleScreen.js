@@ -34,14 +34,18 @@ export default function ArticleScreen() {
         date,
         url,
         author,
+        //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
+        isFavorite,
     } = route.params;
-
     // const isFavorite = value.isFavorite || false;
 
     const truncatedCategoryName = truncate(sectionName, 40);
     return (
         <View style={styles.container}>
-            <Header3 onBack={() => navigation.goBack()} />
+            <Header3
+                onBack={() => navigation.goBack()}
+                isFavorite={isFavorite}
+            />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,
