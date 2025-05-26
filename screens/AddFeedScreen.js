@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import ModalAddCategory from "../components/ModalAddCategory";
-import { createFeed } from "../constants/Urls";
+import { createFeed, getCategories } from "../constants/Urls";
 import { useSelector } from "react-redux";
 
 export default function AddFeedScreen() {
@@ -30,6 +30,23 @@ export default function AddFeedScreen() {
 
     const [isFeedCreated, setIsfeedCreated] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const res = await getCategories(user);
+                const cats = user.categories.map((id, i) => ({
+                    _id: id,
+                    name: res.categoriesList[i].name,
+                    color: res.categoriesList[i].color,
+                }));
+                setCategories(cats);
+            } catch (e) {
+                console.error("Failed to load categories", e);
+            }
+        };
+        loadCategories();
+    }, [user.token, user.categories]);
 
     const handleAddFeed = async () => {
         if (inputUrl && selectedCategory) {

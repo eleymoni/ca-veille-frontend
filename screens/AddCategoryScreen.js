@@ -13,16 +13,18 @@ import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import ColorPicker from "react-native-wheel-color-picker";
 import theme from "../core/theme";
 import { createCategory } from "../constants/Urls";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addCategory } from "../reducers/user";
 
 export default function AddCategoryScreen() {
     const navigation = useNavigation();
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState(theme.colors.blue);
     const [textError, setTextError] = useState("");
+    const token = useSelector((state) => state.user.value.token);
+    const dispatch = useDispatch();
 
     const handleAddCategory = async () => {
-        const token = useSelector((state) => state.user.value.token);
         const trimmed = inputCategory.trim();
         if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
         const data = await createCategory(trimmed, inputColor, token);
@@ -31,6 +33,7 @@ export default function AddCategoryScreen() {
             setTextError("");
             setInputCategory("");
             setInputColor(theme.colors.blue);
+            dispatch(addCategory(data.category._id));
         } else {
             setTextError("Cette catégorie existe déjà");
         }
