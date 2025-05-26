@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-export const backendUrl = "http://192.168.0.75:3000";
+export const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgyODMxMCwiZXhwIjoxNzQ5MDM3OTEwfQ.rUCpWVNV5uttkBRmwcIqzmgCGG8zQY9CEm-aBVASnZ8";
 
