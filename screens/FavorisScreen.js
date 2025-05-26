@@ -33,7 +33,6 @@ export default function FavorisScreen() {
             date={item.date}
             url={item.url}
             author={item.author}
-            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
             isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={true}
         />

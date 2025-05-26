@@ -88,7 +88,10 @@ export default function ArticleCard({
                             </Text>
                         )}
                     </View>
-                    <TouchableOpacity onPress={() => handleFavorite()}>
+                    <TouchableOpacity
+                        onPress={() => handleFavorite()}
+                        style={{ paddingVertical: 2, paddingHorizontal: 4 }}
+                    >
                         <FontAwesome5
                             name="star"
                             size={22}

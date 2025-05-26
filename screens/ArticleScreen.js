@@ -10,14 +10,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header3 from "../components/Header3";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import {
-    FontAwesome5,
-    Entypo,
-    Ionicons,
-    FontAwesome,
-} from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function ArticleScreen() {
     //Attention : nouvelle méthode react native : Linking (voir doc)
@@ -36,7 +31,6 @@ export default function ArticleScreen() {
         date,
         url,
         author,
-        //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
         isFavorite,
     } = route.params;
     // const isFavorite = value.isFavorite || false;
