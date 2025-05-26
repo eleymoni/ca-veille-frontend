@@ -8,11 +8,11 @@ import { getPopulars } from "../constants/Urls";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function PopularScreen() {
-    const user = useSelector((state) => state.user.value);
+    const token = useSelector((state) => state.user.value.token);
     const [data, setData] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     useEffect(() => {
-        getPopulars().then((res) => setData(res.users));
+        getPopulars(token).then((res) => setData(res.users));
     }, []);
     return (
         <View style={styles.container}>

@@ -14,6 +14,7 @@ import theme from "../core/theme";
 import { categoriesUniqueFeed } from "../data";
 import ModalAddCategory from "../components/ModalAddCategory";
 import { createFeed } from "../constants/Urls";
+import { useSelector } from "react-redux";
 
 export default function AddFeedScreen() {
     const navigation = useNavigation();
@@ -32,7 +33,8 @@ export default function AddFeedScreen() {
 
     const handleAddFeed = async () => {
         if (inputUrl && selectedCategory) {
-            const data = await createFeed(inputUrl, selectedCategory.id);
+            const token = useSelector((state) => state.user.value.token);
+            const data = await createFeed(inputUrl, selectedCategory.id, token);
             if (data.result) {
                 setSelectedCategory({
                     id: null,
