@@ -3,24 +3,54 @@ import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addUsers } from "../reducers/users";
 
 export default function RegisterScreen({ navigation }) {
+    const dispatch = useDispatch();
+
+    // admin
     const [username, setUsername] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [confirmPassword, setConfirmPassword] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleUsername = (newUsername) => {
-        setUsername(newUsername);
-    };
-    const handleEmail = (newEmail) => {
-        setEmail(newEmail);
-    };
-    const handlePassword = (newPassword) => {
-        setPassword(newPassword);
-    };
-    const handleConfirmPassword = (passwordConfirm) => {
-        setConfirmPassword(passwordConfirm);
+    const handleForm = async () => {
+        const data = {
+            username,
+            email,
+            password,
+        };
+        const postData = await fetch("http://192.168.1.13:3000/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        const status = postData.status;
+        if (status === 400) {
+            return setErrorMessage("Tous les champs sont requis");
+        } else if (password !== confirmPassword) {
+            return setErrorMessage("Les mots de passe ne sont pas identiques");
+        } else if (status === 409) {
+            return setErrorMessage("Cette adresse mail est inutilisable");
+        }
+
+        const response = await postData.json();
+        const user = response.user;
+
+        dispatch(
+            addUsers({
+                username: user.username,
+                token: user.token,
+                categories: user.categories,
+                favoriteArticles: user.favoriteArticles,
+                followedUsers: user.followedUsers,
+                followers: user.followers,
+                isPublic: user.isPublic,
+            })
+        );
+        navigation.navigate("TabNavigator");
     };
 
     // TODO : Connect with Google
@@ -50,17 +80,29 @@ export default function RegisterScreen({ navigation }) {
             <FormField
                 label={"Nom d'utilisateur"}
                 placeHolder={"Entrez votre pseudo"}
+                setInput={setUsername}
+                input={username}
             />
-            <FormField label={"E-mail"} placeHolder={"johndoe@gmail.com"} />
+            <FormField
+                label={"E-mail"}
+                placeHolder={"johndoe@gmail.com"}
+                setInput={setEmail}
+                input={email}
+            />
             <FormFieldWithIcon
                 label={"Mot de passe"}
                 placeHolder={"Entrez votre mot de passe..."}
+                setInput={setPassword}
+                input={password}
             />
             <FormFieldWithIcon
                 label={"Confirmer le mot de passe"}
                 placeHolder={"Confirmez votre mot de passe..."}
+                setInput={setConfirmPassword}
+                input={confirmPassword}
             />
-            <TouchableOpacity onPress={handleRegisterBtn}>
+            {errorMessage && <Text style={styles.danger}>{errorMessage}</Text>}
+            <TouchableOpacity onPress={handleForm}>
                 <Text style={styles.btn}>S'inscrire</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSubscribeBtn}>
@@ -99,5 +141,10 @@ const styles = StyleSheet.create({
     link: {
         fontSize: theme.fontSizes.medium,
         fontWeight: theme.fonts.openSansSemiBold,
+    },
+    danger: {
+        marginTop: 20,
+        textAlign: "center",
+        color: "red",
     },
 });
