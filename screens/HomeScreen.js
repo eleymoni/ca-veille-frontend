@@ -37,7 +37,7 @@ export default function HomeScreen() {
             url={item.url}
             author={item.author}
             //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
-            isFavorite={item.isFavorite}
+            isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={false}
         />
     );

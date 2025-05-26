@@ -1,14 +1,14 @@
-import React from "react";
 import { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import theme from "../core/theme";
 import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
+import { useSelector } from "react-redux";
 
 export default function OneFollowScreen({ navigation }) {
     const route = useRoute();
-
+    const user = useSelector((state) => state.user.value);
     const { userId, username, articles } = route.params;
 
     const [searchValue, setSearchValue] = useState("");
@@ -24,8 +24,7 @@ export default function OneFollowScreen({ navigation }) {
             title={item.title}
             description={item.description}
             image={item.image}
-            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
-            isFavorite={item.isFavorite}
+            isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={true}
             date={item.date}
         />

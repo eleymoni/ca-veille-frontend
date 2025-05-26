@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,10 +5,11 @@ import theme from "../core/theme";
 import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
+import { useSelector } from "react-redux";
 
 export default function CategoryScreen({ navigation }) {
     const route = useRoute();
-
+    const user = useSelector((state) => state.user.value);
     const { categoryId, title, color, articles } = route.params;
     const [searchValue, setSearchValue] = useState("");
 
@@ -31,8 +31,7 @@ export default function CategoryScreen({ navigation }) {
             date={item.date}
             url={item.url}
             author={item.author}
-            //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
-            isFavorite={item.isFavorite}
+            isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={true}
         />
     );

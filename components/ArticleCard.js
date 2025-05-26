@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavoriteArticle } from "../constants/Urls";
+import { toggleFavorite } from "../reducers/user";
 
 export default function ArticleCard({
     _id,
@@ -20,6 +23,8 @@ export default function ArticleCard({
     author,
     sectionId,
 }) {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
     const navigation = useNavigation();
     //fonction pour tronquer le texte où on veut
     function truncate(text, maxLength) {
@@ -54,6 +59,12 @@ export default function ArticleCard({
         });
     };
 
+    const handleFavorite = () => {
+        toggleFavoriteArticle(_id, user.token).then(
+            (res) => res.result && dispatch(toggleFavorite({ articleId: _id }))
+        );
+    };
+
     const MAX_TITLE_LENGTH = 70;
     const MAX_DESCRIPTION_LENGTH = 90;
 
@@ -77,15 +88,22 @@ export default function ArticleCard({
                             </Text>
                         )}
                     </View>
-                    <FontAwesome5
-                        name="star"
-                        size={22}
-                        solid={isFavorite}
-                        color={
-                            isFavorite ? theme.colors.blue : theme.colors.blue
-                        }
-                        style={styles.icon}
-                    />
+                    <TouchableOpacity
+                        onPress={() => handleFavorite()}
+                        style={{ paddingVertical: 2, paddingHorizontal: 4 }}
+                    >
+                        <FontAwesome5
+                            name="star"
+                            size={22}
+                            solid={isFavorite}
+                            color={
+                                isFavorite
+                                    ? theme.colors.blue
+                                    : theme.colors.blue
+                            }
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.row}>
