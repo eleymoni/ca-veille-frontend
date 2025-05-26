@@ -28,10 +28,11 @@ export default function HomeScreen() {
             title={item.title}
             description={item.description}
             image={item.media}
-            category={item.categoryName}
+            category={item.categoryName || item.username}
             username={item.username}
             categoryColor={item.categoryColor}
-            sectionId={item.categoryId || item.userId}
+            categoryId={item.categoryId || item.userId}
+            followedId={item.userId}
             defaultMedia={item.defaultMedia}
             date={item.date}
             url={item.url}

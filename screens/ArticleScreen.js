@@ -100,6 +100,7 @@ export default function ArticleScreen() {
                     </Text>
                     <Text style={styles.articleTitle}>{title}</Text>
                     <Text style={styles.articleDesc}>{description}</Text>
+                    <Text style={styles.date}>auteur : {author}</Text>
                 </View>
 
                 {/* <TouchableOpacity style={styles.similar}>
