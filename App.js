@@ -22,7 +22,7 @@ import CategoriesScreen from "./screens/CategoriesScreen";
 import PopularScreen from "./screens/PopularScreen";
 import FollowedScreen from "./screens/FollowedScreen";
 import FavorisScreen from "./screens/FavorisScreen";
-import LoginScreen from "./screens/LoginScreen";
+
 import RegisterScreen from "./screens/RegisterScreen";
 import CategoryScreen from "./screens/CategoryScreen";
 import AddFeedScreen from "./screens/AddFeedScreen";
@@ -39,9 +39,10 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import users from "./reducers/users";
+import user from "./reducers/users";
+import LoginScreen from "./screens/LoginScreen";
 
-const reducers = combineReducers({ users });
+const reducers = combineReducers({ user });
 const persistConfig = {
     key: "ça veille",
     storage: AsyncStorage,

@@ -9,7 +9,12 @@ import theme from "../core/theme";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 
-export default function FormFieldWithIcon({ label, placeHolder }) {
+export default function FormFieldWithIcon({
+    label,
+    placeHolder,
+    input,
+    setInput,
+}) {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
 
     const toggleSecureTextEntry = () => {
@@ -24,6 +29,8 @@ export default function FormFieldWithIcon({ label, placeHolder }) {
                     placeholder={placeHolder}
                     style={styles.textInput}
                     secureTextEntry={secureTextEntry}
+                    onChangeText={setInput}
+                    value={input}
                 />
                 <TouchableOpacity onPress={toggleSecureTextEntry}>
                     <FontAwesome5

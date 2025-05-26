@@ -2,8 +2,50 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addUsers } from "../reducers/users";
 
-export default function RegisterScreen({ navigation }) {
+export default function LoginScreen({ navigation }) {
+    const dispatch = useDispatch();
+
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleForm = async () => {
+        const data = {
+            email,
+            password,
+        };
+        const postData = await fetch("http://192.168.1.13:3000/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        const status = postData.status;
+        if (status === 400) {
+            return setErrorMessage("Tous les champs sont requis");
+        } else if (status === 401) {
+            return setErrorMessage("Adresse mail ou mot de passe invalide");
+        }
+        const response = await postData.json();
+        const user = response.user;
+
+        dispatch(
+            addUsers({
+                username: user.username,
+                token: user.token,
+                categories: user.categories,
+                favoriteArticles: user.favoriteArticles,
+                followedUsers: user.followedUsers,
+                followers: user.followers,
+                isPublic: user.isPublic,
+            })
+        );
+        navigation.navigate("TabNavigator");
+    };
+
     // TODO : Connect with Google
     const handleConnectBtn = () => {};
 
@@ -30,12 +72,20 @@ export default function RegisterScreen({ navigation }) {
                 />
                 <Text>Se Connecter avec Google</Text>
             </View>
-            <FormField label={"E-mail"} placeHolder={"johndoe@gmail.com"} />
+            <FormField
+                label={"E-mail"}
+                placeHolder={"johndoe@gmail.com"}
+                setInput={setEmail}
+                input={email}
+            />
             <FormFieldWithIcon
                 label={"Mot de passe"}
                 placeHolder={"Entrez votre mot de passe..."}
+                setInput={setPassword}
+                input={password}
             />
-            <TouchableOpacity onPress={handleLoginBtn}>
+            {errorMessage && <Text style={styles.danger}>{errorMessage}</Text>}
+            <TouchableOpacity onPress={handleForm}>
                 <Text style={styles.btn}>Connexion</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSubscribeBtn}>
@@ -86,5 +136,10 @@ const styles = StyleSheet.create({
     link: {
         fontSize: theme.fontSizes.medium,
         fontWeight: theme.fonts.openSansSemiBold,
+    },
+    danger: {
+        marginTop: 20,
+        textAlign: "center",
+        color: "red",
     },
 });

@@ -1,11 +1,16 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import theme from "../core/theme";
 
-export default function FormField({ label, placeHolder }) {
+export default function FormField({ label, placeHolder, input, setInput }) {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
-            <TextInput placeholder={placeHolder} style={styles.textInput} />
+            <TextInput
+                placeholder={placeHolder}
+                style={styles.textInput}
+                onChangeText={setInput}
+                value={input}
+            />
         </View>
     );
 }
