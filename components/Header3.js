@@ -1,52 +1,59 @@
-import React, { useState } from "react";
 import {
     View,
     Text,
     TouchableOpacity,
     StyleSheet,
     Platform,
-    TextInput,
 } from "react-native";
-import { FontAwesome5, Entypo, Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavoriteArticle } from "../constants/Urls";
+import { toggleFavorite } from "../reducers/user";
 
-const Header3 = ({
-    title,  
-    onBack,
-    isFavorite,
-    onToggleFavorite
-}) => {
-
+const Header3 = ({ articleId, title, onBack }) => {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
+    const favorite = user.favoriteArticles.includes(articleId);
     const maxLength = 55;
     const displayTitle =
         title?.length > maxLength
             ? title.substring(0, maxLength) + "..."
             : title;
 
-    return (
-            <SafeAreaView style={styles.headerContainer} edges={["top"]}>
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={onBack}>
-                        <FontAwesome5 name="arrow-left" size={26} color= {theme.colors.text_gray} />
-                    </TouchableOpacity>
-                    <Text style={styles.title}>
-                        {displayTitle}
-                    </Text>
+    const handleFavorite = () => {
+        toggleFavoriteArticle(articleId, user.token).then(
+            (res) => res.result && dispatch(toggleFavorite({ articleId }))
+        );
+    };
 
-                    <TouchableOpacity onPress={onToggleFavorite}>
+    return (
+        <SafeAreaView style={styles.headerContainer} edges={["top"]}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={onBack}>
+                    <FontAwesome5
+                        name="arrow-left"
+                        size={26}
+                        color={theme.colors.text_gray}
+                    />
+                </TouchableOpacity>
+                <Text style={styles.title}>{displayTitle}</Text>
+
+                <TouchableOpacity
+                    onPress={() => handleFavorite()}
+                    style={{ paddingVertical: 2, paddingHorizontal: 3 }}
+                >
                     <FontAwesome5
                         name="star"
                         size={24}
-                        solid={isFavorite}
-                        color={theme.colors.blue}
+                        solid={favorite}
+                        color={favorite ? theme.colors.blue : theme.colors.blue}
                     />
-                    </TouchableOpacity>
-                </View>
-            <View style={styles.shadow} />
-             
-            </SafeAreaView>
-     );
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
+    );
 };
 
 export default Header3;
