@@ -32,8 +32,11 @@ export const userSlice = createSlice({
             state.value.followedUsers = [];
             state.value.isPublic = false;
         },
+        addCategory: (state, action) => {
+            state.value.categories.push(action.payload);
+        },
     },
 });
 
-export const { addUser, logout } = userSlice.actions;
+export const { addUser, logout, addCategory } = userSlice.actions;
 export default userSlice.reducer;
