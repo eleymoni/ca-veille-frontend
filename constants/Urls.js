@@ -85,3 +85,18 @@ export const createFeed = async (url, categoryId, token) => {
     });
     return await response.json();
 };
+
+export const toggleFavoriteArticle = async (url, articleyId, token) => {
+    const response = await fetch(`${backendUrl}/favorites/${articleyId}`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({
+        //     url: url,
+        //     categoryId: categoryId,
+        // }),
+    });
+    return await response.json();
+};

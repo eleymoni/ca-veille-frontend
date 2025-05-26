@@ -52,10 +52,6 @@ export default function LoginScreen({ navigation }) {
     // TODO : Connect with Google
     const handleConnectBtn = () => {};
 
-    const handleLoginBtn = () => {
-        navigation.navigate("TabNavigator");
-    };
-
     const handleSubscribeBtn = () => {
         navigation.navigate("Register");
     };

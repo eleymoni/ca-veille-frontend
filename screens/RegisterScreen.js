@@ -9,7 +9,6 @@ import { addUser } from "../reducers/user";
 export default function RegisterScreen({ navigation }) {
     const dispatch = useDispatch();
 
-    // admin
     const [username, setUsername] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
@@ -22,6 +21,7 @@ export default function RegisterScreen({ navigation }) {
             email,
             password,
         };
+
         const postData = await fetch(
             `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/register`,
             {
@@ -30,7 +30,9 @@ export default function RegisterScreen({ navigation }) {
                 body: JSON.stringify(data),
             }
         );
+
         const status = postData.status;
+
         if (status === 400) {
             return setErrorMessage("Tous les champs sont requis");
         } else if (password !== confirmPassword) {
@@ -58,10 +60,6 @@ export default function RegisterScreen({ navigation }) {
 
     // TODO : Connect with Google
     const handleConnectWithGoogle = () => {};
-
-    const handleRegisterBtn = () => {
-        navigation.navigate("TabNavigator");
-    };
 
     const handleSubscribeBtn = () => {
         navigation.navigate("Login");
