@@ -102,6 +102,9 @@ export default function HomeScreen() {
                     height: "100%",
                 }}
             >
+            {filteredArticles.length === 0 ? (
+                    <Text style={{textAlign: "center", marginTop: 50}}>Aucun article !</Text>
+                ) : (
                 <FlatList
                     data={filteredArticles}
                     renderItem={renderVeilleItem}
@@ -111,6 +114,7 @@ export default function HomeScreen() {
                         paddingVertical: 12,
                     }}
                 />
+                )}
             </View>
         </View>
     );
