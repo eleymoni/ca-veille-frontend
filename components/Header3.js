@@ -41,7 +41,7 @@ const Header3 = ({ articleId, title, onBack }) => {
                 <Text style={styles.title}>{displayTitle}</Text>
 
                 <TouchableOpacity
-                    onPress={handleFavorite}
+                    onPress={() => handleFavorite()}
                     style={{ paddingVertical: 2, paddingHorizontal: 3 }}
                 >
                     <FontAwesome5
