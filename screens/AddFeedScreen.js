@@ -11,15 +11,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import theme from "../core/theme";
-import { categoriesUniqueFeed } from "../data";
 import ModalAddCategory from "../components/ModalAddCategory";
 import { createFeed } from "../constants/Urls";
 import { useSelector } from "react-redux";
 
 export default function AddFeedScreen() {
+    const user = useSelector((state) => state.user.value);
     const navigation = useNavigation();
     // récupération des catégories
-    const [categories, setCategories] = useState(categoriesUniqueFeed || []);
+    const [categories, setCategories] = useState(user.categories || []);
 
     // inputs
     const [inputUrl, setInputUrl] = useState("");
@@ -33,8 +33,11 @@ export default function AddFeedScreen() {
 
     const handleAddFeed = async () => {
         if (inputUrl && selectedCategory) {
-            const token = useSelector((state) => state.user.value.token);
-            const data = await createFeed(inputUrl, selectedCategory.id, token);
+            const data = await createFeed(
+                inputUrl,
+                selectedCategory.id,
+                user.token
+            );
             if (data.result) {
                 setSelectedCategory({
                     id: null,
