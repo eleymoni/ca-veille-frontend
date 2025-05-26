@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
 
 export default function AddCategoryScreen() {
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Header title={"Paramètres utilisateur"} />
             <View
                 style={{
@@ -15,7 +14,7 @@ export default function AddCategoryScreen() {
             >
                 <Text style={styles.text}>Settings User Screen</Text>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

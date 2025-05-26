@@ -13,9 +13,7 @@ export default function CategoriesScreen() {
     const [searchValue, setSearchValue] = useState("");
 
     useEffect(() => {
-        getCategories(user.categories).then((res) =>
-            setData(res.categoriesList)
-        );
+        getCategories(user).then((res) => setData(res.categoriesList));
     }, []);
     return (
         <View style={styles.container}>

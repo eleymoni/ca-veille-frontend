@@ -10,6 +10,7 @@ import {
 import ColorPicker from "react-native-wheel-color-picker";
 import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import theme from "../core/theme";
+import { useSelector } from "react-redux";
 
 export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
     const [inputCategory, setInputCategory] = useState("");
@@ -26,7 +27,8 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
     const handleAddCategory = async () => {
         const trimmed = inputCategory.trim();
         if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
-        const data = await createCategory(trimmed, inputColor);
+        const token = useSelector((state) => state.user.value.token);
+        const data = await createCategory(trimmed, inputColor, token);
 
         if (data.result) {
             onCreate({

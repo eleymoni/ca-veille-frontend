@@ -1,8 +1,4 @@
-import { useSelector } from "react-redux";
-
 export const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
-const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzM0ZjlmMTYxOTAzZWE2YzNkNjBjYyIsImlhdCI6MTc0ODE5MzE4MywiZXhwIjoxNzQ5NDAyNzgzfQ.nrSCG4zYyy_D5tPs7E7D-QFbOvYdEzgKnE7RgOF18kA";
 
 export const GetHomeCategories = async (user) => {
     const newArray = user.categories.join(",");
@@ -19,14 +15,14 @@ export const GetHomeCategories = async (user) => {
     return await response.json();
 };
 
-export const getCategories = async (array) => {
-    const newArray = array.join(",");
+export const getCategories = async (user) => {
+    const newArray = user.categories.join(",");
     const response = await fetch(
         `${backendUrl}/categories/categoriesId?ids=${newArray}`,
         {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${user.token}`,
                 "Content-Type": "application/json",
             },
         }
@@ -34,7 +30,7 @@ export const getCategories = async (array) => {
     return await response.json();
 };
 
-export const getPopulars = async (url) => {
+export const getPopulars = async (token) => {
     const response = await fetch(`${backendUrl}/categories/populars`, {
         method: "GET",
         headers: {
@@ -45,14 +41,14 @@ export const getPopulars = async (url) => {
     return await response.json();
 };
 
-export const getFavoritesArticles = async (array) => {
-    const newArray = array.join(",");
+export const getFavoritesArticles = async (user) => {
+    const newArray = user.articles.join(",");
     const response = await fetch(
         `${backendUrl}/articles/favoritesArticlesId?ids=${newArray}`,
         {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${user.token}`,
                 "Content-Type": "application/json",
             },
         }
@@ -60,7 +56,7 @@ export const getFavoritesArticles = async (array) => {
     return await response.json();
 };
 
-export const createCategory = async (name, color) => {
+export const createCategory = async (name, color, token) => {
     const response = await fetch(`${backendUrl}/categories/newCategory`, {
         method: "POST",
         headers: {
@@ -75,7 +71,7 @@ export const createCategory = async (name, color) => {
     return await response.json();
 };
 
-export const createFeed = async (url, categoryId) => {
+export const createFeed = async (url, categoryId, token) => {
     const response = await fetch(`${backendUrl}/feeds/create`, {
         method: "POST",
         headers: {
@@ -86,6 +82,21 @@ export const createFeed = async (url, categoryId) => {
             url: url,
             categoryId: categoryId,
         }),
+    });
+    return await response.json();
+};
+
+export const toggleFavoriteArticle = async (url, articleyId, token) => {
+    const response = await fetch(`${backendUrl}/favorites/${articleyId}`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({
+        //     url: url,
+        //     categoryId: categoryId,
+        // }),
     });
     return await response.json();
 };

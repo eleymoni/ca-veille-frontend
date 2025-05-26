@@ -13,9 +13,7 @@ export default function FavorisScreen() {
     const [searchValue, setSearchValue] = useState("");
 
     useEffect(() => {
-        getFavoritesArticles(user.articles).then((res) =>
-            setData(res.articles)
-        );
+        getFavoritesArticles(user).then((res) => setData(res.articles));
     }, []);
 
     const filteredData = data?.filter(
