@@ -13,6 +13,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { categoriesUniqueFeed } from "../data";
 import ModalAddCategory from "../components/ModalAddCategory";
+import { createFeed } from "../constants/Urls";
 
 export default function AddFeedScreen() {
     const navigation = useNavigation();
@@ -31,23 +32,7 @@ export default function AddFeedScreen() {
 
     const handleAddFeed = async () => {
         if (inputUrl && selectedCategory) {
-            const response = await fetch(
-                "http://192.168.1.150:3000/feeds/create",
-                {
-                    method: "POST",
-                    headers: {
-                        Authorization:
-                            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgzMjkwOSwiZXhwIjoxNzQ5MDQyNTA5fQ.v7_Ogjn0vViA8TjgZoNYGQFrHxqwR27BJUlrDEandn8",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        url: inputUrl,
-                        categoryId: selectedCategory.id,
-                    }),
-                }
-            );
-            const data = response.json;
-
+            const data = await createFeed(inputUrl, selectedCategory.id);
             if (data.result) {
                 setSelectedCategory({
                     id: null,

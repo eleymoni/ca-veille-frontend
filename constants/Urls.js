@@ -16,9 +16,7 @@ export const GetHomeCategories = async (array) => {
             },
         }
     );
-    const data = await response.json();
-
-    return data;
+    return await response.json();
 };
 
 export const getCategories = async (array) => {
@@ -33,9 +31,7 @@ export const getCategories = async (array) => {
             },
         }
     );
-    const data = await response.json();
-
-    return data;
+    return await response.json();
 };
 
 export const getPopulars = async (url) => {
@@ -46,9 +42,7 @@ export const getPopulars = async (url) => {
             "Content-Type": "application/json",
         },
     });
-    const data = await response.json();
-
-    return data;
+    return await response.json();
 };
 
 export const getFavoritesArticles = async (array) => {
@@ -63,7 +57,35 @@ export const getFavoritesArticles = async (array) => {
             },
         }
     );
-    const data = await response.json();
+    return await response.json();
+};
 
-    return data;
+export const createCategory = async (name, color) => {
+    const response = await fetch(`${backendUrl}/categories/newCategory`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: name,
+            color: color,
+        }),
+    });
+    return await response.json();
+};
+
+export const createFeed = async (url, categoryId) => {
+    const response = await fetch(`${backendUrl}/feeds/create`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            url: url,
+            categoryId: categoryId,
+        }),
+    });
+    return await response.json();
 };

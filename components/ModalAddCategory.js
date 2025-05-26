@@ -26,23 +26,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
     const handleAddCategory = async () => {
         const trimmed = inputCategory.trim();
         if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
-
-        const response = await fetch(
-            "http://192.168.1.150:3000/categories/newCategory",
-            {
-                method: "POST",
-                headers: {
-                    Authorization:
-                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgzMjkwOSwiZXhwIjoxNzQ5MDQyNTA5fQ.v7_Ogjn0vViA8TjgZoNYGQFrHxqwR27BJUlrDEandn8",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: trimmed,
-                    color: inputColor,
-                }),
-            }
-        );
-        const data = await response.json();
+        const data = await createCategory(trimmed, inputColor);
 
         if (data.result) {
             onCreate({
