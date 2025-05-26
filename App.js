@@ -39,12 +39,8 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-<<<<<<< HEAD
 import user from "./reducers/user";
-=======
-import user from "./reducers/users";
 import LoginScreen from "./screens/LoginScreen";
->>>>>>> feature-register
 
 const reducers = combineReducers({ user });
 const persistConfig = {

@@ -4,7 +4,7 @@ import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addUsers } from "../reducers/users";
+import { addUser } from "../reducers/user";
 
 export default function LoginScreen({ navigation }) {
     const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }) {
         const user = response.user;
 
         dispatch(
-            addUsers({
+            addUser({
                 username: user.username,
                 token: user.token,
                 categories: user.categories,

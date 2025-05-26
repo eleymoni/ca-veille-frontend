@@ -2,16 +2,16 @@ import { useSelector } from "react-redux";
 
 export const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmRiZDExNzg2MTIyOTdiOTU4N2NlNSIsImlhdCI6MTc0NzgyODMxMCwiZXhwIjoxNzQ5MDM3OTEwfQ.rUCpWVNV5uttkBRmwcIqzmgCGG8zQY9CEm-aBVASnZ8";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzM0ZjlmMTYxOTAzZWE2YzNkNjBjYyIsImlhdCI6MTc0ODE5MzE4MywiZXhwIjoxNzQ5NDAyNzgzfQ.nrSCG4zYyy_D5tPs7E7D-QFbOvYdEzgKnE7RgOF18kA";
 
-export const GetHomeCategories = async (array) => {
-    const newArray = array.join(",");
+export const GetHomeCategories = async (user) => {
+    const newArray = user.categories.join(",");
     const response = await fetch(
         `${backendUrl}/categories/home?ids=${newArray}`,
         {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${user.token}`,
                 "Content-Type": "application/json",
             },
         }
