@@ -22,11 +22,14 @@ export default function RegisterScreen({ navigation }) {
             email,
             password,
         };
-        const postData = await fetch("http://192.168.1.13:3000/auth/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
+        const postData = await fetch(
+            `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/register`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            }
+        );
         const status = postData.status;
         if (status === 400) {
             return setErrorMessage("Tous les champs sont requis");
