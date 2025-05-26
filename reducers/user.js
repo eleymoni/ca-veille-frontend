@@ -32,8 +32,20 @@ export const userSlice = createSlice({
             state.value.followedUsers = [];
             state.value.isPublic = false;
         },
+        toggleFavorite: (state, action) => {
+            if (
+                state.value.favoriteArticles.includes(action.payload.articleId)
+            ) {
+                state.value.favoriteArticles =
+                    state.value.favoriteArticles.filter(
+                        (id) => id !== action.payload.articleId
+                    );
+            } else {
+                state.value.favoriteArticles.push(action.payload.articleId);
+            }
+        },
     },
 });
 
-export const { addUser, logout } = userSlice.actions;
+export const { addUser, logout, toggleFavorite } = userSlice.actions;
 export default userSlice.reducer;

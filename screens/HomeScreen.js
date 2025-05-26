@@ -2,12 +2,11 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import ArticleCard from "../components/ArticleCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { GetHomeCategories } from "../constants/Urls";
 
 export default function HomeScreen() {
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
     // console.log("Categories =====>>", user.categories);
 
@@ -40,7 +39,7 @@ export default function HomeScreen() {
             url={item.url}
             author={item.author}
             //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
-            isFavorite={item.isFavorite}
+            isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={false}
         />
     );

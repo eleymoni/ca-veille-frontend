@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getFavoritesArticles } from "../constants/Urls";
 import ArticleCard from "../components/ArticleCard";
 
@@ -14,8 +14,7 @@ export default function FavorisScreen() {
 
     useEffect(() => {
         getFavoritesArticles(user).then((res) => setData(res.articles));
-    }, []);
-
+    }, [user]);
     const filteredData = data?.filter(
         (item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -35,7 +34,7 @@ export default function FavorisScreen() {
             url={item.url}
             author={item.author}
             //il faut faire la logique de comparé l'id de l'article aux ids stockés dans le reducers
-            isFavorite={item.isFavorite}
+            isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={true}
         />
     );

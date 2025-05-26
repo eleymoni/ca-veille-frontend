@@ -17,11 +17,13 @@ import {
     FontAwesome,
 } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ArticleScreen() {
     //Attention : nouvelle méthode react native : Linking (voir doc)
     const navigation = useNavigation();
     const route = useRoute();
+    const user = useSelector((state) => state.user.value);
     // articlesId is the id of the all the articles of the category sort by date
     const {
         articleId,
@@ -38,6 +40,11 @@ export default function ArticleScreen() {
         isFavorite,
     } = route.params;
     // const isFavorite = value.isFavorite || false;
+    const handleFavorite = () => {
+        toggleFavoriteArticle(_id, user.token).then(
+            (res) => res.result && dispatch(toggleFavorite({ articleId: _id }))
+        );
+    };
 
     const truncatedCategoryName = truncate(sectionName, 40);
     return (
@@ -45,6 +52,7 @@ export default function ArticleScreen() {
             <Header3
                 onBack={() => navigation.goBack()}
                 isFavorite={isFavorite}
+                articleId={articleId}
             />
             <View
                 style={{
