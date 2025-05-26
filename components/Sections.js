@@ -7,7 +7,7 @@ export default function Sections({ data, searchText, screen }) {
         <ArticlesSection articlesArray={item} screen={screen} />
     );
     // filter the articles in category with the header input
-    const filteredData = data.map((cat) => {
+    const filteredData = data?.map((cat) => {
         return {
             _id: cat._id,
             name: cat.name || cat.username,
@@ -24,7 +24,7 @@ export default function Sections({ data, searchText, screen }) {
         };
     });
     // check if the category has articles
-    const dataWithArticle = filteredData.filter(
+    const dataWithArticle = filteredData?.filter(
         (cat) => cat.articles.length > 0
     );
     return (

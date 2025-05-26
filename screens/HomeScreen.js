@@ -2,18 +2,15 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import ArticleCard from "../components/ArticleCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { GetHomeCategories } from "../constants/Urls";
 
 export default function HomeScreen() {
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
-    // console.log("Categories =====>>", user.categories);
 
     const [searchValue, setSearchValue] = useState("");
     const [data, setData] = useState([]);
-    // console.log("Data =====>>", data);
 
     useEffect(() => {
         GetHomeCategories(user).then((res) => setData(res.articles));
@@ -53,7 +50,7 @@ export default function HomeScreen() {
                     height: "100%",
                 }}
             >
-                {filteredArticles.length === 0 ? (
+                {filteredArticles?.length === 0 ? (
                     <Text style={{ textAlign: "center", marginTop: 50 }}>
                         Aucun article !
                     </Text>
