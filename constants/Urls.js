@@ -42,7 +42,7 @@ export const getPopulars = async (token) => {
 };
 
 export const getFavoritesArticles = async (user) => {
-    const newArray = user.articles.join(",");
+    const newArray = user.favoriteArticles.join(",");
     const response = await fetch(
         `${backendUrl}/articles/favoritesArticlesId?ids=${newArray}`,
         {
@@ -86,17 +86,16 @@ export const createFeed = async (url, categoryId, token) => {
     return await response.json();
 };
 
-export const toggleFavoriteArticle = async (url, articleyId, token) => {
-    const response = await fetch(`${backendUrl}/favorites/${articleyId}`, {
-        method: "PUT",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        // body: JSON.stringify({
-        //     url: url,
-        //     categoryId: categoryId,
-        // }),
-    });
+export const toggleFavoriteArticle = async (articleyId, token) => {
+    const response = await fetch(
+        `${backendUrl}/articles/favorites/${articleyId}`,
+        {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
     return await response.json();
 };
