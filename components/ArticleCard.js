@@ -21,7 +21,8 @@ export default function ArticleCard({
     date,
     url,
     author,
-    sectionId,
+    categoryId,
+    followedId,
 }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);

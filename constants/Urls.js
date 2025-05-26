@@ -1,7 +1,7 @@
 export const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export const GetHomeCategories = async (user) => {
-    const newArray = user.categories.join(",");
+    const newArray = user.followedUsers.join(",");
     const response = await fetch(
         `${backendUrl}/categories/home?ids=${newArray}`,
         {
@@ -19,6 +19,21 @@ export const getCategories = async (user) => {
     const newArray = user.categories.join(",");
     const response = await fetch(
         `${backendUrl}/categories/categoriesId?ids=${newArray}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
+    return await response.json();
+};
+
+export const getFollowedCategories = async (user) => {
+    const newArray = user.followedUsers.join(",");
+    const response = await fetch(
+        `${backendUrl}/categories/usersId?ids=${newArray}`,
         {
             method: "GET",
             headers: {
