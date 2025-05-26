@@ -8,12 +8,14 @@ import {
 import theme from "../core/theme";
 import ArticleSmallCard from "./ArticleSmallCard";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 import truncate from "../utils/truncate";
 
 export default function ArticlesSection({
     articlesArray: categoryObj,
     screen,
 }) {
+    const user = useSelector((state) => state.user.value);
     const navigation = useNavigation();
     const handleCategoryPress = () => {
         // element to sends :
@@ -45,7 +47,7 @@ export default function ArticlesSection({
         // category id, title category, color category. check for the others value to send
         // value.date = value.date.toString();
         navigation.navigate("Article", {
-            _id: value._id,
+            articleId: value._id,
             title: value.title,
             description: value.description,
             sectionName: categoryObj.name,
@@ -53,6 +55,7 @@ export default function ArticlesSection({
             media: value.media,
             defaultMedia: value.defaultMedia,
             date: value.date ? value.date.toString() : undefined,
+            isFavorite: user.favoriteArticles.includes(value._id),
             url: value.url,
             author: value.author,
         });
