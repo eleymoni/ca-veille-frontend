@@ -73,7 +73,7 @@ export const getFavoritesArticles = async (user) => {
 };
 
 export const createDefaultCategories = async (categoriesNames, token) => {
-    const response = await fetch(`${backendUrl}/feeds/create`, {
+    const response = await fetch(`${backendUrl}/categories/default`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
