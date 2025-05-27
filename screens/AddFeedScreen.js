@@ -166,6 +166,7 @@ export default function AddFeedScreen() {
                 modalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onCreate={handleCreateCategory}
+                token={user.token}
             />
             <Text style={{ marginTop: 30, color: "green" }}>
                 {isFeedCreated}
