@@ -102,58 +102,61 @@ export default function AddFeedScreen() {
                 contentContainerStyle={{ paddingVertical: 4 }}
                 showsVerticalScrollIndicator
             >
-                {(categories ?? []).map((category) => (
-                    <TouchableOpacity
-                        key={category._id}
-                        style={[
-                            styles.catItem,
-                            selectedCategory.name === category.name &&
-                                styles.catItemSelected,
-                        ]}
-                        onPress={() =>
-                            setSelectedCategory({
-                                id: category._id,
-                                name: category.name,
-                            })
-                        }
-                    >
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                            }}
+                {(categories ?? [])
+                    .filter((cat) => typeof cat === "object" && cat._id)
+                    .map((category) => (
+                        <TouchableOpacity
+                            key={category._id}
+                            style={[
+                                styles.catItem,
+                                selectedCategory.name === category.name &&
+                                    styles.catItemSelected,
+                            ]}
+                            onPress={() =>
+                                setSelectedCategory({
+                                    id: category._id,
+                                    name: category.name,
+                                })
+                            }
                         >
-                            {/* Pastille couleur */}
                             <View
                                 style={{
-                                    width: 12,
-                                    height: 12,
-                                    borderRadius: 6,
-                                    backgroundColor:
-                                        category.color ||
-                                        theme.colors.icon_gray,
-                                    marginRight: 8,
+                                    flexDirection: "row",
+                                    alignItems: "center",
                                 }}
-                            />
-                            <Text
-                                style={[
-                                    styles.catText,
-                                    selectedCategory.name === category.name &&
-                                        styles.catTextSelected,
-                                ]}
                             >
-                                {category.name}
-                            </Text>
-                        </View>
-                        {selectedCategory.name === category.name && (
-                            <FontAwesome6
-                                name="check"
-                                size={16}
-                                color={"green"}
-                            />
-                        )}
-                    </TouchableOpacity>
-                ))}
+                                {/* Pastille couleur */}
+                                <View
+                                    style={{
+                                        width: 12,
+                                        height: 12,
+                                        borderRadius: 6,
+                                        backgroundColor:
+                                            category.color ||
+                                            theme.colors.icon_gray,
+                                        marginRight: 8,
+                                    }}
+                                />
+                                <Text
+                                    style={[
+                                        styles.catText,
+                                        selectedCategory.name ===
+                                            category.name &&
+                                            styles.catTextSelected,
+                                    ]}
+                                >
+                                    {category.name}
+                                </Text>
+                            </View>
+                            {selectedCategory.name === category.name && (
+                                <FontAwesome6
+                                    name="check"
+                                    size={16}
+                                    color={"green"}
+                                />
+                            )}
+                        </TouchableOpacity>
+                    ))}
             </ScrollView>
             {/* Bouton pour ouvrir la modal */}
             <TouchableOpacity
