@@ -41,6 +41,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import user from "./reducers/user";
 import LoginScreen from "./screens/LoginScreen";
+import AreaOfInterest from "./screens/AreaOfInterestScreen";
 
 const reducers = combineReducers({ user });
 const persistConfig = {
@@ -141,6 +142,10 @@ export default function App() {
                             <Stack.Screen
                                 name="Login"
                                 component={LoginScreen}
+                            />
+                            <Stack.Screen
+                                name="AreaOfInterest"
+                                component={AreaOfInterest}
                             />
                             <Stack.Screen
                                 name="TabNavigator"
