@@ -2,6 +2,7 @@ export const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export const GetHomeCategories = async (user) => {
     const newArray = user.followedUsers.join(",");
+
     const response = await fetch(
         `${backendUrl}/categories/home?ids=${newArray}`,
         {
