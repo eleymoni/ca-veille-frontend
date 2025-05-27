@@ -65,13 +65,16 @@ export default function RegisterScreen({ navigation }) {
                 isPublic: user.isPublic,
             })
         );
-        navigation.navigate("TabNavigator");
+        navigation.reset({
+            index:0, 
+            routes: [{name: "TabNavigator"}]
+        })
     };
 
     // TODO : Connect with Google
     const handleConnectWithGoogle = () => {};
 
-    const handleSubscribeBtn = () => {
+    const handleLoginBtn = () => { //j'ai changé handleRegisterBtn par ce nom
         navigation.navigate("Login");
     };
 
@@ -128,7 +131,7 @@ export default function RegisterScreen({ navigation }) {
                     <TouchableOpacity onPress={handleForm}>
                         <Text style={styles.btn}>S'inscrire</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleSubscribeBtn}>
+                    <TouchableOpacity onPress={handleLoginBtn}>
                         <Text style={styles.link}>
                             Retour à la page de connexion
                         </Text>

@@ -57,7 +57,10 @@ export default function LoginScreen({ navigation }) {
                 isPublic: user.isPublic,
             })
         );
-        navigation.navigate("TabNavigator");
+        navigation.reset({
+            index:0, 
+            routes: [{name: "TabNavigator"}]
+        })
     };
 
     // TODO : Connect with Google
