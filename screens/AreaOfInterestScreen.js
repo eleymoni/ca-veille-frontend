@@ -38,7 +38,7 @@ export default function AreaOfInterest({ navigation }) {
         if (selected) {
             const data = await createDefaultCategories(selected, token);
             if (data.result) {
-                dispatch(setCategories(data.category));
+                dispatch(setCategories(data.categoriesID));
                 navigation.reset({
                     index: 0,
                     routes: [{ name: "TabNavigator" }],
