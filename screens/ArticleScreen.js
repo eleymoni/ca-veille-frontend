@@ -5,6 +5,7 @@ import {
     Image,
     TouchableOpacity,
     Linking,
+    ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
@@ -77,32 +78,36 @@ export default function ArticleScreen() {
                             />
                         </TouchableOpacity>
                     </View>
+                    <ScrollView
+                        style={{ maxHeight: "93%" }}
+                        showsVerticalScrollIndicator={true}
+                    >
+                        {(media || defaultMedia) && (
+                            <Image
+                                source={{ uri: media || defaultMedia }}
+                                style={{
+                                    ...styles.image,
+                                    resizeMode: media ? "cover" : "contain",
+                                }}
+                            />
+                        )}
 
-                    {(media || defaultMedia) && (
-                        <Image
-                            source={{ uri: media || defaultMedia }}
-                            style={{
-                                ...styles.image,
-                                resizeMode: media ? "cover" : "contain",
-                            }}
-                        />
-                    )}
+                        <Text style={styles.date}>
+                            date de l'article :{" "}
+                            {new Date(date).toLocaleDateString("fr-FR", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            })}
+                        </Text>
+                        <Text style={styles.articleTitle}>{title}</Text>
+                        <Text style={styles.articleDesc}>{description}</Text>
 
-                    <Text style={styles.date}>
-                        date de l'article :{" "}
-                        {new Date(date).toLocaleDateString("fr-FR", {
-                            day: "2-digit",
-                            month: "long",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        })}
-                    </Text>
-                    <Text style={styles.articleTitle}>{title}</Text>
-                    <Text style={styles.articleDesc}>{description}</Text>
-                    <Text style={styles.date}>auteur : {author}</Text>
+                        <Text style={styles.date}>auteur : {author}</Text>
+                    </ScrollView>
                 </View>
-
                 {/* <TouchableOpacity style={styles.similar}>
                 <Text style={styles.similarText}>Voir des articles similaires</Text>
             </TouchableOpacity>  A voir à la fin si on laisse */}
@@ -122,7 +127,7 @@ const styles = StyleSheet.create({
         padding: 18,
         marginHorizontal: 10,
         marginVertical: 25,
-        height: "70%",
+        height: "82%",
         width: "95%",
         shadowColor: theme.colors.text_dark,
         shadowOffset: { width: 0, height: 4 },
