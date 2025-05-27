@@ -3,7 +3,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import Sections from "../components/Sections";
-import ArticlesSection from "../components/ArticlesSection";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFollowedCategories } from "../constants/Urls";
@@ -24,7 +23,7 @@ export default function FollowedScreen() {
                 inputValue={searchValue}
                 setInput={setSearchValue}
             />
-            <Sections data={data} searchText={searchValue} screen={"popular"} />
+            <Sections data={data} searchText={searchValue} screen={"followed"} />
         </View>
     );
 }

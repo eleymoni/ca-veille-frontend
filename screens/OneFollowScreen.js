@@ -38,6 +38,8 @@ export default function OneFollowScreen({ navigation }) {
                 onBack={() => navigation.goBack()}
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
+                routeName={route.name}
+                followedUsername={username}
             />
 
             <View style={{ backgroundColor: theme.colors.bg_gray, flex: 1 }}>

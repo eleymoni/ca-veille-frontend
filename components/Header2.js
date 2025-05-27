@@ -12,23 +12,36 @@ import { FontAwesome5, Entypo, Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import truncate from "../utils/truncate";
+import ModalFollow from "./ModalFollow";
+import {useRoute} from "@react-navigation/native"
 
 const Header2 = ({
     title, 
     colorText, 
     onBack, 
-    onTreePoints,
+    routeName,
     searchValue, 
     onChangeSearch,
+    followedUsername, 
     // onSearch mais sert que si on veut rechercher qu'à validation
 }) => {
 
+    const [showModalFollow, setShowModalFollow] = useState(false);
     const displayTitle = truncate(title, 40);
 
     const handleClearSearch = () => {
         onChangeSearch("");
         Keyboard.dismiss();
     };
+
+    const handleModalPress = () => {
+        if (routeName === "OneFollowScreen"){
+            setShowModalFollow(true);
+        } else if (routeName === "Category") {
+            setShowModalCategory(true);
+        }
+    };
+
 
     // const handleSubmitSearch = () => {
     //     onSearch(searchValue);
@@ -45,7 +58,7 @@ const Header2 = ({
                 <Text style={{...styles.title, color: colorText}}>
                     {displayTitle}
                 </Text>
-                <TouchableOpacity onPress={onTreePoints}>                                   
+                <TouchableOpacity onPress={handleModalPress}>                                   
                     <Entypo name="dots-three-vertical" size={26} style={styles.icon} />
                 </TouchableOpacity>
              </View>
@@ -68,6 +81,11 @@ const Header2 = ({
                         </TouchableOpacity>
                     )}
                 </View>
+                    <ModalFollow
+                        menuVisible={showModalFollow}
+                        onClose={() => setShowModalFollow(false)}
+                        username={followedUsername}
+                    />
             </View>
         {/* </View> */}
         </SafeAreaView>
