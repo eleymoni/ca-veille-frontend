@@ -42,6 +42,8 @@ export default function LoginScreen({ navigation }) {
             return setErrorMessage("Tous les champs sont requis");
         } else if (status === 401) {
             return setErrorMessage("Adresse mail ou mot de passe invalide");
+        } else if (status === 422) {
+            return setErrorMessage("Le format de l'adresse mail est invalide");
         }
         const response = await postData.json();
         const user = response.user;
