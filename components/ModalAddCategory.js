@@ -10,12 +10,20 @@ import {
 import ColorPicker from "react-native-wheel-color-picker";
 import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import theme from "../core/theme";
-import { useSelector } from "react-redux";
+import { createCategory } from "../constants/Urls";
+import { useDispatch } from "react-redux";
+import { addCategory } from "../reducers/user";
 
-export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
+export default function ModalAddCategory({
+    modalVisible,
+    onClose,
+    onCreate,
+    token,
+}) {
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState(theme.colors.blue);
     const [textError, setTextError] = useState("");
+    const dispatch = useDispatch();
 
     const handleClose = () => {
         setTextError("");
@@ -27,7 +35,6 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
     const handleAddCategory = async () => {
         const trimmed = inputCategory.trim();
         if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
-        const token = useSelector((state) => state.user.value.token);
         const data = await createCategory(trimmed, inputColor, token);
 
         if (data.result) {
@@ -39,6 +46,7 @@ export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
             setTextError("");
             setInputCategory("");
             setInputColor(theme.colors.blue);
+            dispatch(addCategory(data.category._id));
             onClose();
         } else {
             setTextError("Cette catégorie existe déjà");

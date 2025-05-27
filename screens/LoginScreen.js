@@ -1,4 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    KeyboardAvoidingView,
+    TouchableNativeFeedback,
+    Platform,
+    Keyboard,
+} from "react-native";
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
@@ -26,6 +36,7 @@ export default function LoginScreen({ navigation }) {
                 body: JSON.stringify(data),
             }
         );
+        // Check for response status code
         const status = postData.status;
         if (status === 400) {
             return setErrorMessage("Tous les champs sont requis");
@@ -57,40 +68,51 @@ export default function LoginScreen({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
-            <Image
-                style={{ width: 320, height: 90 }}
-                resizeMode="contain"
-                source={require("../assets/images/logo_light_mode.png")}
-            />
-            <Text style={styles.heading}>Ne cherchez plus, veillez.</Text>
-            <View style={styles.googleConnectionContainer}>
-                <Image
-                    source={require("../assets/logo_google.png")}
-                    style={{ width: 25, height: 45 }}
-                />
-                <Text>Se Connecter avec Google</Text>
-            </View>
-            <FormField
-                label={"E-mail"}
-                placeHolder={"johndoe@gmail.com"}
-                setInput={setEmail}
-                input={email}
-            />
-            <FormFieldWithIcon
-                label={"Mot de passe"}
-                placeHolder={"Entrez votre mot de passe..."}
-                setInput={setPassword}
-                input={password}
-            />
-            {errorMessage && <Text style={styles.danger}>{errorMessage}</Text>}
-            <TouchableOpacity onPress={handleForm}>
-                <Text style={styles.btn}>Connexion</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleSubscribeBtn}>
-                <Text style={styles.link}>S'inscrire</Text>
-            </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <Image
+                        style={{ width: 320, height: 90 }}
+                        resizeMode="contain"
+                        source={require("../assets/images/logo_light_mode.png")}
+                    />
+                    <Text style={styles.heading}>
+                        Ne cherchez plus, veillez.
+                    </Text>
+                    <View style={styles.googleConnectionContainer}>
+                        <Image
+                            source={require("../assets/logo_google.png")}
+                            style={{ width: 25, height: 45 }}
+                        />
+                        <Text>Se Connecter avec Google</Text>
+                    </View>
+                    <FormField
+                        label={"E-mail"}
+                        placeHolder={"johndoe@gmail.com"}
+                        setInput={setEmail}
+                        input={email}
+                    />
+                    <FormFieldWithIcon
+                        label={"Mot de passe"}
+                        placeHolder={"Entrez votre mot de passe..."}
+                        setInput={setPassword}
+                        input={password}
+                    />
+                    {errorMessage && (
+                        <Text style={styles.danger}>{errorMessage}</Text>
+                    )}
+                    <TouchableOpacity onPress={handleForm}>
+                        <Text style={styles.btn}>Connexion</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleSubscribeBtn}>
+                        <Text style={styles.link}>S'inscrire</Text>
+                    </TouchableOpacity>
+                </View>
+            </TouchableNativeFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -102,12 +124,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     heading: {
-        fontSize: 20,
+        fontSize: theme.fontSizes.header,
         textAlign: "center",
         color: theme.colors.text_gray,
         fontFamily: theme.fonts.comfortaaBold,
-        marginTop: 65,
-        marginBottom: 55,
+        marginTop: 25,
+        marginBottom: 60,
     },
     googleConnectionContainer: {
         flexDirection: "row",

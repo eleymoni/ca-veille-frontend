@@ -1,4 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Platform,
+    Keyboard,
+} from "react-native";
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
@@ -66,50 +76,66 @@ export default function RegisterScreen({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
-            <TouchableOpacity
-                onPress={() => navigation.navigate("TabNavigator")}
-            >
-                <Image
-                    style={{ width: 320, height: 90 }}
-                    resizeMode="contain"
-                    source={require("../assets/images/logo_light_mode.png")}
-                />
-            </TouchableOpacity>
-            <Text style={styles.heading}>Ne cherchez plus, veillez.</Text>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("TabNavigator")}
+                    >
+                        <Image
+                            style={{ width: 320, height: 90 }}
+                            resizeMode="contain"
+                            source={require("../assets/images/logo_light_mode.png")}
+                        />
+                    </TouchableOpacity>
 
-            <FormField
-                label={"Nom d'utilisateur"}
-                placeHolder={"Entrez votre pseudo"}
-                setInput={setUsername}
-                input={username}
-            />
-            <FormField
-                label={"E-mail"}
-                placeHolder={"johndoe@gmail.com"}
-                setInput={setEmail}
-                input={email}
-            />
-            <FormFieldWithIcon
-                label={"Mot de passe"}
-                placeHolder={"Entrez votre mot de passe..."}
-                setInput={setPassword}
-                input={password}
-            />
-            <FormFieldWithIcon
-                label={"Confirmer le mot de passe"}
-                placeHolder={"Confirmez votre mot de passe..."}
-                setInput={setConfirmPassword}
-                input={confirmPassword}
-            />
-            {errorMessage && <Text style={styles.danger}>{errorMessage}</Text>}
-            <TouchableOpacity onPress={handleForm}>
-                <Text style={styles.btn}>S'inscrire</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleSubscribeBtn}>
-                <Text style={styles.link}>Retour à la page de connexion</Text>
-            </TouchableOpacity>
-        </View>
+                    <Text style={styles.heading}>
+                        Ne cherchez plus, veillez.
+                    </Text>
+
+                    <FormField
+                        label={"Nom d'utilisateur"}
+                        placeHolder={"Entrez votre pseudo"}
+                        setInput={setUsername}
+                        input={username}
+                    />
+                    <FormField
+                        label={"E-mail"}
+                        placeHolder={"johndoe@gmail.com"}
+                        setInput={setEmail}
+                        input={email}
+                    />
+                    <FormFieldWithIcon
+                        label={"Mot de passe"}
+                        placeHolder={"Entrez votre mot de passe..."}
+                        setInput={setPassword}
+                        input={password}
+                    />
+                    <FormFieldWithIcon
+                        label={"Confirmer le mot de passe"}
+                        placeHolder={"Confirmez votre mot de passe..."}
+                        setInput={setConfirmPassword}
+                        input={confirmPassword}
+                    />
+
+                    {errorMessage && (
+                        <Text style={styles.danger}>{errorMessage}</Text>
+                    )}
+
+                    <TouchableOpacity onPress={handleForm}>
+                        <Text style={styles.btn}>S'inscrire</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleSubscribeBtn}>
+                        <Text style={styles.link}>
+                            Retour à la page de connexion
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -121,13 +147,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     heading: {
-        fontSize: 20,
+        fontSize: theme.fontSizes.header,
         textAlign: "center",
         color: theme.colors.text_gray,
         fontFamily: theme.fonts.comfortaaBold,
-        marginTop: 65,
-        marginBottom: 55,
+        marginTop: 25,
+        marginBottom: 60,
     },
+    form: {},
     btn: {
         color: "#fff",
         backgroundColor: theme.colors.blue,
