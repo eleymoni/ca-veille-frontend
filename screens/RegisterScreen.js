@@ -49,6 +49,8 @@ export default function RegisterScreen({ navigation }) {
             return setErrorMessage("Les mots de passe ne sont pas identiques");
         } else if (status === 409) {
             return setErrorMessage("Cette adresse mail est inutilisable");
+        } else if (status === 422) {
+            return setErrorMessage("Le format de l'adresse mail est invalide");
         }
 
         const response = await postData.json();
