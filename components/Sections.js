@@ -31,7 +31,7 @@ export default function Sections({ data, searchText, screen }) {
         <View
             style={{
                 backgroundColor: theme.colors.bg_gray,
-                height: "100%",
+                flex: 1,
             }}
         >
             <FlatList
