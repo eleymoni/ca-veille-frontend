@@ -12,26 +12,21 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "../reducers/user";
 import { createDefaultCategories } from "../constants/Urls";
+import { categoryImages } from "../constants/categoryImages";
 
 const defaultCategories = [
-    { name: "tech", image: require("../assets/images/logo_light_mode.png") },
-    { name: "movies", image: require("../assets/images/logo_light_mode.png") },
-    { name: "news", image: require("../assets/images/logo_light_mode.png") },
-    { name: "sports", image: require("../assets/images/logo_light_mode.png") },
-    { name: "cooking", image: require("../assets/images/logo_light_mode.png") },
-    { name: "science", image: require("../assets/images/logo_light_mode.png") },
-    { name: "health", image: require("../assets/images/logo_light_mode.png") },
-    {
-        name: "videoGames",
-        image: require("../assets/images/logo_light_mode.png"),
-    },
-    { name: "music", image: require("../assets/images/logo_light_mode.png") },
-    { name: "design", image: require("../assets/images/logo_light_mode.png") },
-    {
-        name: "performance",
-        image: require("../assets/images/logo_light_mode.png"),
-    },
-    { name: "economy", image: require("../assets/images/logo_light_mode.png") },
+    { id: "tech", name: "tech" },
+    { id: "movies", name: "cinema" },
+    { id: "news", name: "news" },
+    { id: "sports", name: "sport" },
+    { id: "cooking", name: "cuisine" },
+    { id: "science", name: "science" },
+    { id: "health", name: "sante" },
+    { id: "videoGames", name: "jeux vidéo" },
+    { id: "music", name: "music" },
+    { id: "design", name: "design" },
+    { id: "performance", name: "spectacle" },
+    { id: "economy", name: "économie" },
 ];
 
 export default function AreaOfInterest({ navigation }) {
@@ -66,19 +61,20 @@ export default function AreaOfInterest({ navigation }) {
             <Text style={styles.title}>Quels sont vos centres d'intérêt ?</Text>
             <View style={styles.categoriesContainer}>
                 {defaultCategories.map((category) => {
-                    const isSelected = selected.includes(category.name);
+                    const isSelected = selected.includes(category.id);
                     return (
                         <TouchableOpacity
-                            key={category.name}
-                            onPress={() => toggle(category.name)}
+                            key={category.id}
+                            onPress={() => toggle(category.id)}
                             style={[
                                 styles.categoryCard,
                                 isSelected && styles.categoryCardSelected,
                             ]}
                         >
                             <ImageBackground
-                                source={category.image}
+                                source={categoryImages[category.id]}
                                 style={styles.categoryImage}
+                                imageStyle={{ borderRadius: 12 }}
                                 resizeMode="cover"
                             >
                                 <View style={styles.overlay} />
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
     overlay: {
         ...StyleSheet.absoluteFillObject,
         borderRadius: 12,
-        backgroundColor: "rgba(0,0,0,0.4)",
+        backgroundColor: "rgba(0,0,0,0.5)",
     },
     categoryName: {
         position: "absolute",
