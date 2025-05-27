@@ -22,7 +22,7 @@ const defaultCategories = [
     { name: "science", image: require("../assets/images/logo_light_mode.png") },
     { name: "health", image: require("../assets/images/logo_light_mode.png") },
     {
-        name: "video Games",
+        name: "videoGames",
         image: require("../assets/images/logo_light_mode.png"),
     },
     { name: "music", image: require("../assets/images/logo_light_mode.png") },
