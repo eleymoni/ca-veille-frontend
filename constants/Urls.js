@@ -72,6 +72,20 @@ export const getFavoritesArticles = async (user) => {
     return await response.json();
 };
 
+export const createDefaultCategories = async (categoriesNames, token) => {
+    const response = await fetch(`${backendUrl}/categories/default`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            categoriesNames: categoriesNames,
+        }),
+    });
+    return await response.json();
+};
+
 export const createCategory = async (name, color, token) => {
     const response = await fetch(`${backendUrl}/categories/newCategory`, {
         method: "POST",

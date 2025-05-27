@@ -44,12 +44,15 @@ export const userSlice = createSlice({
                 state.value.favoriteArticles.push(action.payload.articleId);
             }
         },
+        setCategories: (state, action) => {
+            state.value.categories = action.payload;
+        },
         addCategory: (state, action) => {
             state.value.categories.push(action.payload);
         },
     },
 });
 
-export const { addUser, logout, toggleFavorite, addCategory } =
+export const { addUser, logout, toggleFavorite, setCategories, addCategory } =
     userSlice.actions;
 export default userSlice.reducer;

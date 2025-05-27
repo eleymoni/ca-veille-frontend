@@ -68,15 +68,16 @@ export default function RegisterScreen({ navigation }) {
             })
         );
         navigation.reset({
-            index:0, 
-            routes: [{name: "TabNavigator"}]
-        })
+            index: 0,
+            routes: [{ name: "AreaOfInterest" }],
+        });
     };
 
     // TODO : Connect with Google
     const handleConnectWithGoogle = () => {};
 
-    const handleLoginBtn = () => { //j'ai changé handleRegisterBtn par ce nom
+    const handleLoginBtn = () => {
+        //j'ai changé handleRegisterBtn par ce nom
         navigation.navigate("Login");
     };
 
