@@ -31,7 +31,7 @@ export default function HomeScreen() {
             category={item.categoryName || item.username}
             username={item.username}
             categoryColor={item.categoryColor}
-            categoryId={item.categoryId || item.userId}
+            categoryId={item.categoryId}
             followedId={item.userId}
             defaultMedia={item.defaultMedia}
             date={item.date}
