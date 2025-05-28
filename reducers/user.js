@@ -53,6 +53,11 @@ export const userSlice = createSlice({
         addCategory: (state, action) => {
             state.value.categories.push(action.payload);
         },
+        deletCategory: (state, action) => {
+            state.value.categories = state.value.categories.filter(
+                (id) => id !== action.payload
+            );
+        },
         unfollowUser: (state, action) => {
             state.value.followedUsers = state.value.followedUsers.filter(
                 (id) => id !== action.payload.userId
@@ -69,5 +74,6 @@ export const {
     setCategories,
     addCategory,
     unfollowUser,
+    deletCategory,
 } = userSlice.actions;
 export default userSlice.reducer;

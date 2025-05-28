@@ -3,20 +3,22 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    TextInput,
-    ScrollView,
     FlatList,
-    Modal,
+    Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
-import DefaultButton from "../components/DefaultButton";
 import theme from "../core/theme";
 import ModalModifyCategory from "../components/ModalModifyCategory";
-import { getCategories, updateCategory } from "../constants/Urls";
+import {
+    getCategories,
+    updateCategory,
+    deleteCategory,
+} from "../constants/Urls";
+import { deletCategory } from "../reducers/user";
 
 export default function ManageCategoriesScreen() {
     const [data, setData] = useState([]);
@@ -40,25 +42,61 @@ export default function ManageCategoriesScreen() {
         );
     }, []);
 
-    const handleCategoriesUpdate = (itemColor, itemName, itemId) => {
+    const handleCategoriesUpdate = async (itemColor, itemName, itemId) => {
         let valid = false;
-        const updated = data.map(async (item) => {
-            if (item._id === itemId) {
-                await updateCategory(
-                    itemName,
-                    itemColor,
-                    itemId,
-                    user.token
-                ).then((res) => (valid = res.result));
-                return {
-                    ...item,
-                    name: itemName,
-                    color: itemColor,
-                };
-            }
-            return item;
-        });
-        valid && setData(updated);
+        const updated = await Promise.all(
+            data.map(async (item) => {
+                if (item._id === itemId) {
+                    const res = await updateCategory(
+                        itemName,
+                        itemColor,
+                        itemId,
+                        user.token
+                    );
+                    valid = res.result;
+                    return {
+                        ...item,
+                        name: itemName,
+                        color: itemColor,
+                    };
+                }
+                return item;
+            })
+        );
+
+        if (valid) {
+            setData(updated);
+        }
+        return valid;
+    };
+
+    const handelDeleteCategory = (name, id) => {
+        Alert.alert(
+            "Confirmation",
+            `Voulez-vous supprimer la catégorie ${name} ?`,
+            [
+                {
+                    text: "Annuler",
+                },
+                {
+                    text: "Supprimer",
+                    style: "destructive",
+                    onPress: async () => {
+                        const res = await deleteCategory(id, user.token);
+                        if (res.result) {
+                            dispatch(deletCategory(id));
+                            setData((OldValue) =>
+                                OldValue.filter((item) => item._id !== id)
+                            );
+                        } else {
+                            alert(
+                                "Erreur lors de la suppression de la catégorie"
+                            );
+                        }
+                    },
+                },
+            ]
+        );
     };
 
     const renderCategory = ({ item }) => {
@@ -69,6 +107,7 @@ export default function ManageCategoriesScreen() {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        maxWidth: "100%",
                     }}
                 >
                     <TouchableOpacity
@@ -104,6 +143,9 @@ export default function ManageCategoriesScreen() {
                                 name="trash"
                                 size={18}
                                 color={theme.colors.icon_red}
+                                onPress={() =>
+                                    handelDeleteCategory(item.name, item._id)
+                                }
                             />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.iconButton}>
@@ -172,6 +214,7 @@ const styles = StyleSheet.create({
     itemText: {
         fontFamily: theme.fonts.openSansSemiBold,
         fontSize: theme.fontSizes.medium,
+        maxWidth: 260,
     },
     iconButton: {
         marginLeft: 25,
