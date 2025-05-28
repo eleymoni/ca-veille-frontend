@@ -42,6 +42,17 @@ export const getEmail = async (token) => {
     return await response.json();
 };
 
+export const toggleIsPublic = async (token) => {
+    const response = await fetch(`${backendUrl}/users/isPublic`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
 export const getFollowedCategories = async (user) => {
     const newArray = user.followedUsers.join(",");
     const response = await fetch(

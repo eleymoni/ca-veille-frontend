@@ -44,6 +44,9 @@ export const userSlice = createSlice({
                 state.value.favoriteArticles.push(action.payload.articleId);
             }
         },
+        toggleIsPublicReducer: (state, action) => {
+            state.value.isPublic = action.payload;
+        },
         setCategories: (state, action) => {
             state.value.categories = action.payload;
         },
@@ -58,6 +61,13 @@ export const userSlice = createSlice({
     },
 });
 
-export const { addUser, logout, toggleFavorite, setCategories, addCategory, unfollowUser } =
-    userSlice.actions;
+export const {
+    addUser,
+    logout,
+    toggleFavorite,
+    toggleIsPublicReducer,
+    setCategories,
+    addCategory,
+    unfollowUser,
+} = userSlice.actions;
 export default userSlice.reducer;

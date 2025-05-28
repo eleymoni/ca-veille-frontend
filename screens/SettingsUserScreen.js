@@ -1,19 +1,27 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    Alert,
+    Switch,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
-import { logout } from "../reducers/user";
+import { logout, toggleIsPublicReducer } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { deleteUser, getEmail } from "../constants/Urls";
+import { deleteUser, getEmail, toggleIsPublic } from "../constants/Urls";
 
 export default function SettingsUserScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const user = useSelector((state) => state.user.value);
     const [email, setEmail] = useState("");
+    const [isPublic, setIsPublic] = useState(user.isPublic);
 
     useEffect(() => {
         const fetchEmail = async () => {
@@ -29,6 +37,15 @@ export default function SettingsUserScreen() {
 
         fetchEmail();
     }, [user.token]);
+
+    const toggleSwitch = async () => {
+        try {
+            setIsPublic(await toggleIsPublic(user.token));
+            dispatch(toggleIsPublicReducer(!isPublic));
+        } catch (error) {
+            console.error("Erreur mise à jour visibilité :", error);
+        }
+    };
 
     const handleDisconnect = () => {
         Alert.alert(
@@ -103,6 +120,17 @@ export default function SettingsUserScreen() {
                     <Text style={styles.text}>Nom : {user.username}</Text>
                     <Text style={styles.text}>Email : {email}</Text>
                 </View>
+                <View style={styles.switchContainer}>
+                    <Text style={styles.text}>Profil public</Text>
+                    <Switch
+                        thumbColor={
+                            isPublic ? theme.colors.blue : theme.colors.bg_gray
+                        }
+                        ios_backgroundColor={theme.colors.gray_light}
+                        onValueChange={toggleSwitch}
+                        value={isPublic}
+                    />
+                </View>
                 <TouchableOpacity onPress={handleDisconnect}>
                     <Text style={[styles.text, styles.redText]}>
                         Se déconnecter
@@ -143,5 +171,9 @@ const styles = StyleSheet.create({
     redText: {
         fontFamily: theme.fonts.comfortaaBold,
         color: theme.colors.red,
+    },
+    switchContainer: {
+        flexDirection: "row",
+        alignItems: "center",
     },
 });
