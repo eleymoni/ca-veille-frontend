@@ -31,6 +31,17 @@ export const getCategories = async (user) => {
     return await response.json();
 };
 
+export const getEmail = async (token) => {
+    const response = await fetch(`${backendUrl}/users/email`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
 export const getFollowedCategories = async (user) => {
     const newArray = user.followedUsers.join(",");
     const response = await fetch(
