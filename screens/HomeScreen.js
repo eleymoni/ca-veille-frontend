@@ -14,7 +14,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         GetHomeCategories(user).then((res) => setData(res.articles));
-    }, []);
+    }, [user]);
 
     const filteredArticles = data?.filter(
         (item) =>
