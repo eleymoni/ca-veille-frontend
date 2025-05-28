@@ -1,20 +1,14 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
-import Header from "../components/Header";
 
-export default function AddCategoryScreen() {
+export default function SettingsUserScreen() {
     return (
-        <View style={styles.container}>
-            <Header title={"Paramètres utilisateur"} />
-            <View
-                style={{
-                    backgroundColor: theme.colors.bg_gray,
-                    height: "100%",
-                }}
-            >
-                <Text style={styles.text}>Settings User Screen</Text>
-            </View>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <NavigationBackArrow />
+            <Text>SettingsUserScreen</Text>
+        </SafeAreaView>
     );
 }
 
@@ -22,5 +16,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.bg_White,
+        paddingHorizontal: 32,
     },
 });

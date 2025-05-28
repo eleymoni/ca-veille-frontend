@@ -7,17 +7,16 @@ import {
     StyleSheet,
     ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { FontAwesome6 } from "@expo/vector-icons";
-import theme from "../core/theme";
-import ModalAddCategory from "../components/ModalAddCategory";
-import { createFeed, getCategories } from "../constants/Urls";
 import { useSelector } from "react-redux";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { createFeed, getCategories } from "../constants/Urls";
+import ModalAddCategory from "../components/ModalAddCategory";
+import NavigationBackArrow from "../components/NavigationBackArrow";
+import theme from "../core/theme";
 
 export default function AddFeedScreen() {
     const user = useSelector((state) => state.user.value);
-    const navigation = useNavigation();
     // récupération des catégories
     const [categories, setCategories] = useState(user.categories || []);
 
@@ -74,17 +73,7 @@ export default function AddFeedScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Retour */}
-            <TouchableOpacity
-                style={styles.back}
-                onPress={() => navigation.goBack()}
-            >
-                <FontAwesome6
-                    name="arrow-left"
-                    size={28}
-                    color={theme.colors.icon_gray}
-                />
-            </TouchableOpacity>
+            <NavigationBackArrow />
             <Text style={styles.label}>Entrer l'URL du site web</Text>
             <TextInput
                 style={styles.input}
@@ -186,12 +175,9 @@ export default function AddFeedScreen() {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        backgroundColor: theme.colors.bg_White,
         paddingHorizontal: 32,
-    },
-    back: {
-        padding: 10,
-        paddingLeft: 0,
-        marginVertical: 15,
     },
     label: {
         fontFamily: theme.fonts.openSansRegular,
