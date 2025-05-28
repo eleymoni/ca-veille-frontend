@@ -31,6 +31,28 @@ export const getCategories = async (user) => {
     return await response.json();
 };
 
+export const getEmail = async (token) => {
+    const response = await fetch(`${backendUrl}/users/email`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
+export const toggleIsPublic = async (token) => {
+    const response = await fetch(`${backendUrl}/users/isPublic`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
 export const getFollowedCategories = async (user) => {
     const newArray = user.followedUsers.join(",");
     const response = await fetch(
@@ -121,6 +143,31 @@ export const toggleFavoriteArticle = async (articleyId, token) => {
         `${backendUrl}/articles/favorites/${articleyId}`,
         {
             method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
+    return await response.json();
+};
+
+export const deleteUser = async (token) => {
+    const response = await fetch(`${backendUrl}/users`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
+export const deleteFollowedUser = async (followedUserId, token) => {
+    const response = await fetch(
+        `${backendUrl}/users/followed/${followedUserId}`,
+        {
+            method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",

@@ -44,15 +44,30 @@ export const userSlice = createSlice({
                 state.value.favoriteArticles.push(action.payload.articleId);
             }
         },
+        toggleIsPublicReducer: (state, action) => {
+            state.value.isPublic = action.payload;
+        },
         setCategories: (state, action) => {
             state.value.categories = action.payload;
         },
         addCategory: (state, action) => {
             state.value.categories.push(action.payload);
         },
+        unfollowUser: (state, action) => {
+            state.value.followedUsers = state.value.followedUsers.filter(
+                (id) => id !== action.payload.userId
+            );
+        },
     },
 });
 
-export const { addUser, logout, toggleFavorite, setCategories, addCategory } =
-    userSlice.actions;
+export const {
+    addUser,
+    logout,
+    toggleFavorite,
+    toggleIsPublicReducer,
+    setCategories,
+    addCategory,
+    unfollowUser,
+} = userSlice.actions;
 export default userSlice.reducer;

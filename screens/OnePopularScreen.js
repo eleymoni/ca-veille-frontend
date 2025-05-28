@@ -42,6 +42,8 @@ export default function OnePopularScreen({ navigation }) {
                 onBack={() => navigation.goBack()}
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
+                routeName={route.name}
+                popularUser={username}
             />
 
             <View style={{ backgroundColor: theme.colors.bg_gray, flex: 1 }}>

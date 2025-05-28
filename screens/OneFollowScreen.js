@@ -40,6 +40,8 @@ export default function OneFollowScreen({ navigation }) {
                 onChangeSearch={setSearchValue}
                 routeName={route.name}
                 followedUsername={username}
+                followedUserId={userId}
+                token={user.token}
             />
 
             <View style={{ backgroundColor: theme.colors.bg_gray, flex: 1 }}>
