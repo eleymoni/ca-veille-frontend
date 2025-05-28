@@ -86,15 +86,26 @@ export default function AreaOfInterest({ navigation }) {
                     );
                 })}
             </View>
-            <TouchableOpacity style={styles.button} onPress={handlepress}>
+            <TouchableOpacity
+                style={[
+                    styles.button,
+                    selected.length === 0 && styles.disabledButton,
+                ]}
+                onPress={handlepress}
+                disabled={selected.length === 0}
+            >
                 <Text style={styles.textButton}>
-                    {selected.length === 0 ? "Ignorer" : "Continuer"}
+                    {selected.length === 0
+                        ? "Aucune catégorie sélectionnée"
+                        : "Continuer"}
                 </Text>
-                <FontAwesome6
-                    name="arrow-right"
-                    size={18}
-                    color={theme.colors.text_light}
-                />
+                {selected.length !== 0 && (
+                    <FontAwesome6
+                        name="arrow-right"
+                        size={18}
+                        color={theme.colors.text_light}
+                    />
+                )}
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -151,12 +162,15 @@ const styles = StyleSheet.create({
     button: {
         padding: 20,
         backgroundColor: theme.colors.blue,
-        borderRadius: 30,
+        borderRadius: 100,
         alignSelf: "flex-end",
         marginTop: "auto",
         flexDirection: "row",
         alignItems: "center",
         gap: 15,
+    },
+    disabledButton: {
+        backgroundColor: theme.colors.icon_gray,
     },
     textButton: {
         color: theme.colors.text_light,
