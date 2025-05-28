@@ -13,7 +13,6 @@ import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import truncate from "../utils/truncate";
 import ModalFollow from "./ModalFollow";
-import {useRoute} from "@react-navigation/native"
 
 const Header2 = ({
     title, 
@@ -23,7 +22,8 @@ const Header2 = ({
     searchValue, 
     onChangeSearch,
     followedUsername, 
-    // onSearch mais sert que si on veut rechercher qu'à validation
+    followedUserId,
+    token,
 }) => {
 
     const [showModalFollow, setShowModalFollow] = useState(false);
@@ -39,6 +39,8 @@ const Header2 = ({
             setShowModalFollow(true);
         } else if (routeName === "Category") {
             setShowModalCategory(true);
+        } else if (routeName === "OnePopular") {
+            setShowModalFollow(true);
         }
     };
 
@@ -85,6 +87,8 @@ const Header2 = ({
                         menuVisible={showModalFollow}
                         onClose={() => setShowModalFollow(false)}
                         username={followedUsername}
+                        followedUserId={followedUserId}
+                        token={token}
                     />
             </View>
         {/* </View> */}

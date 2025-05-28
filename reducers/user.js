@@ -50,9 +50,14 @@ export const userSlice = createSlice({
         addCategory: (state, action) => {
             state.value.categories.push(action.payload);
         },
+        unfollowUser: (state, action) => {
+            state.value.followedUsers = state.value.followedUsers.filter(
+                (id) => id !== action.payload.userId
+            );
+        },
     },
 });
 
-export const { addUser, logout, toggleFavorite, setCategories, addCategory } =
+export const { addUser, logout, toggleFavorite, setCategories, addCategory, unfollowUser } =
     userSlice.actions;
 export default userSlice.reducer;
