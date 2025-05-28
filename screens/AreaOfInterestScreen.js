@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "../reducers/user";
 import { createDefaultCategories } from "../constants/Urls";
-import { categoryImages } from "../constants/categoryImages";
+import { categoriesImage } from "../constants/categoriesImage";
 
 const defaultCategories = [
     { id: "tech", name: "tech" },
@@ -72,7 +72,7 @@ export default function AreaOfInterest({ navigation }) {
                             ]}
                         >
                             <ImageBackground
-                                source={categoryImages[category.id]}
+                                source={categoriesImage[category.id]}
                                 style={styles.categoryImage}
                                 imageStyle={{ borderRadius: 12 }}
                                 resizeMode="cover"

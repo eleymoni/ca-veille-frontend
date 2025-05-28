@@ -1,4 +1,4 @@
-export const categoryImages = {
+export const categoriesImage = {
     tech: require("../assets/images/categoriesImages/tech.png"),
     movies: require("../assets/images/categoriesImages/cinema.png"),
     news: require("../assets/images/categoriesImages/news.png"),
