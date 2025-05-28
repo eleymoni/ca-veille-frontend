@@ -129,3 +129,20 @@ export const toggleFavoriteArticle = async (articleyId, token) => {
     );
     return await response.json();
 };
+
+export const updateCategory = async (name, color, categoryId, token) => {
+    const response = await fetch(`${backendUrl}/categories/update`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            categoryId,
+            color,
+            name,
+        }),
+    });
+    response.json().then((data) => console.log(data));
+    return await response.json();
+};
