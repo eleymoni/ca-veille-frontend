@@ -3,13 +3,26 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import theme from "../core/theme";
+import { deleteFollowedUser } from "../constants/Urls";
+import { useDispatch } from "react-redux";
+import { unfollowUser } from "../reducers/user";
 
-export default function ModalFollow({ menuVisible, onClose, username }) {
+export default function ModalFollow({ menuVisible, onClose, username, followedUserId, token }) {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
-    const handlePress = () => {
-        onClose();
-        // navigation.navigate(screenName);
+    const handlePress = async () => {
+        const res = await deleteFollowedUser(followedUserId, token);
+
+        if (res.result) {
+            dispatch(unfollowUser({userId: followedUserId}));
+            onClose();
+            navigation.navigate("Abonnements");
+
+        } else {
+            alert("Error while deleting")
+        }
+
     };
 
     return (
