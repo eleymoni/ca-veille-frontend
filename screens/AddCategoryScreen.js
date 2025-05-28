@@ -6,18 +6,16 @@ import {
     TextInput,
 } from "react-native";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { getContrastingTextColor } from "../utils/InverseColorUtils";
-import ColorPicker from "react-native-wheel-color-picker";
-import theme from "../core/theme";
-import { createCategory } from "../constants/Urls";
 import { useDispatch, useSelector } from "react-redux";
+import { SafeAreaView } from "react-native-safe-area-context";
+import ColorPicker from "react-native-wheel-color-picker";
+import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import { addCategory } from "../reducers/user";
+import { createCategory } from "../constants/Urls";
+import NavigationBackArrow from "../components/NavigationBackArrow";
+import theme from "../core/theme";
 
 export default function AddCategoryScreen() {
-    const navigation = useNavigation();
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState(theme.colors.blue);
     const [textError, setTextError] = useState("");
@@ -41,17 +39,7 @@ export default function AddCategoryScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Retour */}
-            <TouchableOpacity
-                style={styles.back}
-                onPress={() => navigation.goBack()}
-            >
-                <FontAwesome6
-                    name="arrow-left"
-                    size={28}
-                    color={theme.colors.icon_gray}
-                />
-            </TouchableOpacity>
+            <NavigationBackArrow />
             <Text style={styles.title}>Nouvelle catégorie</Text>
 
             {/* Nom de la catégorie */}
@@ -100,12 +88,9 @@ export default function AddCategoryScreen() {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        backgroundColor: theme.colors.bg_White,
         paddingHorizontal: 32,
-    },
-    back: {
-        padding: 10,
-        paddingLeft: 0,
-        marginVertical: 15,
     },
     title: {
         fontSize: theme.fontSizes.large,
@@ -138,7 +123,7 @@ const styles = StyleSheet.create({
         width: "50%",
         paddingVertical: 16,
         paddingHorizontal: 16,
-        borderRadius: 8,
+        borderRadius: 100,
     },
     buttonText: {
         textAlign: "center",
