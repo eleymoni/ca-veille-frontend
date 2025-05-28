@@ -39,6 +39,8 @@ const Header2 = ({
             setShowModalFollow(true);
         } else if (routeName === "Category") {
             setShowModalCategory(true);
+        } else if (routeName === "OnePopular") {
+            setShowModalFollow(true);
         }
     };
 

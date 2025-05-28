@@ -39,6 +39,19 @@ export default function ModalFollow({ menuVisible, onClose, username, followedUs
         );
     };
 
+    // const handleUnfollowPress = async () => {
+    //     const res = await deleteFollowedUser(followedUserId, token);
+                
+    //         if (res.result) {
+    //             dispatch(unfollowUser({userId: followedUserId}));
+    //             onClose();
+    //             navigation.navigate("Abonnements");
+    
+    //         } else {
+    //             alert("Erreur lors de la suppression de l'abonnement")
+    //         }
+    // }
+
     return (
         <Modal
             isVisible={menuVisible}
