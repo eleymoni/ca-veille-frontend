@@ -77,7 +77,7 @@ export default function AddFeedScreen() {
             <Text style={styles.label}>Entrer l'URL du site web</Text>
             <TextInput
                 style={styles.input}
-                placeholder="ex. lesnumeriques.com"
+                placeholder="ex. https://lesnumeriques.com"
                 value={inputUrl}
                 onChangeText={setInputUrl}
                 autoCapitalize="none"
