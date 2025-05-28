@@ -140,3 +140,14 @@ export const toggleFavoriteArticle = async (articleyId, token) => {
     );
     return await response.json();
 };
+
+export const deleteUser = async (token) => {
+    const response = await fetch(`${backendUrl}/users`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
