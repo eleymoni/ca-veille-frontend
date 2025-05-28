@@ -31,7 +31,7 @@ export default function ModalFollow({ menuVisible, onClose, username, followedUs
                             navigation.navigate("Abonnements");
                 
                         } else {
-                            alert("Error while deleting")
+                            alert("Erreur lors de la suppression de l'abonnement")
                         }
                     }
                 }
