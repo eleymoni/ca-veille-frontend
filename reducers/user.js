@@ -53,10 +53,21 @@ export const userSlice = createSlice({
         addCategory: (state, action) => {
             state.value.categories.push(action.payload);
         },
+        deletCategory: (state, action) => {
+            state.value.categories = state.value.categories.filter(
+                (id) => id !== action.payload
+            );
+        },
+        followUser: (state, action) => {
+            state.value.followedUsers.push(action.payload.userId);
+        },
         unfollowUser: (state, action) => {
             state.value.followedUsers = state.value.followedUsers.filter(
                 (id) => id !== action.payload.userId
             );
+        },
+        deleteUserCategory: (state, action) => {
+            state.value.categories = action.payload;
         },
     },
 });
@@ -68,6 +79,9 @@ export const {
     toggleIsPublicReducer,
     setCategories,
     addCategory,
+    followUser,
     unfollowUser,
+    deletCategory,
+    deleteUserCategory,
 } = userSlice.actions;
 export default userSlice.reducer;

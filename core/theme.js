@@ -9,6 +9,7 @@ const theme = {
         text_gray: "#979797",
         icon_dark: "#1F0202",
         icon_gray: "#979797",
+        icon_red: "#E82323",
     },
     fonts: {
         comfortaaSemiBold: "Comfortaa_600SemiBold",

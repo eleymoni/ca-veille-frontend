@@ -5,16 +5,19 @@ import ArticleCard from "../components/ArticleCard";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { GetHomeCategories } from "../constants/Urls";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function HomeScreen() {
     const user = useSelector((state) => state.user.value);
 
     const [searchValue, setSearchValue] = useState("");
     const [data, setData] = useState([]);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
-        GetHomeCategories(user).then((res) => setData(res.articles));
-    }, []);
+        isFocused &&
+            GetHomeCategories(user).then((res) => setData(res.articles));
+    }, [isFocused]);
 
     const filteredArticles = data?.filter(
         (item) =>

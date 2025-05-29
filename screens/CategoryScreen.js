@@ -41,11 +41,14 @@ export default function CategoryScreen({ navigation }) {
         <View style={styles.container}>
             <Header2
                 // voir commment gérer la modification via les 3 points de la catégorie avec categoryId, title et color
-                title={title}
                 colorText={color}
                 onBack={() => navigation.goBack()}
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
+                categoryName={title}
+                routeName={route.name}
+                categoryId={categoryId}
+                categoryColor={color}
             />
             <View
                 style={{

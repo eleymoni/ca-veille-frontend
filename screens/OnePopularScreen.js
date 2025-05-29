@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 export default function OnePopularScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
+    console.log("token dans onpopularscreen:", user.token);
     const route = useRoute();
     const { userId, username, articles } = route.params;
     const [searchValue, setSearchValue] = useState("");
@@ -43,7 +44,8 @@ export default function OnePopularScreen({ navigation }) {
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
                 routeName={route.name}
-                popularUser={username}
+                followedUsername={username} //je garde ce nom car même props pour oneFollowScreen
+                followedUserId={userId}
             />
 
             <View style={{ backgroundColor: theme.colors.bg_gray, flex: 1 }}>
