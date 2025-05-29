@@ -34,6 +34,7 @@ import ArticleScreen from "./screens/ArticleScreen";
 import OneFollowScreen from "./screens/OneFollowScreen";
 import OnePopularScreen from "./screens/OnePopularScreen";
 import ManageCategoryFeed from "./screens/ManageCategoryFeed";
+import ManageOneCategoryScreen from "./screens/ManageOneCategoryScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -195,6 +196,10 @@ export default function App() {
                             <Stack.Screen
                                 name="ManageCategoryFeed"
                                 component={ManageCategoryFeed}
+                            />
+                            <Stack.Screen
+                                name="ManageOneCategoryScreen"
+                                component={ManageOneCategoryScreen}
                             />
                         </Stack.Navigator>
                     </NavigationContainer>

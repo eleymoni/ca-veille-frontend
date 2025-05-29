@@ -121,18 +121,12 @@ export default function ManageCategoryFeed() {
                 autoCapitalize="none"
                 keyboardType="url"
             />
-            {/* <TouchableOpacity
-                style={{ ...styles.button, marginVertical: 30 }}
-                onPress={handleAddFeed}
-            >
-                <Text style={styles.buttonText}>Ajouter le feed</Text>
-            </TouchableOpacity> */}
             <View style={{ marginVertical: 30 }}>
                 <Text style={{ color: "green" }}>{isFeedCreated}</Text>
                 <DefaultButton
                     handlePress={handleAddFeed}
                     align="center"
-                    text="AJouter le feed"
+                    text="Ajouter le feed"
                 />
             </View>
         </SafeAreaView>

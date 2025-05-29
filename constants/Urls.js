@@ -178,7 +178,6 @@ export const deleteFollowedUser = async (followedUserId, token) => {
 };
 
 export const addFollowedUser = async (userToFollowId, token) => {
-    console.log('token envoyé:', token);
     const response = await fetch(
         `${backendUrl}/users/followed/${userToFollowId}`,
         {

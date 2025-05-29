@@ -49,11 +49,6 @@ const Header2 = ({
         }
     };
 
-    // const handleSubmitSearch = () => {
-    //     onSearch(searchValue);
-    //     Keyboard.dismiss();
-    // }
-
     return (
         <SafeAreaView style={styles.headerContainer} edges={["top"]}>
             <View style={styles.header}>

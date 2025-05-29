@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
@@ -6,14 +6,27 @@ import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import { getCategories } from "../constants/Urls";
 
 export default function CategoryScreen({ navigation }) {
     const route = useRoute();
     const user = useSelector((state) => state.user.value);
+    const isFocused = useIsFocused();
     const { categoryId, title, color, articles } = route.params;
     const [searchValue, setSearchValue] = useState("");
+    const [data, setData] = useState([]);
 
-    const filteredData = articles.filter(
+    useEffect(() => {
+        isFocused &&
+            getCategories(user).then((res) => {
+                const resultArticles = res.categoriesList.filter(
+                    (item) => item._id === categoryId
+                );
+                setData(resultArticles[0].articles);
+            });
+    }, [isFocused, user]);
+    const filteredData = data.filter(
         (item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
             item.description.toLowerCase().includes(searchValue.toLowerCase())

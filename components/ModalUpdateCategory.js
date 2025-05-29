@@ -12,6 +12,7 @@ export default function ModalUpdateCategory({
     onClose,
     categoryId,
     categoryName,
+    categoryColor,
     token,
 }) {
     const navigation = useNavigation();
@@ -34,7 +35,6 @@ export default function ModalUpdateCategory({
                             categoryId,
                             token
                         );
-                        console.log(response);
                         dispatch(
                             deleteUserCategory(response.foundUser.categories)
                         );
@@ -60,7 +60,9 @@ export default function ModalUpdateCategory({
             backdropOpacity={0.4}
         >
             <View style={styles.menuContainer}>
-                <Text style={styles.username}>{categoryName}</Text>
+                <Text style={{ ...styles.username, color: categoryColor }}>
+                    {categoryName}
+                </Text>
 
                 {/* Change color */}
                 <View style={styles.buttonRow}>
