@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     btn: {
-        color: "#fff",
+        color: theme.colors.bg_White,
         backgroundColor: theme.colors.blue,
         padding: 15,
         borderRadius: 30,
