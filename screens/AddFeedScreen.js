@@ -173,17 +173,14 @@ export default function AddFeedScreen() {
             />
             <Text
                 style={{
-                    marginTop: 30,
+                    marginVertical: 30,
                     color: textInfo.color,
                     fontFamily: theme.fonts.openSansSemiBold,
                 }}
             >
                 {textInfo.text}
             </Text>
-            <TouchableOpacity
-                style={{ ...styles.button, marginTop: 30 }}
-                onPress={handleAddFeed}
-            >
+            <TouchableOpacity style={styles.button} onPress={handleAddFeed}>
                 <Text style={styles.buttonText}>Ajouter le feed</Text>
             </TouchableOpacity>
         </SafeAreaView>
