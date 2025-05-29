@@ -13,20 +13,24 @@ import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import truncate from "../utils/truncate";
 import ModalFollow from "./ModalFollow";
+import ModalUpdateCategory from "./ModalUpdateCategory";
 
 const Header2 = ({
-    title, 
-    colorText, 
-    onBack, 
+    title,
+    colorText,
+    onBack,
     routeName,
-    searchValue, 
+    searchValue,
     onChangeSearch,
-    followedUsername, 
+    followedUsername,
     followedUserId,
     token,
+    categoryId,
+    categoryColor,
+    categoryName,
 }) => {
-
     const [showModalFollow, setShowModalFollow] = useState(false);
+    const [showModalCategory, setShowModalCategory] = useState(false);
     const displayTitle = truncate(title, 40);
 
     const handleClearSearch = () => {
@@ -35,7 +39,7 @@ const Header2 = ({
     };
 
     const handleModalPress = () => {
-        if (routeName === "OneFollowScreen"){
+        if (routeName === "OneFollowScreen") {
             setShowModalFollow(true);
         } else if (routeName === "Category") {
             setShowModalCategory(true);
@@ -44,28 +48,40 @@ const Header2 = ({
         }
     };
 
-
     // const handleSubmitSearch = () => {
     //     onSearch(searchValue);
     //     Keyboard.dismiss();
     // }
 
     return (
-         <SafeAreaView style={styles.headerContainer} edges={["top"]}>
-        {/* <View style={styles.headerContainer}> */}
+        <SafeAreaView style={styles.headerContainer} edges={["top"]}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={onBack}>
-                    <FontAwesome5 name="arrow-left" size={26} style={styles.icon} />
+                    <FontAwesome5
+                        name="arrow-left"
+                        size={26}
+                        style={styles.icon}
+                    />
                 </TouchableOpacity>
-                <Text style={{...styles.title, color: colorText}}>
+                <Text style={{ ...styles.title, color: colorText }}>
                     {displayTitle}
                 </Text>
-                <TouchableOpacity onPress={handleModalPress}>                                   
-                    <Entypo name="dots-three-vertical" size={26} style={styles.icon} />
+                <TouchableOpacity onPress={handleModalPress}>
+                    <Entypo
+                        name="dots-three-vertical"
+                        size={26}
+                        style={styles.icon}
+                    />
                 </TouchableOpacity>
-             </View>
+            </View>
 
-            <View style={{alignItems: "center", justifyContent: "center", width: "100%"}}>
+            <View
+                style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                }}
+            >
                 <View style={styles.searchBar}>
                     <Ionicons name="search" size={28} style={styles.icon} />
                     <TextInput
@@ -77,23 +93,34 @@ const Header2 = ({
                         autoFocus={false}
                     />
 
-                    {searchValue && (                                           //s'affiche que si j'ai tapé qq ch
+                    {searchValue && ( //s'affiche que si j'ai tapé qq ch
                         <TouchableOpacity onPress={handleClearSearch}>
-                            <Entypo name="cross" size={20} color={theme.colors.text_gray} />
+                            <Entypo
+                                name="cross"
+                                size={20}
+                                color={theme.colors.text_gray}
+                            />
                         </TouchableOpacity>
                     )}
                 </View>
-                    <ModalFollow
-                        menuVisible={showModalFollow}
-                        onClose={() => setShowModalFollow(false)}
-                        username={followedUsername}
-                        followedUserId={followedUserId}
-                        token={token}
-                    />
+                <ModalFollow
+                    menuVisible={showModalFollow}
+                    onClose={() => setShowModalFollow(false)}
+                    username={followedUsername}
+                    followedUserId={followedUserId}
+                    token={token}
+                />
+                <ModalUpdateCategory
+                    menuVisible={showModalCategory}
+                    onClose={() => setShowModalCategory(false)}
+                    categoryId={categoryId}
+                    categoryName={title}
+                    categoryColor={colorText}
+                    token={token}
+                />
             </View>
-        {/* </View> */}
         </SafeAreaView>
-    );     
+    );
 };
 
 export default Header2;
@@ -121,7 +148,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
     },
-    title:{
+    title: {
         fontSize: theme.fontSizes.large,
         fontFamily: theme.fonts.comfortaaBold,
         width: "75%",
@@ -168,6 +195,6 @@ const styles = StyleSheet.create({
             android: {
                 elevation: 15,
             },
-        })
+        }),
     },
-})
+});

@@ -81,7 +81,7 @@ export default function AddFeedScreen() {
                 value={inputUrl}
                 onChangeText={setInputUrl}
                 autoCapitalize="none"
-                keyboardType="inputUrl"
+                keyboardType="url"
             />
             <Text style={[styles.label, { marginTop: 30 }]}>
                 Dans quelle catégorie souhaiter vous l'ajouter ?

@@ -134,12 +134,23 @@ export const deleteFollowedUser = async (followedUserId, token) => {
     const response = await fetch(
         `${backendUrl}/users/followed/${followedUserId}`,
         {
-            method: "DELETE", 
+            method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         }
     );
+    return await response.json();
+};
+
+export const handleDeleteUserCategory = async (categoryId, token) => {
+    const response = await fetch(`${backendUrl}/users/category/${categoryId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+        },
+    });
     return await response.json();
 };
