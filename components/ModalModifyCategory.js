@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     pickerWrapper: {
-        height: 190,
+        height: 250,
         borderRadius: 12,
         overflow: "hidden",
         marginBottom: 16,

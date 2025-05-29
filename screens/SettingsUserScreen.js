@@ -36,7 +36,7 @@ export default function SettingsUserScreen() {
                 setEmail(await getEmail(user.token));
             } catch (error) {
                 console.error(
-                    "Erreur lors de la récupération de l'email :",
+                    "Erreur lors de la mise à jour de la visibilité :",
                     error
                 );
             }
@@ -83,7 +83,7 @@ export default function SettingsUserScreen() {
 
     const handleDeleteAccount = () => {
         Alert.alert(
-            "Confirmation de suppression",
+            "Confirmation de la suppression",
             "Voulez-vous supprimer votre compte ?",
             [
                 {
@@ -169,9 +169,11 @@ export default function SettingsUserScreen() {
                 <View style={styles.switchContainer}>
                     <Text style={styles.text}>Profil public</Text>
                     <Switch
-                        thumbColor={
-                            isPublic ? theme.colors.blue : theme.colors.bg_gray
-                        }
+                        trackColor={{
+                            false: theme.colors.icon_gray,
+                            true: theme.colors.blue,
+                        }}
+                        thumbColor={isPublic ? "#A0A0FF" : theme.colors.bg_gray}
                         ios_backgroundColor={theme.colors.gray_light}
                         onValueChange={toggleSwitch}
                         value={isPublic}
@@ -184,7 +186,7 @@ export default function SettingsUserScreen() {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleDeleteAccount}>
                     <Text style={[styles.text, styles.redText]}>
-                        Supprimer le compte
+                        Supprimer mon compte
                     </Text>
                 </TouchableOpacity>
             </View>
