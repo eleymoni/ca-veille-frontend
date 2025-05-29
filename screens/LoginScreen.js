@@ -12,7 +12,7 @@ import {
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducers/user";
 
@@ -21,9 +21,16 @@ export default function LoginScreen({ navigation }) {
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    useEffect(() => {
+        setErrorMessage(null);
+    }, [email, password]);
 
     const handleForm = async () => {
+        if (!email || !password) {
+            setErrorMessage("Tous les champs sont requis");
+        }
         const data = {
             email,
             password,
@@ -60,9 +67,9 @@ export default function LoginScreen({ navigation }) {
             })
         );
         navigation.reset({
-            index:0, 
-            routes: [{name: "TabNavigator"}]
-        })
+            index: 0,
+            routes: [{ name: "TabNavigator" }],
+        });
     };
 
     // TODO : Connect with Google

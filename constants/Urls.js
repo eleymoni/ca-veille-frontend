@@ -191,6 +191,21 @@ export const addFollowedUser = async (userToFollowId, token) => {
     return await response.json();
 };
 
+export const handleChangeUsername = async (username, token) => {
+    const postUsername = await fetch(
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}/users`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ username, token }),
+        }
+    );
+    return await postUsername.json();
+};
+
 //articles
 
 export const toggleFavoriteArticle = async (articleyId, token) => {
