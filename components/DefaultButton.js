@@ -20,8 +20,8 @@ export default function DefaultButton({
 const styles = StyleSheet.create({
     button: {
         backgroundColor: theme.colors.blue,
-        paddingVertical: 20,
-        paddingHorizontal: 30,
+        paddingVertical: 15,
+        paddingHorizontal: 40,
         borderRadius: 30,
     },
     label: {

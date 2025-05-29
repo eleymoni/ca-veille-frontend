@@ -19,16 +19,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { deleteUser, getEmail, toggleIsPublic } from "../constants/Urls";
+import {
+    deleteUser,
+    getEmail,
+    handleChangeUsername,
+    toggleIsPublic,
+} from "../constants/Urls";
 
 export default function SettingsUserScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const user = useSelector((state) => state.user.value);
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(null);
     const [isPublic, setIsPublic] = useState(user.isPublic);
     const [inputVisible, setInputVisible] = useState(false);
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchEmail = async () => {
@@ -44,6 +50,10 @@ export default function SettingsUserScreen() {
 
         fetchEmail();
     }, [user.token]);
+
+    useEffect(() => {
+        setError(null);
+    }, [username]);
 
     const toggleSwitch = async () => {
         try {
@@ -113,24 +123,19 @@ export default function SettingsUserScreen() {
 
     const handleIsInputVisible = () => {
         setInputVisible((value) => !value);
+        setError(null);
     };
     const handleCLick = async () => {
-        console.log("clicked");
-        const postUsername = await fetch(
-            `${process.env.EXPO_PUBLIC_BACKEND_URL}/users`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
-                },
-                body: JSON.stringify({ username, token: user.token }),
-            }
-        );
-        const res = await postUsername.json();
-        dispatch(updateUsername(res.data));
-        setUsername("");
-        setInputVisible(false);
+        const res = await handleChangeUsername(username, user.token);
+        console.log(res);
+        if (res.data) {
+            dispatch(updateUsername(res.data));
+            setUsername(null);
+            setInputVisible(false);
+            setError(null);
+        } else {
+            setError("Le nom ne peut être vide");
+        }
     };
 
     return (
@@ -164,6 +169,7 @@ export default function SettingsUserScreen() {
                             </Text>
                         </View>
                     )}
+                    {error && <Text style={styles.danger}>{error}</Text>}
                     <Text style={styles.text}>Email : {email}</Text>
                 </View>
                 <View style={styles.switchContainer}>
@@ -203,7 +209,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: "row",
         gap: 20,
-        marginBottom: 40,
+        marginBottom: 60,
         alignItems: "flex-end",
     },
     title: {
@@ -228,7 +234,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: 30,
+        marginBottom: 40,
     },
     updateUsername: {
         fontFamily: theme.fonts.comfortaaSemiBold,
@@ -240,5 +246,8 @@ const styles = StyleSheet.create({
     },
     gap: {
         gap: 20,
+    },
+    danger: {
+        color: theme.colors.red,
     },
 });
