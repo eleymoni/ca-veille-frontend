@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#fff",
+        backgroundColor: theme.colors.bg_White,
     },
     heading: {
         fontSize: theme.fontSizes.header,
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     },
     form: {},
     btn: {
-        color: "#fff",
+        color: theme.colors.bg_White,
         backgroundColor: theme.colors.blue,
         padding: 15,
         borderRadius: 30,
