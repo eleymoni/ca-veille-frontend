@@ -99,13 +99,16 @@ export default function AddFeedScreen() {
                         contentContainerStyle={{ paddingVertical: 4 }}
                         showsVerticalScrollIndicator
                     >
-                        {(categories ?? [])
+                        {categories
                             .filter((cat) => typeof cat === "object" && cat._id)
-                            .map((category) => (
+                            .map((category, i) => (
                                 <TouchableOpacity
                                     key={category._id}
                                     style={[
                                         styles.catItem,
+                                        i === categories.length - 1 && {
+                                            borderBottomWidth: 0,
+                                        },
                                         selectedCategory.name ===
                                             category.name &&
                                             styles.catItemSelected,
