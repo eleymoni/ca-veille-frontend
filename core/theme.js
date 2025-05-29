@@ -1,6 +1,7 @@
 const theme = {
     colors: {
         blue: "#001785",
+        red: "#e02e2a",
         bg_White: "#FFFFFF",
         bg_gray: "#F3F1F1",
         text_dark: "#1F0202",
@@ -8,6 +9,7 @@ const theme = {
         text_gray: "#979797",
         icon_dark: "#1F0202",
         icon_gray: "#979797",
+        icon_red: "#E82323",
     },
     fonts: {
         comfortaaSemiBold: "Comfortaa_600SemiBold",
