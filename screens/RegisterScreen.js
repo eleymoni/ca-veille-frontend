@@ -12,7 +12,7 @@ import {
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducers/user";
 
@@ -23,7 +23,11 @@ export default function RegisterScreen({ navigation }) {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    useEffect(() => {
+        setErrorMessage(null);
+    }, [username, email, password, confirmPassword]);
 
     const handleForm = async () => {
         const data = {
@@ -32,7 +36,9 @@ export default function RegisterScreen({ navigation }) {
             password,
         };
 
-        if (password !== confirmPassword) {
+        if (!username || !email || !password || !confirmPassword) {
+            setErrorMessage("Tous les champs sont requis");
+        } else if (password !== confirmPassword) {
             return setErrorMessage("Les mots de passe ne sont pas identiques");
         } else {
             const postData = await fetch(
