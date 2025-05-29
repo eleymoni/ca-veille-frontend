@@ -18,6 +18,7 @@ export default function CategoriesScreen() {
         isFocused &&
             getCategories(user).then((res) => setData(res.categoriesList));
     }, [isFocused]);
+
     return (
         <View style={styles.container}>
             <Header
