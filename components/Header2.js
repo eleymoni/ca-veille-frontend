@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     View,
     Text,
@@ -8,7 +8,12 @@ import {
     TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5, Entypo, Ionicons } from "@expo/vector-icons";
+import {
+    FontAwesome6,
+    FontAwesome5,
+    Entypo,
+    Ionicons,
+} from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import truncate from "../utils/truncate";

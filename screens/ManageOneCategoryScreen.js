@@ -5,7 +5,6 @@ import {
     StyleSheet,
     FlatList,
     TextInput,
-    Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,6 +38,7 @@ export default function ManageOneCategoryScreen() {
     const [catColor, setCatColor] = useState(categoryColor);
     const [isFeedCreated, setIsfeedCreated] = useState("");
     const [inputUrl, setInputUrl] = useState("");
+    const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
     const [data, setData] = useState([]);
 
     //récupère les feeds grace à categoryId récupéreé en param
@@ -75,11 +75,15 @@ export default function ManageOneCategoryScreen() {
                     ...prevData,
                     { name: data.feedName, _id: data.feedId },
                 ]);
-                setIsfeedCreated(
-                    `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
-                );
+                setTextInfo({
+                    text: `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`,
+                    color: "green",
+                });
             } else {
-                setIsfeedCreated(`Le feed ${inputUrl} n'est pas ajouté`);
+                setTextInfo({
+                    text: data.error || "Erreur lors de l'ajout du feed",
+                    color: "red",
+                });
             }
         }
     };
@@ -195,8 +199,17 @@ export default function ManageOneCategoryScreen() {
                 autoCapitalize="none"
                 keyboardType="url"
             />
-            <View style={{ marginVertical: 30 }}>
-                <Text style={{ color: "green" }}>{isFeedCreated}</Text>
+            <View style={{ marginBottom: 30 }}>
+                <Text
+                    style={{
+                        color: textInfo.color,
+                        fontFamily: theme.fonts.openSansSemiBold,
+                        marginVertical: 20,
+                        textAlign: "center",
+                    }}
+                >
+                    {textInfo.text}
+                </Text>
                 <DefaultButton
                     handlePress={handleAddFeed}
                     align="center"
@@ -214,10 +227,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
     },
     title: {
-        fontSize: theme.fontSizes.large,
+        fontSize: theme.fontSizes.xlarge,
         fontFamily: theme.fonts.comfortaaBold,
         color: theme.colors.text_dark,
         textAlign: "center",
+        marginBottom: 25,
     },
 
     itemList: {
@@ -244,5 +258,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 10,
         fontFamily: theme.fonts.openSansRegular,
+        marginTop: 10,
     },
 });
