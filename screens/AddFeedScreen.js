@@ -61,7 +61,7 @@ export default function AddFeedScreen() {
                 });
                 setInputUrl("");
                 setIsfeedCreated(
-                    `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
+                    `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`
                 );
             }
         }
