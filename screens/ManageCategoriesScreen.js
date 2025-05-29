@@ -13,6 +13,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
 import ModalModifyCategory from "../components/ModalModifyCategory";
+import { useNavigation } from "@react-navigation/native";
 import {
     getCategories,
     updateCategory,
@@ -21,6 +22,7 @@ import {
 import { deletCategory } from "../reducers/user";
 
 export default function ManageCategoriesScreen() {
+    const navigation = useNavigation();
     const [data, setData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [nameCliked, setNameClicked] = useState("");
@@ -99,6 +101,14 @@ export default function ManageCategoriesScreen() {
         );
     };
 
+    const handleManageFeed = (name, color, id) => {
+        navigation.navigate("ManageCategoryFeed", {
+            name,
+            color,
+            id,
+        });
+    };
+
     const renderCategory = ({ item }) => {
         return (
             <View style={[styles.itemList]}>
@@ -153,6 +163,13 @@ export default function ManageCategoriesScreen() {
                                 name="gear"
                                 size={18}
                                 color={theme.colors.icon_gray}
+                                onPress={() =>
+                                    handleManageFeed(
+                                        item.name,
+                                        item.color,
+                                        item._id
+                                    )
+                                }
                             />
                         </TouchableOpacity>
                     </View>
