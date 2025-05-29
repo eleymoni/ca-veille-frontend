@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 15,
         elevation: 3,
+        marginBottom: 5,
     },
     title: {
         color: theme.colors.text_dark,
