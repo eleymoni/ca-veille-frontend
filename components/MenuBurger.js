@@ -9,7 +9,9 @@ export default function MenuBurger({ menuVisible, onClose }) {
 
     const handlePress = (screenName) => {
         onClose();
-        navigation.navigate(screenName);
+        setTimeout(() => {
+            navigation.navigate(screenName);
+        }, 200);
     };
 
     return (
