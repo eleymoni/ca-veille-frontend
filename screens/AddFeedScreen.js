@@ -14,6 +14,7 @@ import { createFeed, getCategories } from "../constants/Urls";
 import ModalAddCategory from "../components/ModalAddCategory";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
+import DefaultButton from "../components/DefaultButton";
 
 export default function AddFeedScreen() {
     const user = useSelector((state) => state.user.value);
@@ -159,12 +160,11 @@ export default function AddFeedScreen() {
                 </>
             )}
             {/* Bouton pour ouvrir la modal */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => setIsModalVisible(true)}
-            >
-                <Text style={styles.buttonText}>+ Ajouter une catégorie</Text>
-            </TouchableOpacity>
+            <DefaultButton
+                handlePress={() => setIsModalVisible(true)}
+                text="+ Ajouter une catégorie"
+                align="center"
+            />
             <ModalAddCategory
                 modalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
@@ -180,9 +180,11 @@ export default function AddFeedScreen() {
             >
                 {textInfo.text}
             </Text>
-            <TouchableOpacity style={styles.button} onPress={handleAddFeed}>
-                <Text style={styles.buttonText}>Ajouter le feed</Text>
-            </TouchableOpacity>
+            <DefaultButton
+                handlePress={handleAddFeed}
+                text="Ajouter le feed"
+                align="center"
+            />
         </SafeAreaView>
     );
 }
@@ -237,7 +239,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.colors.icon_gray,
         borderRadius: 8,
-        marginTop: 8,
+        marginVertical: 8,
     },
     catItem: {
         flexDirection: "row",
