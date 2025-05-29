@@ -32,45 +32,49 @@ export default function RegisterScreen({ navigation }) {
             password,
         };
 
-        const postData = await fetch(
-            `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/register`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            }
-        );
-
-        const status = postData.status;
-
-        if (status === 400) {
-            return setErrorMessage("Tous les champs sont requis");
-        } else if (password !== confirmPassword) {
+        if (password !== confirmPassword) {
             return setErrorMessage("Les mots de passe ne sont pas identiques");
-        } else if (status === 409) {
-            return setErrorMessage("Cette adresse mail est inutilisable");
-        } else if (status === 422) {
-            return setErrorMessage("Le format de l'adresse mail est invalide");
+        } else {
+            const postData = await fetch(
+                `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/register`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                }
+            );
+
+            const status = postData.status;
+
+            if (status === 400) {
+                return setErrorMessage("Tous les champs sont requis");
+            } else if (status === 409) {
+                return setErrorMessage("Cette adresse mail est inutilisable");
+            } else if (status === 422) {
+                return setErrorMessage(
+                    "Le format de l'adresse mail est invalide"
+                );
+            }
+
+            const response = await postData.json();
+            const user = response.user;
+
+            dispatch(
+                addUser({
+                    username: user.username,
+                    token: user.token,
+                    categories: user.categories,
+                    favoriteArticles: user.favoriteArticles,
+                    followedUsers: user.followedUsers,
+                    followers: user.followers,
+                    isPublic: user.isPublic,
+                })
+            );
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "AreaOfInterest" }],
+            });
         }
-
-        const response = await postData.json();
-        const user = response.user;
-
-        dispatch(
-            addUser({
-                username: user.username,
-                token: user.token,
-                categories: user.categories,
-                favoriteArticles: user.favoriteArticles,
-                followedUsers: user.followedUsers,
-                followers: user.followers,
-                isPublic: user.isPublic,
-            })
-        );
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "AreaOfInterest" }],
-        });
     };
 
     // TODO : Connect with Google
