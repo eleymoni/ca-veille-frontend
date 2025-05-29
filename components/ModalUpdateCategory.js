@@ -4,24 +4,18 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import theme from "../core/theme";
 import { handleDeleteUserCategory } from "../constants/Urls";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteUserCategory } from "../reducers/user";
 
 export default function ModalUpdateCategory({
     menuVisible,
     onClose,
-    username,
     categoryId,
-    followedUserId,
     categoryName,
-    categoryColor,
+    token,
 }) {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.user.value.token);
-
-    // console.log("token =====>> ", token);
-    console.log(categoryId);
 
     const handleDelete = async () => {
         Alert.alert(
@@ -51,6 +45,11 @@ export default function ModalUpdateCategory({
         );
     };
 
+    const handleClick = () => {
+        onClose();
+        navigation.navigate("ManageCategoriesScreen");
+    };
+
     return (
         <Modal
             isVisible={menuVisible}
@@ -61,7 +60,7 @@ export default function ModalUpdateCategory({
             backdropOpacity={0.4}
         >
             <View style={styles.menuContainer}>
-                <Text style={styles.username}>{username}</Text>
+                <Text style={styles.username}>{categoryName}</Text>
 
                 {/* Change color */}
                 <View style={styles.buttonRow}>
@@ -70,10 +69,10 @@ export default function ModalUpdateCategory({
                             ...styles.btnOutline,
                             borderLeftWidth: 0.6,
                         }}
-                        // onPress={() => handleUnfollowPress()}
+                        onPress={handleClick}
                     >
                         <Text style={styles.textButton}>
-                            Changer la couleur de la catégorie
+                            Gérer la catégorie
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -132,7 +131,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        // gap: 10,
         padding: 8,
         paddingVertical: 10,
         borderColor: theme.colors.icon_gray,

@@ -45,10 +45,11 @@ export default function CategoryScreen({ navigation }) {
                 onBack={() => navigation.goBack()}
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
-                categoryName={title}
+                title={title}
                 routeName={route.name}
                 categoryId={categoryId}
                 categoryColor={color}
+                token={user.token}
             />
             <View
                 style={{
