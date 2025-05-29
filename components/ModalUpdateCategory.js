@@ -47,7 +47,11 @@ export default function ModalUpdateCategory({
 
     const handleClick = () => {
         onClose();
-        navigation.navigate("ManageCategoriesScreen");
+        navigation.navigate("ManageOneCategoryScreen", {
+            categoryId,
+            categoryName,
+            categoryColor,
+        });
     };
 
     return (
