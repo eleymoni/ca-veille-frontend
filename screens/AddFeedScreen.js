@@ -61,7 +61,7 @@ export default function AddFeedScreen() {
                 });
                 setInputUrl("");
                 setIsfeedCreated(
-                    `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
+                    `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`
                 );
             }
         }
@@ -83,70 +83,76 @@ export default function AddFeedScreen() {
                 autoCapitalize="none"
                 keyboardType="url"
             />
-            <Text style={[styles.label, { marginTop: 30 }]}>
-                Dans quelle catégorie souhaiter vous l'ajouter ?
-            </Text>
-            <ScrollView
-                style={styles.catList}
-                contentContainerStyle={{ paddingVertical: 4 }}
-                showsVerticalScrollIndicator
-            >
-                {(categories ?? [])
-                    .filter((cat) => typeof cat === "object" && cat._id)
-                    .map((category) => (
-                        <TouchableOpacity
-                            key={category._id}
-                            style={[
-                                styles.catItem,
-                                selectedCategory.name === category.name &&
-                                    styles.catItemSelected,
-                            ]}
-                            onPress={() =>
-                                setSelectedCategory({
-                                    id: category._id,
-                                    name: category.name,
-                                })
-                            }
-                        >
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
-                            >
-                                {/* Pastille couleur */}
-                                <View
-                                    style={{
-                                        width: 12,
-                                        height: 12,
-                                        borderRadius: 6,
-                                        backgroundColor:
-                                            category.color ||
-                                            theme.colors.icon_gray,
-                                        marginRight: 8,
-                                    }}
-                                />
-                                <Text
+            {categories.length !== 0 && (
+                <>
+                    <Text style={[styles.label, { marginTop: 30 }]}>
+                        Dans quelle catégorie souhaiter vous l'ajouter ?
+                    </Text>
+                    <ScrollView
+                        style={styles.catList}
+                        contentContainerStyle={{ paddingVertical: 4 }}
+                        showsVerticalScrollIndicator
+                    >
+                        {(categories ?? [])
+                            .filter((cat) => typeof cat === "object" && cat._id)
+                            .map((category) => (
+                                <TouchableOpacity
+                                    key={category._id}
                                     style={[
-                                        styles.catText,
+                                        styles.catItem,
                                         selectedCategory.name ===
                                             category.name &&
-                                            styles.catTextSelected,
+                                            styles.catItemSelected,
                                     ]}
+                                    onPress={() =>
+                                        setSelectedCategory({
+                                            id: category._id,
+                                            name: category.name,
+                                        })
+                                    }
                                 >
-                                    {category.name}
-                                </Text>
-                            </View>
-                            {selectedCategory.name === category.name && (
-                                <FontAwesome6
-                                    name="check"
-                                    size={16}
-                                    color={"green"}
-                                />
-                            )}
-                        </TouchableOpacity>
-                    ))}
-            </ScrollView>
+                                    <View
+                                        style={{
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        {/* Pastille couleur */}
+                                        <View
+                                            style={{
+                                                width: 12,
+                                                height: 12,
+                                                borderRadius: 6,
+                                                backgroundColor:
+                                                    category.color ||
+                                                    theme.colors.icon_gray,
+                                                marginRight: 8,
+                                            }}
+                                        />
+                                        <Text
+                                            style={[
+                                                styles.catText,
+                                                selectedCategory.name ===
+                                                    category.name &&
+                                                    styles.catTextSelected,
+                                            ]}
+                                        >
+                                            {category.name}
+                                        </Text>
+                                    </View>
+                                    {selectedCategory.name ===
+                                        category.name && (
+                                        <FontAwesome6
+                                            name="check"
+                                            size={16}
+                                            color={"green"}
+                                        />
+                                    )}
+                                </TouchableOpacity>
+                            ))}
+                    </ScrollView>
+                </>
+            )}
             {/* Bouton pour ouvrir la modal */}
             <TouchableOpacity
                 style={styles.button}

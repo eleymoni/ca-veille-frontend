@@ -14,6 +14,7 @@ import { Keyboard } from "react-native";
 import truncate from "../utils/truncate";
 import ModalFollow from "./ModalFollow";
 import ModalUpdateCategory from "./ModalUpdateCategory";
+import { useSelector } from "react-redux";
 
 const Header2 = ({
     title,
@@ -24,14 +25,14 @@ const Header2 = ({
     onChangeSearch,
     followedUsername,
     followedUserId,
-    token,
+    // token,
     categoryId,
     categoryColor,
-    categoryName,
 }) => {
     const [showModalFollow, setShowModalFollow] = useState(false);
     const [showModalCategory, setShowModalCategory] = useState(false);
     const displayTitle = truncate(title, 40);
+    const token = useSelector((state) => state.user.value.token);
 
     const handleClearSearch = () => {
         onChangeSearch("");
@@ -115,7 +116,7 @@ const Header2 = ({
                     onClose={() => setShowModalCategory(false)}
                     categoryId={categoryId}
                     categoryName={title}
-                    categoryColor={colorText}
+                    categoryColor={categoryColor}
                     token={token}
                 />
             </View>
