@@ -177,6 +177,21 @@ export const deleteFollowedUser = async (followedUserId, token) => {
     return await response.json();
 };
 
+export const addFollowedUser = async (userToFollowId, token) => {
+    console.log('token envoyé:', token);
+    const response = await fetch(
+        `${backendUrl}/users/followed/${userToFollowId}`,
+        {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
+    return await response.json();
+};
+
 //articles
 
 export const toggleFavoriteArticle = async (articleyId, token) => {
