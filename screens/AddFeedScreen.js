@@ -204,12 +204,6 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         color: theme.colors.text_dark,
     },
-    feedInfo: {
-        fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.small,
-        marginTop: 32,
-        color: theme.colors.blue,
-    },
     input: {
         borderWidth: 1,
         borderColor: theme.colors.icon_gray,
@@ -217,25 +211,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 10,
         fontFamily: theme.fonts.openSansRegular,
-    },
-    button: {
-        marginTop: 12,
-        alignSelf: "center",
-        borderWidth: 1,
-        borderColor: theme.colors.blue,
-        borderRadius: 8,
-        paddingHorizontal: 24,
-        paddingVertical: 12,
-    },
-    buttonText: {
-        fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.medium,
-        color: theme.colors.blue,
-    },
-    disabledButtonText: {
-        fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.medium,
-        color: theme.colors.icon_gray,
     },
     catList: {
         maxHeight: 200,
