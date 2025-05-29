@@ -5,14 +5,19 @@ import {
     StyleSheet,
     Alert,
     Switch,
+    TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
-import { logout, toggleIsPublicReducer } from "../reducers/user";
+import {
+    logout,
+    toggleIsPublicReducer,
+    updateUsername,
+} from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { deleteUser, getEmail, toggleIsPublic } from "../constants/Urls";
 
@@ -22,6 +27,8 @@ export default function SettingsUserScreen() {
     const user = useSelector((state) => state.user.value);
     const [email, setEmail] = useState("");
     const [isPublic, setIsPublic] = useState(user.isPublic);
+    const [inputVisible, setInputVisible] = useState(false);
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         const fetchEmail = async () => {
@@ -104,6 +111,28 @@ export default function SettingsUserScreen() {
         );
     };
 
+    const handleIsInputVisible = () => {
+        setInputVisible((value) => !value);
+    };
+    const handleCLick = async () => {
+        console.log("clicked");
+        const postUsername = await fetch(
+            `${process.env.EXPO_PUBLIC_BACKEND_URL}/users`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify({ username, token: user.token }),
+            }
+        );
+        const res = await postUsername.json();
+        dispatch(updateUsername(res.data));
+        setUsername("");
+        setInputVisible(false);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <NavigationBackArrow />
@@ -113,11 +142,28 @@ export default function SettingsUserScreen() {
                     size={32}
                     color={theme.colors.text_dark}
                 />
-                <Text style={styles.title}>paramètres utilisateur</Text>
+                <Text style={styles.title}>Paramètres utilisateur</Text>
             </View>
             <View style={styles.textContainer}>
-                <View>
-                    <Text style={styles.text}>Nom : {user.username}</Text>
+                <View style={styles.gap}>
+                    <View style={styles.row}>
+                        <Text style={styles.text}>Nom : {user.username}</Text>
+                        <TouchableOpacity onPress={handleIsInputVisible}>
+                            <AntDesign name="edit" size={18} />
+                        </TouchableOpacity>
+                    </View>
+                    {inputVisible && (
+                        <View style={styles.row}>
+                            <TextInput
+                                style={styles.updateUsername}
+                                placeholder="Entrez votre nouveau nom..."
+                                onChangeText={(value) => setUsername(value)}
+                            />
+                            <Text style={styles.btn} onPress={handleCLick}>
+                                Valider
+                            </Text>
+                        </View>
+                    )}
                     <Text style={styles.text}>Email : {email}</Text>
                 </View>
                 <View style={styles.switchContainer}>
@@ -156,6 +202,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 20,
         marginBottom: 40,
+        alignItems: "flex-end",
     },
     title: {
         fontFamily: theme.fonts.comfortaaBold,
@@ -175,5 +222,21 @@ const styles = StyleSheet.create({
     switchContainer: {
         flexDirection: "row",
         alignItems: "center",
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 30,
+    },
+    updateUsername: {
+        fontFamily: theme.fonts.comfortaaSemiBold,
+        fontSize: theme.fontSizes.medium,
+    },
+    btn: {
+        fontFamily: theme.fonts.comfortaaSemiBold,
+        fontSize: theme.fontSizes.medium,
+    },
+    gap: {
+        gap: 20,
     },
 });
