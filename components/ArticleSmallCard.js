@@ -29,11 +29,8 @@ const styles = StyleSheet.create({
         padding: 8,
         marginRight: 20,
         zIndex: 1,
-        shadowColor: theme.colors.text_dark,
-        shadowOffset: { width: 0, height: 20 },
-        shadowOpacity: 0.1,
-        shadowRadius: 15,
         elevation: 3,
+        marginBottom: 5,
     },
     title: {
         color: theme.colors.text_dark,
