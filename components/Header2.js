@@ -28,7 +28,6 @@ const Header2 = ({
     // token,
     categoryId,
     categoryColor,
-    categoryName,
 }) => {
     const [showModalFollow, setShowModalFollow] = useState(false);
     const [showModalCategory, setShowModalCategory] = useState(false);
@@ -117,7 +116,7 @@ const Header2 = ({
                     onClose={() => setShowModalCategory(false)}
                     categoryId={categoryId}
                     categoryName={title}
-                    categoryColor={colorText}
+                    categoryColor={categoryColor}
                     token={token}
                 />
             </View>

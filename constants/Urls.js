@@ -233,3 +233,28 @@ export const handleDeleteUserCategory = async (categoryId, token) => {
     });
     return await response.json();
 };
+
+export const getFeedsByCategory = async (categoryId, token) => {
+    const response = await fetch(`${backendUrl}/feeds/${categoryId}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
+export const deleteFeedFromCategory = async (categoryId, feedId, token) => {
+    const response = await fetch(
+        `${backendUrl}/categories/${categoryId}/feed/${feedId}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
+    return await response.json();
+};
