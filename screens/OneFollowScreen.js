@@ -23,7 +23,7 @@ export default function OneFollowScreen({ navigation }) {
         <ArticleCard
             title={item.title}
             description={item.description}
-            image={item.image}
+            image={item.media}
             isFavorite={user.favoriteArticles.includes(item._id)}
             showDate={true}
             date={item.date}
