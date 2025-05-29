@@ -27,7 +27,7 @@ export default function AddFeedScreen() {
         name: "",
     });
 
-    const [isFeedCreated, setIsfeedCreated] = useState("");
+    const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
@@ -48,33 +48,38 @@ export default function AddFeedScreen() {
     }, [user.token, user.categories]);
 
     const handleAddFeed = async () => {
-        if (inputUrl && selectedCategory) {
-            const data = await createFeed(
-                inputUrl,
-                selectedCategory.id,
-                user.token
-            );
-            if (data.result) {
-                setSelectedCategory({
-                    id: null,
-                    name: "",
-                });
-                setInputUrl("");
-                setIsfeedCreated(
-                    `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`
-                );
-            }
+        const data = await createFeed(
+            inputUrl,
+            selectedCategory.id,
+            user.token
+        );
+
+        if (!data.result || data.status === 500) {
+            setTextInfo({
+                text: data.error || "Erreur lors de l'ajout du feed",
+                color: "red",
+            });
+        } else {
+            setSelectedCategory({
+                id: null,
+                name: "",
+            });
+            setInputUrl("");
+            setTextInfo({
+                text: `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`,
+                color: "green",
+            });
         }
     };
 
-    const handleCreateCategory = (Inputcategory) => {
-        setCategories((prev) => [...prev, Inputcategory]);
+    const handleCreateCategory = (inputCategory) => {
+        setCategories((prev) => [...prev, inputCategory]);
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <NavigationBackArrow />
-            <Text style={styles.label}>Entrer l'URL du site web</Text>
+            <Text style={styles.label}>Entrez l'URL du site web</Text>
             <TextInput
                 style={styles.input}
                 placeholder="ex. https://lesnumeriques.com"
@@ -86,7 +91,7 @@ export default function AddFeedScreen() {
             {categories.length !== 0 && (
                 <>
                     <Text style={[styles.label, { marginTop: 30 }]}>
-                        Dans quelle catégorie souhaiter vous l'ajouter ?
+                        Dans quelle catégorie souhaitez-vous l'ajouter ?
                     </Text>
                     <ScrollView
                         style={styles.catList}
@@ -166,8 +171,14 @@ export default function AddFeedScreen() {
                 onCreate={handleCreateCategory}
                 token={user.token}
             />
-            <Text style={{ marginTop: 30, color: "green" }}>
-                {isFeedCreated}
+            <Text
+                style={{
+                    marginTop: 30,
+                    color: textInfo.color,
+                    fontFamily: theme.fonts.openSansSemiBold,
+                }}
+            >
+                {textInfo.text}
             </Text>
             <TouchableOpacity
                 style={{ ...styles.button, marginTop: 30 }}
