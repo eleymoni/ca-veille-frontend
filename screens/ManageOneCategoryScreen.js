@@ -4,7 +4,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     FlatList,
-    Alert,
+    TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,103 +13,93 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
 import ModalModifyCategory from "../components/ModalModifyCategory";
+import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import {
-    getCategories,
+    createFeed,
     updateCategory,
-    deleteCategory,
+    getFeedsByCategory,
+    deleteFeedFromCategory,
 } from "../constants/Urls";
-import { deletCategory } from "../reducers/user";
+import { useIsFocused } from "@react-navigation/native";
+import DefaultButton from "../components/DefaultButton";
 
 export default function ManageOneCategoryScreen() {
+    const route = useRoute();
     const navigation = useNavigation();
-    const [data, setData] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [nameCliked, setNameClicked] = useState("");
-    const [colorCliked, setColorCliked] = useState("");
-    const [idClicked, setIdClicked] = useState("");
+    const isFocused = useIsFocused();
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const { categoryId, categoryName, categoryColor } = route.params;
+    const [catName, setCatName] = useState(categoryName);
+    const [catColor, setCatColor] = useState(categoryColor);
+    const [isFeedCreated, setIsfeedCreated] = useState("");
+    const [inputUrl, setInputUrl] = useState("");
+    const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
+    const [data, setData] = useState([]);
+
+    //récupère les feeds grace à categoryId récupéreé en param
     useEffect(() => {
-        getCategories(user).then((res) =>
-            setData(
-                res.categoriesList.map((item) => {
-                    return {
-                        name: item.name,
-                        color: item.color,
-                        _id: item._id,
-                    };
-                })
-            )
-        );
-    }, []);
+        isFocused &&
+            getFeedsByCategory(categoryId, user.token).then((data) =>
+                setData(data.feeds)
+            );
+    }, [isFocused]);
 
+    // modification de la couleur et du nom, inverse data flow de la modal
     const handleCategoriesUpdate = async (itemColor, itemName, itemId) => {
-        let valid = false;
-        const updated = await Promise.all(
-            data.map(async (item) => {
-                if (item._id === itemId) {
-                    const res = await updateCategory(
-                        itemName,
-                        itemColor,
-                        itemId,
-                        user.token
-                    );
-                    valid = res.result;
-                    return {
-                        ...item,
-                        name: itemName,
-                        color: itemColor,
-                    };
-                }
-                return item;
-            })
+        const res = await updateCategory(
+            itemName,
+            itemColor,
+            itemId,
+            user.token
         );
-
+        const valid = res.result;
         if (valid) {
-            setData(updated);
+            setCatColor(itemColor);
+            setCatName(itemName);
         }
-        return valid;
     };
 
-    const handelDeleteCategory = (name, id) => {
-        Alert.alert(
-            "Confirmation",
-            `Voulez-vous supprimer la catégorie ${name} ?`,
-            [
-                {
-                    text: "Annuler",
-                },
-                {
-                    text: "Supprimer",
-                    style: "destructive",
-                    onPress: async () => {
-                        const res = await deleteCategory(id, user.token);
-                        if (res.result) {
-                            dispatch(deletCategory(id));
-                            setData((OldValue) =>
-                                OldValue.filter((item) => item._id !== id)
-                            );
-                        } else {
-                            alert(
-                                "Erreur lors de la suppression de la catégorie"
-                            );
-                        }
-                    },
-                },
-            ]
+    // ajout d'un feed via l'input et le bouton en bas de page
+    const handleAddFeed = async () => {
+        if (inputUrl && categoryId) {
+            const data = await createFeed(inputUrl, categoryId, user.token);
+            if (data.result) {
+                setInputUrl("");
+
+                setData((prevData) => [
+                    ...prevData,
+                    { name: data.feedName, _id: data.feedId },
+                ]);
+                setTextInfo({
+                    text: `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`,
+                    color: "green",
+                });
+            } else {
+                setTextInfo({
+                    text: data.error || "Erreur lors de l'ajout du feed",
+                    color: "red",
+                });
+            }
+        }
+    };
+    // delete un feed au click de  l'icone poubelle
+    const handleDeleteFeed = async (feedId) => {
+        const result = await deleteFeedFromCategory(
+            categoryId,
+            feedId,
+            user.token
         );
+        if (result.result) {
+            const filteredData = data.filter((item) => item._id !== feedId);
+            setData(filteredData);
+        }
     };
-
-    const handleManageFeed = (name, color, id) => {
-        navigation.navigate("ManageCategoryFeed", {
-            name,
-            color,
-            id,
-        });
-    };
-
-    const renderCategory = ({ item }) => {
+    const renderFeeds = ({ item }) => {
         return (
             <View style={[styles.itemList]}>
                 <View
@@ -120,59 +110,23 @@ export default function ManageOneCategoryScreen() {
                         maxWidth: "100%",
                     }}
                 >
-                    <TouchableOpacity
-                        onPress={() => {
-                            setNameClicked(
-                                (prevItem) => (prevItem = item.name)
-                            );
-                            setColorCliked(
-                                (prevItem) => (prevItem = item.color)
-                            );
-                            setIdClicked((prevItem) => (prevItem = item._id));
-                            setIsModalVisible((prevItem) => (prevItem = true));
-                        }}
+                    <Text
+                        style={[
+                            styles.itemText,
+                            { color: theme.colors.text_dark },
+                        ]}
                     >
-                        <Text
-                            style={[
-                                styles.itemText,
-                                { color: item.color || theme.colors.text_dark },
-                            ]}
-                        >
-                            {item.name}
-                        </Text>
+                        {item.name}
+                    </Text>
+
+                    <TouchableOpacity>
+                        <FontAwesome6
+                            name="trash"
+                            size={18}
+                            color={theme.colors.icon_red}
+                            onPress={() => handleDeleteFeed(item._id)}
+                        />
                     </TouchableOpacity>
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <TouchableOpacity>
-                            <FontAwesome6
-                                name="trash"
-                                size={18}
-                                color={theme.colors.icon_red}
-                                onPress={() =>
-                                    handelDeleteCategory(item.name, item._id)
-                                }
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconButton}>
-                            <FontAwesome6
-                                name="gear"
-                                size={18}
-                                color={theme.colors.icon_gray}
-                                onPress={() =>
-                                    handleManageFeed(
-                                        item.name,
-                                        item.color,
-                                        item._id
-                                    )
-                                }
-                            />
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </View>
         );
@@ -181,28 +135,87 @@ export default function ManageOneCategoryScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <NavigationBackArrow />
-            <Text style={styles.title}>Gérer vos catégories</Text>
+            <Text style={{ ...styles.title, color: catColor }}>{catName}</Text>
             <ModalModifyCategory
                 modalName={"Modifier la catégorie"}
-                sectionName={nameCliked}
-                sectionColor={colorCliked}
-                sectionId={idClicked}
+                sectionName={catName}
+                sectionColor={catColor}
+                sectionId={categoryId}
                 modalVisible={isModalVisible}
                 onValidation={handleCategoriesUpdate}
                 onClose={() => setIsModalVisible(false)}
-                // onCreate={handleCreateCategory}
                 token={user.token}
             />
 
+            <View style={[styles.itemList, { backgroundColor: catColor }]}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        maxWidth: "100%",
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={() => {
+                            setIsModalVisible((prevItem) => (prevItem = true));
+                        }}
+                    >
+                        <Text
+                            style={{
+                                textAlign: "center",
+                                // blanc ou noir en fonction de la couleur de fond du bouton
+                                color: getContrastingTextColor(catColor),
+                            }}
+                        >
+                            modifier le nom et la couleur
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <Text
+                style={{
+                    textAlign: "center",
+                    marginTop: 15,
+                    fontFamily: theme.fonts.openSansSemiBold,
+                }}
+            >
+                Gérer vos feeds :
+            </Text>
             <FlatList
                 data={data}
-                renderItem={renderCategory}
+                renderItem={renderFeeds}
                 keyExtractor={(item) => item._id}
                 contentContainerStyle={{
                     paddingHorizontal: 16,
                     paddingVertical: 12,
                 }}
             />
+            <TextInput
+                style={styles.input}
+                placeholder="ex. https://lesnumeriques.com"
+                value={inputUrl}
+                onChangeText={setInputUrl}
+                autoCapitalize="none"
+                keyboardType="url"
+            />
+            <View style={{ marginBottom: 30 }}>
+                <Text
+                    style={{
+                        color: textInfo.color,
+                        fontFamily: theme.fonts.openSansSemiBold,
+                        marginVertical: 20,
+                        textAlign: "center",
+                    }}
+                >
+                    {textInfo.text}
+                </Text>
+                <DefaultButton
+                    handlePress={handleAddFeed}
+                    align="center"
+                    text="Ajouter le feed"
+                />
+            </View>
         </SafeAreaView>
     );
 }
@@ -214,10 +227,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
     },
     title: {
-        fontSize: theme.fontSizes.large,
+        fontSize: theme.fontSizes.xlarge,
         fontFamily: theme.fonts.comfortaaBold,
         color: theme.colors.text_dark,
         textAlign: "center",
+        marginBottom: 25,
     },
 
     itemList: {
@@ -231,10 +245,19 @@ const styles = StyleSheet.create({
     itemText: {
         fontFamily: theme.fonts.openSansSemiBold,
         fontSize: theme.fontSizes.medium,
-        maxWidth: 260,
+        // maxWidth: 260,
     },
     iconButton: {
         marginLeft: 25,
         // padding: 6,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: theme.colors.icon_gray,
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        fontFamily: theme.fonts.openSansRegular,
+        marginTop: 10,
     },
 });
