@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 export default function OnePopularScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
-    console.log("token dans onpopularscreen:", user.token);
     const route = useRoute();
     const { userId, username, articles } = route.params;
     const [searchValue, setSearchValue] = useState("");

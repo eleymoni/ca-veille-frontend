@@ -69,6 +69,9 @@ export const userSlice = createSlice({
         deleteUserCategory: (state, action) => {
             state.value.categories = action.payload;
         },
+        updateUsername: (state, action) => {
+            state.value.username = action.payload;
+        },
     },
 });
 
@@ -83,5 +86,6 @@ export const {
     unfollowUser,
     deletCategory,
     deleteUserCategory,
+    updateUsername,
 } = userSlice.actions;
 export default userSlice.reducer;

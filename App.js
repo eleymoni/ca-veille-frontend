@@ -34,6 +34,7 @@ import ArticleScreen from "./screens/ArticleScreen";
 import OneFollowScreen from "./screens/OneFollowScreen";
 import OnePopularScreen from "./screens/OnePopularScreen";
 import ManageCategoryFeed from "./screens/ManageCategoryFeed";
+import ManageOneCategoryScreen from "./screens/ManageOneCategoryScreen";
 import theme from "./core/theme";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -74,14 +75,19 @@ const TabNavigator = () => {
                         iconName = "list";
                     } else if (route.name === "Populaire") {
                         iconName = "fire-alt";
-                    } else if (route.name === "Abonnements") {
+                    } else if (route.name === "Suivis") {
                         iconName = "user-plus";
                     } else if (route.name === "Favoris") {
                         iconName = "star";
                     }
 
                     return (
-                        <FontAwesome5 name={iconName} size={25} color={color} />
+                        <FontAwesome5
+                            name={iconName}
+                            size={25}
+                            color={color}
+                            style={{ marginLeft: route.name === "Suivis" && 8 }}
+                        />
                     );
                 },
                 tabBarActiveTintColor: theme.colors.text_light,
@@ -101,7 +107,7 @@ const TabNavigator = () => {
             <Tab.Screen name="Accueil" component={HomeScreen} />
             <Tab.Screen name="Catégories" component={CategoriesScreen} />
             <Tab.Screen name="Populaire" component={PopularScreen} />
-            <Tab.Screen name="Abonnements" component={FollowedScreen} />
+            <Tab.Screen name="Suivis" component={FollowedScreen} />
             <Tab.Screen name="Favoris" component={FavorisScreen} />
         </Tab.Navigator>
     );
@@ -195,6 +201,10 @@ export default function App() {
                             <Stack.Screen
                                 name="ManageCategoryFeed"
                                 component={ManageCategoryFeed}
+                            />
+                            <Stack.Screen
+                                name="ManageOneCategoryScreen"
+                                component={ManageOneCategoryScreen}
                             />
                         </Stack.Navigator>
                     </NavigationContainer>

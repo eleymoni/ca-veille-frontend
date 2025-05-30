@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
@@ -6,14 +6,36 @@ import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import { getCategories } from "../constants/Urls";
 
 export default function CategoryScreen({ navigation }) {
     const route = useRoute();
     const user = useSelector((state) => state.user.value);
+    const isFocused = useIsFocused();
     const { categoryId, title, color, articles } = route.params;
+    const [catName, setCatName] = useState("");
+    const [catColor, setCatColor] = useState("");
     const [searchValue, setSearchValue] = useState("");
+    const [data, setData] = useState([]);
 
-    const filteredData = articles.filter(
+    useEffect(() => {
+        isFocused &&
+            getCategories(user).then((res) => {
+                const resultArticles = res.categoriesList.filter(
+                    (item) => item._id === categoryId
+                );
+                res.categoriesList.map((item) => {
+                    if (item._id === categoryId) {
+                        setCatColor(item.color);
+                        setCatName(item.name);
+                    }
+                });
+                setData(resultArticles[0].articles);
+            });
+    }, [isFocused]);
+
+    const filteredData = data.filter(
         (item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
             item.description.toLowerCase().includes(searchValue.toLowerCase())
@@ -25,8 +47,8 @@ export default function CategoryScreen({ navigation }) {
             title={item.title}
             description={item.description}
             image={item.media}
-            category={title}
-            categoryColor={color}
+            category={catName}
+            categoryColor={catColor}
             defaultMedia={item.defaultMedia}
             date={item.date}
             url={item.url}
@@ -41,14 +63,14 @@ export default function CategoryScreen({ navigation }) {
         <View style={styles.container}>
             <Header2
                 // voir commment gérer la modification via les 3 points de la catégorie avec categoryId, title et color
-                colorText={color}
+                colorText={catColor}
                 onBack={() => navigation.goBack()}
                 searchValue={searchValue}
                 onChangeSearch={setSearchValue}
-                title={title}
+                title={catName}
                 routeName={route.name}
                 categoryId={categoryId}
-                categoryColor={color}
+                categoryColor={catColor}
                 token={user.token}
             />
             <View

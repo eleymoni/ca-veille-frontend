@@ -14,6 +14,7 @@ import { createFeed, getCategories } from "../constants/Urls";
 import ModalAddCategory from "../components/ModalAddCategory";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
+import DefaultButton from "../components/DefaultButton";
 
 export default function AddFeedScreen() {
     const user = useSelector((state) => state.user.value);
@@ -27,7 +28,7 @@ export default function AddFeedScreen() {
         name: "",
     });
 
-    const [isFeedCreated, setIsfeedCreated] = useState("");
+    const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
@@ -48,33 +49,38 @@ export default function AddFeedScreen() {
     }, [user.token, user.categories]);
 
     const handleAddFeed = async () => {
-        if (inputUrl && selectedCategory) {
-            const data = await createFeed(
-                inputUrl,
-                selectedCategory.id,
-                user.token
-            );
-            if (data.result) {
-                setSelectedCategory({
-                    id: null,
-                    name: "",
-                });
-                setInputUrl("");
-                setIsfeedCreated(
-                    `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`
-                );
-            }
+        const data = await createFeed(
+            inputUrl,
+            selectedCategory.id,
+            user.token
+        );
+
+        if (!data.result || data.status === 500) {
+            setTextInfo({
+                text: data.error || "Erreur lors de l'ajout du feed",
+                color: "red",
+            });
+        } else {
+            setSelectedCategory({
+                id: null,
+                name: "",
+            });
+            setInputUrl("");
+            setTextInfo({
+                text: `Le feed ${inputUrl} a été ajouté dans la catégorie ${selectedCategory.name}`,
+                color: "green",
+            });
         }
     };
 
-    const handleCreateCategory = (Inputcategory) => {
-        setCategories((prev) => [...prev, Inputcategory]);
+    const handleCreateCategory = (inputCategory) => {
+        setCategories((prev) => [...prev, inputCategory]);
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <NavigationBackArrow />
-            <Text style={styles.label}>Entrer l'URL du site web</Text>
+            <Text style={styles.label}>Entrez l'URL du site web</Text>
             <TextInput
                 style={styles.input}
                 placeholder="ex. https://lesnumeriques.com"
@@ -86,20 +92,23 @@ export default function AddFeedScreen() {
             {categories.length !== 0 && (
                 <>
                     <Text style={[styles.label, { marginTop: 30 }]}>
-                        Dans quelle catégorie souhaiter vous l'ajouter ?
+                        Dans quelle catégorie souhaitez-vous l'ajouter ?
                     </Text>
                     <ScrollView
                         style={styles.catList}
                         contentContainerStyle={{ paddingVertical: 4 }}
                         showsVerticalScrollIndicator
                     >
-                        {(categories ?? [])
+                        {categories
                             .filter((cat) => typeof cat === "object" && cat._id)
-                            .map((category) => (
+                            .map((category, i) => (
                                 <TouchableOpacity
                                     key={category._id}
                                     style={[
                                         styles.catItem,
+                                        i === categories.length - 1 && {
+                                            borderBottomWidth: 0,
+                                        },
                                         selectedCategory.name ===
                                             category.name &&
                                             styles.catItemSelected,
@@ -154,27 +163,31 @@ export default function AddFeedScreen() {
                 </>
             )}
             {/* Bouton pour ouvrir la modal */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => setIsModalVisible(true)}
-            >
-                <Text style={styles.buttonText}>+ Ajouter une catégorie</Text>
-            </TouchableOpacity>
+            <DefaultButton
+                handlePress={() => setIsModalVisible(true)}
+                text="+ Ajouter une catégorie"
+                align="center"
+            />
             <ModalAddCategory
                 modalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onCreate={handleCreateCategory}
                 token={user.token}
             />
-            <Text style={{ marginTop: 30, color: "green" }}>
-                {isFeedCreated}
-            </Text>
-            <TouchableOpacity
-                style={{ ...styles.button, marginTop: 30 }}
-                onPress={handleAddFeed}
+            <Text
+                style={{
+                    marginVertical: 30,
+                    color: textInfo.color,
+                    fontFamily: theme.fonts.openSansSemiBold,
+                }}
             >
-                <Text style={styles.buttonText}>Ajouter le feed</Text>
-            </TouchableOpacity>
+                {textInfo.text}
+            </Text>
+            <DefaultButton
+                handlePress={handleAddFeed}
+                text="Ajouter le feed"
+                align="center"
+            />
         </SafeAreaView>
     );
 }
@@ -191,12 +204,6 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         color: theme.colors.text_dark,
     },
-    feedInfo: {
-        fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.small,
-        marginTop: 32,
-        color: theme.colors.blue,
-    },
     input: {
         borderWidth: 1,
         borderColor: theme.colors.icon_gray,
@@ -205,31 +212,12 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         fontFamily: theme.fonts.openSansRegular,
     },
-    button: {
-        marginTop: 12,
-        alignSelf: "center",
-        borderWidth: 1,
-        borderColor: theme.colors.blue,
-        borderRadius: 8,
-        paddingHorizontal: 24,
-        paddingVertical: 12,
-    },
-    buttonText: {
-        fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.medium,
-        color: theme.colors.blue,
-    },
-    disabledButtonText: {
-        fontFamily: theme.fonts.openSansRegular,
-        fontSize: theme.fontSizes.medium,
-        color: theme.colors.icon_gray,
-    },
     catList: {
         maxHeight: 200,
         borderWidth: 1,
         borderColor: theme.colors.icon_gray,
         borderRadius: 8,
-        marginTop: 8,
+        marginVertical: 8,
     },
     catItem: {
         flexDirection: "row",

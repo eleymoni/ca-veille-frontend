@@ -28,32 +28,35 @@ export default function ManageCategoryFeed() {
     const user = useSelector((state) => state.user.value);
     const { name, color, id } = route.params;
     const isFocused = useIsFocused();
-    const [isFeedCreated, setIsfeedCreated] = useState("");
+    const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
     const [data, setData] = useState([]);
     const [inputUrl, setInputUrl] = useState("");
+
     useEffect(() => {
         isFocused &&
             getFeedsByCategory(id, user.token).then((data) =>
                 setData(data.feeds)
             );
-    }, [isFocused, isFeedCreated]);
+    }, [isFocused, textInfo]);
 
     const handleAddFeed = async () => {
-        if (inputUrl && id) {
-            const data = await createFeed(inputUrl, id, user.token);
-            if (data.result) {
-                setInputUrl("");
+        const data = await createFeed(inputUrl, id, user.token);
 
-                setData((prevData) => [
-                    ...prevData,
-                    { name: data.feedName, _id: data.feedId },
-                ]);
-                setIsfeedCreated(
-                    `Le feed ${inputUrl} à était créer dans la catégorie ${selectedCategory.name}`
-                );
-            } else {
-                setIsfeedCreated(`Le feed ${inputUrl} n'est pas ajouté`);
-            }
+        if (!data.result || data.status === 500) {
+            setTextInfo({
+                text: data.error || "Erreur lors de l'ajout du feed",
+                color: "red",
+            });
+        } else {
+            setData((prevData) => [
+                ...prevData,
+                { name: data.feedName, _id: data.feedId },
+            ]);
+            setInputUrl("");
+            setTextInfo({
+                text: `Le feed ${inputUrl} a été créer dans la catégorie ${name}`,
+                color: "green",
+            });
         }
     };
 
@@ -121,18 +124,20 @@ export default function ManageCategoryFeed() {
                 autoCapitalize="none"
                 keyboardType="url"
             />
-            {/* <TouchableOpacity
-                style={{ ...styles.button, marginVertical: 30 }}
-                onPress={handleAddFeed}
-            >
-                <Text style={styles.buttonText}>Ajouter le feed</Text>
-            </TouchableOpacity> */}
-            <View style={{ marginVertical: 30 }}>
-                <Text style={{ color: "green" }}>{isFeedCreated}</Text>
+            <View style={{ marginVertical: 25 }}>
+                <Text
+                    style={{
+                        marginBottom: 25,
+                        color: textInfo.color,
+                        fontFamily: theme.fonts.openSansSemiBold,
+                    }}
+                >
+                    {textInfo.text}
+                </Text>
                 <DefaultButton
                     handlePress={handleAddFeed}
                     align="center"
-                    text="AJouter le feed"
+                    text="Ajouter le feed"
                 />
             </View>
         </SafeAreaView>

@@ -5,23 +5,36 @@ import {
     StyleSheet,
     Alert,
     Switch,
+    TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
-import { logout, toggleIsPublicReducer } from "../reducers/user";
+import {
+    logout,
+    toggleIsPublicReducer,
+    updateUsername,
+} from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { deleteUser, getEmail, toggleIsPublic } from "../constants/Urls";
+import {
+    deleteUser,
+    getEmail,
+    handleChangeUsername,
+    toggleIsPublic,
+} from "../constants/Urls";
 
 export default function SettingsUserScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const user = useSelector((state) => state.user.value);
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(null);
     const [isPublic, setIsPublic] = useState(user.isPublic);
+    const [inputVisible, setInputVisible] = useState(false);
+    const [username, setUsername] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchEmail = async () => {
@@ -37,6 +50,10 @@ export default function SettingsUserScreen() {
 
         fetchEmail();
     }, [user.token]);
+
+    useEffect(() => {
+        setError(null);
+    }, [username]);
 
     const toggleSwitch = async () => {
         try {
@@ -104,6 +121,23 @@ export default function SettingsUserScreen() {
         );
     };
 
+    const handleIsInputVisible = () => {
+        setInputVisible((value) => !value);
+        setError(null);
+    };
+    const handleCLick = async () => {
+        const res = await handleChangeUsername(username, user.token);
+        console.log(res);
+        if (res.data) {
+            dispatch(updateUsername(res.data));
+            setUsername(null);
+            setInputVisible(false);
+            setError(null);
+        } else {
+            setError("Le nom ne peut être vide");
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <NavigationBackArrow />
@@ -113,11 +147,29 @@ export default function SettingsUserScreen() {
                     size={32}
                     color={theme.colors.text_dark}
                 />
-                <Text style={styles.title}>paramètres utilisateur</Text>
+                <Text style={styles.title}>Paramètres utilisateur</Text>
             </View>
             <View style={styles.textContainer}>
-                <View>
-                    <Text style={styles.text}>Nom : {user.username}</Text>
+                <View style={styles.gap}>
+                    <View style={styles.row}>
+                        <Text style={styles.text}>Nom : {user.username}</Text>
+                        <TouchableOpacity onPress={handleIsInputVisible}>
+                            <AntDesign name="edit" size={18} />
+                        </TouchableOpacity>
+                    </View>
+                    {inputVisible && (
+                        <View style={styles.row}>
+                            <TextInput
+                                style={styles.updateUsername}
+                                placeholder="Entrez votre nouveau nom..."
+                                onChangeText={(value) => setUsername(value)}
+                            />
+                            <Text style={styles.btn} onPress={handleCLick}>
+                                Valider
+                            </Text>
+                        </View>
+                    )}
+                    {error && <Text style={styles.danger}>{error}</Text>}
                     <Text style={styles.text}>Email : {email}</Text>
                 </View>
                 <View style={styles.switchContainer}>
@@ -157,7 +209,8 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: "row",
         gap: 20,
-        marginBottom: 40,
+        marginBottom: 60,
+        alignItems: "flex-end",
     },
     title: {
         fontFamily: theme.fonts.comfortaaBold,
@@ -177,5 +230,24 @@ const styles = StyleSheet.create({
     switchContainer: {
         flexDirection: "row",
         alignItems: "center",
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 40,
+    },
+    updateUsername: {
+        fontFamily: theme.fonts.comfortaaSemiBold,
+        fontSize: theme.fontSizes.medium,
+    },
+    btn: {
+        fontFamily: theme.fonts.comfortaaSemiBold,
+        fontSize: theme.fontSizes.medium,
+    },
+    gap: {
+        gap: 20,
+    },
+    danger: {
+        color: theme.colors.red,
     },
 });

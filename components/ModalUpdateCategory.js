@@ -12,6 +12,7 @@ export default function ModalUpdateCategory({
     onClose,
     categoryId,
     categoryName,
+    categoryColor,
     token,
 }) {
     const navigation = useNavigation();
@@ -34,7 +35,6 @@ export default function ModalUpdateCategory({
                             categoryId,
                             token
                         );
-                        console.log(response);
                         dispatch(
                             deleteUserCategory(response.foundUser.categories)
                         );
@@ -47,20 +47,26 @@ export default function ModalUpdateCategory({
 
     const handleClick = () => {
         onClose();
-        navigation.navigate("ManageCategoriesScreen");
+        navigation.navigate("ManageOneCategoryScreen", {
+            categoryId,
+            categoryName,
+            categoryColor,
+        });
     };
 
     return (
         <Modal
             isVisible={menuVisible}
             onBackdropPress={onClose}
-            animationIn="fadeInRight"
-            animationOut="slideOutRight"
+            animationIn="fadeInDown"
+            animationOut="slideOutUp"
             style={styles.modal}
             backdropOpacity={0.4}
         >
             <View style={styles.menuContainer}>
-                <Text style={styles.username}>{categoryName}</Text>
+                <Text style={{ ...styles.username, color: categoryColor }}>
+                    {categoryName}
+                </Text>
 
                 {/* Change color */}
                 <View style={styles.buttonRow}>
@@ -71,9 +77,12 @@ export default function ModalUpdateCategory({
                         }}
                         onPress={handleClick}
                     >
-                        <Text style={styles.textButton}>
-                            Gérer la catégorie
-                        </Text>
+                        <Text style={styles.textButton}>Gérer</Text>
+                        <FontAwesome6
+                            name="gear"
+                            size={14}
+                            style={styles.icon}
+                        />
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
@@ -82,19 +91,25 @@ export default function ModalUpdateCategory({
                         }}
                         onPress={() => handleDelete(categoryId, token)}
                     >
-                        <Text style={styles.textButton}>
-                            Supprimer la catégorie
+                        <Text
+                            style={{
+                                ...styles.textButton,
+                                color: theme.colors.icon_red,
+                            }}
+                        >
+                            Supprimer{" "}
                         </Text>
+                        <FontAwesome6
+                            name="trash"
+                            size={14}
+                            color={theme.colors.icon_red}
+                        />
                     </TouchableOpacity>
                 </View>
 
                 {/* Croix de fermeture */}
                 <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                    <FontAwesome6
-                        name="xmark"
-                        size={32}
-                        color={theme.colors.blue}
-                    />
+                    <FontAwesome6 name="xmark" size={32} style={styles.icon} />
                 </TouchableOpacity>
             </View>
         </Modal>
@@ -132,6 +147,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 8,
+        gap: 10,
         paddingVertical: 10,
         borderColor: theme.colors.icon_gray,
     },
@@ -144,7 +160,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
     },
     icon: {
-        color: theme.colors.icon_dark,
+        color: theme.colors.icon_gray,
     },
     closeButton: {
         marginHorizontal: "auto",

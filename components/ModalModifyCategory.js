@@ -5,8 +5,10 @@ import {
     TextInput,
     StyleSheet,
     TouchableOpacity,
-    Modal,
+    // Modal,
+    Animated,
 } from "react-native";
+import Modal from "react-native-modal";
 import ColorPicker from "react-native-wheel-color-picker";
 import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import theme from "../core/theme";
@@ -59,75 +61,77 @@ export default function ModalModifycategory({
 
     return (
         <Modal
-            visible={modalVisible}
-            animationType="slide"
-            transparent
-            onRequestClose={handleClose}
+            isVisible={modalVisible}
+            onBackdropPress={onClose}
+            animationIn="fadeInUp"
+            animationOut="fadeOutUp"
+            style={styles.modal}
+            backdropOpacity={0.4}
+            // onRequestClose={handleClose}
         >
-            <View style={styles.backdrop}>
-                <View style={styles.content}>
-                    <Text style={styles.title}>{modalName}</Text>
+            {/* <View style={[styles.backdrop]}> */}
+            <View style={styles.content}>
+                <Text style={styles.title}>{modalName}</Text>
 
-                    {/* Color Picker */}
-                    <View style={styles.pickerWrapper}>
-                        <ColorPicker
-                            color={sectionColor}
-                            onColorChange={setInputColor}
-                            thumbSize={30}
-                            sliderSize={30}
-                            noSnap={true}
-                            row={false}
-                            shadeSliderThumb={true}
-                        />
-                    </View>
-
-                    {/* Nom de la catégorie */}
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Nom de la catégorie"
-                        value={inputCategory}
-                        onChangeText={setInputCategory}
+                {/* Color Picker */}
+                <View style={styles.pickerWrapper}>
+                    <ColorPicker
+                        color={sectionColor}
+                        onColorChange={setInputColor}
+                        thumbSize={30}
+                        sliderSize={30}
+                        noSnap={true}
+                        row={false}
+                        shadeSliderThumb={true}
                     />
-                    <Text style={styles.textError}>{textError}</Text>
-                    {/* Boutons Valider / Annuler */}
-                    <View style={styles.buttonRow}>
-                        <TouchableOpacity
-                            style={[styles.button, styles.cancelBtn]}
-                            onPress={handleClose}
-                        >
-                            <Text style={styles.buttonText}>Annuler</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
+                </View>
+
+                {/* Nom de la catégorie */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Nom de la catégorie"
+                    value={inputCategory}
+                    onChangeText={setInputCategory}
+                />
+                <Text style={styles.textError}>{textError}</Text>
+                {/* Boutons Valider / Annuler */}
+                <View style={styles.buttonRow}>
+                    <TouchableOpacity
+                        style={[styles.button, styles.cancelBtn]}
+                        onPress={handleClose}
+                    >
+                        <Text style={styles.buttonText}>Annuler</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.button, { backgroundColor: inputColor }]}
+                        onPress={handleModifyCategory}
+                    >
+                        <Text
                             style={[
-                                styles.button,
-                                { backgroundColor: inputColor },
+                                styles.buttonText,
+                                {
+                                    color: getContrastingTextColor(inputColor),
+                                },
                             ]}
-                            onPress={handleModifyCategory}
                         >
-                            <Text
-                                style={[
-                                    styles.buttonText,
-                                    {
-                                        color: getContrastingTextColor(
-                                            inputColor
-                                        ),
-                                    },
-                                ]}
-                            >
-                                Valider
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                            Valider
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
+            {/* </View> */}
         </Modal>
     );
 }
 
 const styles = StyleSheet.create({
+    modal: {
+        justifyContent: "center",
+        marginHorizontal: 20,
+    },
     backdrop: {
         flex: 1,
-        backgroundColor: "rgba(0,0,0,0.4)",
+        // backgroundColor: "rgba(0,0,0,0.4)",
         justifyContent: "center",
         padding: 16,
     },
