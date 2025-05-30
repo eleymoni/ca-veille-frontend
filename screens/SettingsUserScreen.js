@@ -175,6 +175,7 @@ export default function SettingsUserScreen() {
                 <View style={styles.switchContainer}>
                     <Text style={styles.text}>Profil public</Text>
                     <Switch
+                        style={{ marginLeft: 15 }}
                         trackColor={{
                             false: theme.colors.icon_gray,
                             true: theme.colors.blue,
