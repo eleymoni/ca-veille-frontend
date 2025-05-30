@@ -168,7 +168,7 @@ export default function ManageOneCategoryScreen() {
                                 color: getContrastingTextColor(catColor),
                             }}
                         >
-                            modifier la couleur
+                            modifier le nom et la couleur
                         </Text>
                     </TouchableOpacity>
                 </View>
