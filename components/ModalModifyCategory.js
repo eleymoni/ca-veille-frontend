@@ -5,16 +5,11 @@ import {
     TextInput,
     StyleSheet,
     TouchableOpacity,
-    // Modal,
-    Animated,
 } from "react-native";
 import Modal from "react-native-modal";
 import ColorPicker from "react-native-wheel-color-picker";
 import { getContrastingTextColor } from "../utils/InverseColorUtils";
 import theme from "../core/theme";
-import { createCategory } from "../constants/Urls";
-import { useDispatch } from "react-redux";
-import { addCategory } from "../reducers/user";
 
 export default function ModalModifycategory({
     modalName,
@@ -23,14 +18,12 @@ export default function ModalModifycategory({
     sectionId,
     modalVisible,
     onClose,
-    onCreate,
-    token,
+
     onValidation,
 }) {
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState("");
     const [textError, setTextError] = useState("");
-    const dispatch = useDispatch();
 
     useEffect(() => {
         setInputCategory(sectionName || "");
@@ -67,9 +60,7 @@ export default function ModalModifycategory({
             animationOut="fadeOutUp"
             style={styles.modal}
             backdropOpacity={0.4}
-            // onRequestClose={handleClose}
         >
-            {/* <View style={[styles.backdrop]}> */}
             <View style={styles.content}>
                 <Text style={styles.title}>{modalName}</Text>
 
@@ -119,7 +110,6 @@ export default function ModalModifycategory({
                     </TouchableOpacity>
                 </View>
             </View>
-            {/* </View> */}
         </Modal>
     );
 }
@@ -131,7 +121,6 @@ const styles = StyleSheet.create({
     },
     backdrop: {
         flex: 1,
-        // backgroundColor: "rgba(0,0,0,0.4)",
         justifyContent: "center",
         padding: 16,
     },

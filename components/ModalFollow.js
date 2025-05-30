@@ -58,7 +58,6 @@ export default function ModalFollow({
         if (res.result) {
             dispatch(followUser({ userId: followedUserId }));
             onClose();
-            // navigation.navigate("Abonnements");
         } else {
             alert("Erreur lors de l'ajout de l'abonnement");
         }

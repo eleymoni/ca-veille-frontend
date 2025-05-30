@@ -190,7 +190,6 @@ export default function ManageCategoriesScreen() {
                 modalVisible={isModalVisible}
                 onValidation={handleCategoriesUpdate}
                 onClose={() => setIsModalVisible(false)}
-                // onCreate={handleCreateCategory}
                 token={user.token}
             />
 
@@ -235,6 +234,5 @@ const styles = StyleSheet.create({
     },
     iconButton: {
         marginLeft: 25,
-        // padding: 6,
     },
 });

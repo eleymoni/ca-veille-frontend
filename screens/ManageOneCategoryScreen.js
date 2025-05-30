@@ -7,14 +7,13 @@ import {
     TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
 import theme from "../core/theme";
 import ModalModifyCategory from "../components/ModalModifyCategory";
 import { getContrastingTextColor } from "../utils/InverseColorUtils";
-import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import {
     createFeed,
@@ -27,16 +26,13 @@ import DefaultButton from "../components/DefaultButton";
 
 export default function ManageOneCategoryScreen() {
     const route = useRoute();
-    const navigation = useNavigation();
     const isFocused = useIsFocused();
     const user = useSelector((state) => state.user.value);
-    const dispatch = useDispatch();
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { categoryId, categoryName, categoryColor } = route.params;
     const [catName, setCatName] = useState(categoryName);
     const [catColor, setCatColor] = useState(categoryColor);
-    const [isFeedCreated, setIsfeedCreated] = useState("");
     const [inputUrl, setInputUrl] = useState("");
     const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
     const [data, setData] = useState([]);
@@ -245,11 +241,9 @@ const styles = StyleSheet.create({
     itemText: {
         fontFamily: theme.fonts.openSansSemiBold,
         fontSize: theme.fontSizes.medium,
-        // maxWidth: 260,
     },
     iconButton: {
         marginLeft: 25,
-        // padding: 6,
     },
     input: {
         borderWidth: 1,

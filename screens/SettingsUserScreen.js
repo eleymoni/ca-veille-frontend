@@ -127,7 +127,6 @@ export default function SettingsUserScreen() {
     };
     const handleCLick = async () => {
         const res = await handleChangeUsername(username, user.token);
-        console.log(res);
         if (res.data) {
             dispatch(updateUsername(res.data));
             setUsername(null);

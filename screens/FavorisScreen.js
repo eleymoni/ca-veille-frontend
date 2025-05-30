@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
@@ -27,8 +26,6 @@ export default function FavorisScreen() {
             title={item.title}
             description={item.description}
             image={item.media}
-            // category={title}
-            // categoryColor={color}
             defaultMedia={item.defaultMedia}
             date={item.date}
             url={item.url}

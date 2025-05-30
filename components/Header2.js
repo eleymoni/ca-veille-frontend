@@ -8,12 +8,7 @@ import {
     TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-    FontAwesome6,
-    FontAwesome5,
-    Entypo,
-    Ionicons,
-} from "@expo/vector-icons";
+import { FontAwesome5, Entypo, Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { Keyboard } from "react-native";
 import truncate from "../utils/truncate";
@@ -30,7 +25,6 @@ const Header2 = ({
     onChangeSearch,
     followedUsername,
     followedUserId,
-    // token,
     categoryId,
     categoryColor,
 }) => {
@@ -90,7 +84,6 @@ const Header2 = ({
                         placeholder="Rechercher..."
                         onChangeText={onChangeSearch}
                         value={searchValue}
-                        // onSubmitEditing={handleSubmitSearch}
                         autoFocus={false}
                     />
 

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Switch } from "react-native";
+import { View, Text, StyleSheet, Switch } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import NavigationBackArrow from "../components/NavigationBackArrow";
@@ -6,11 +6,10 @@ import { Ionicons } from "@expo/vector-icons";
 import theme from "../core/theme";
 
 export default function SettingsAppScreen() {
-
     const [isDark, setIsDark] = useState(false);
 
     const toggleMode = async () => {
-       setIsDark((prev) => !prev);
+        setIsDark((prev) => !prev);
     };
 
     return (
@@ -26,40 +25,42 @@ export default function SettingsAppScreen() {
             </View>
             <Text style={styles.text}>Notifications</Text>
             <View style={styles.switchContainer}>
-                    <Text style={styles.text}>Apparence :</Text>
-                    <Ionicons
+                <Text style={styles.text}>Apparence :</Text>
+                <Ionicons
                     name="sunny-outline"
                     size={25}
                     color={theme.colors.blue}
-                    />
-                    <Switch
-                        trackColor={{
-                            false: theme.colors.icon_gray,
-                            true: theme.colors.blue,
-                        }}
-                        thumbColor={isDark ? "#A0A0FF" : theme.colors.bg_gray}
-                        ios_backgroundColor={theme.colors.blue}
-                        onValueChange={toggleMode}
-                        value={isDark}
-                    />
-                    <Ionicons
+                />
+                <Switch
+                    trackColor={{
+                        false: theme.colors.icon_gray,
+                        true: theme.colors.blue,
+                    }}
+                    thumbColor={isDark ? "#A0A0FF" : theme.colors.bg_gray}
+                    ios_backgroundColor={theme.colors.blue}
+                    onValueChange={toggleMode}
+                    value={isDark}
+                />
+                <Ionicons
                     name="moon-outline"
                     size={25}
                     color={theme.colors.blue}
-                    />
-                </View>
+                />
+            </View>
             <Text style={styles.text}>Langue</Text>
-            <Text style={styles.text}>Votre avis compte ! Laissez-nous une note sur le store </Text>
-            <View style={{flexDirection:"row", marginTop: -20,}}>
+            <Text style={styles.text}>
+                Votre avis compte ! Laissez-nous une note sur le store{" "}
+            </Text>
+            <View style={{ flexDirection: "row", marginTop: -20 }}>
                 {/* méthode (voir mdn array.from) 
                 Utilisation de _ pour dire je me fiche de la valeur, j'ai juste besoin de i (convention)*/}
-                {Array.from({length: 5}).map((_, i) => (
+                {Array.from({ length: 5 }).map((_, i) => (
                     <Ionicons
                         key={i}
                         name="star-outline"
                         size={20}
                         color={theme.colors.blue}
-                        />
+                    />
                 ))}
             </View>
         </SafeAreaView>

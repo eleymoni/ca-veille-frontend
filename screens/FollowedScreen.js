@@ -1,9 +1,9 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import Sections from "../components/Sections";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getFollowedCategories } from "../constants/Urls";
 
 export default function FollowedScreen() {
@@ -16,7 +16,6 @@ export default function FollowedScreen() {
         getFollowedCategories(user).then((res) => setData(res.userList));
     }, [followedUsers]);
 
-
     return (
         <View style={styles.container}>
             <Header
@@ -24,7 +23,11 @@ export default function FollowedScreen() {
                 inputValue={searchValue}
                 setInput={setSearchValue}
             />
-            <Sections data={data} searchText={searchValue} screen={"followed"} />
+            <Sections
+                data={data}
+                searchText={searchValue}
+                screen={"followed"}
+            />
         </View>
     );
 }

@@ -23,9 +23,7 @@ export default function ManageFeedsScreen() {
     useEffect(() => {
         const getAllFeeds = async () => {
             let tempFeedsList = [];
-            console.log("first");
             const res = await getAllFeedsWithCategories(user.token);
-            console.log("second", res);
             if (res.result) {
                 for (let category of res.categories) {
                     for (let feed of category.feeds) {

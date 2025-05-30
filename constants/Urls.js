@@ -1,6 +1,6 @@
 export const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 
-// categories
+/*===============CATEGORIES===============*/
 export const GetHomeCategories = async (user) => {
     const newArray = user.followedUsers.join(",");
 
@@ -114,7 +114,7 @@ export const deleteCategory = async (categoryId, token) => {
     return await response.json();
 };
 
-//users
+/*===============USERS===============*/
 export const getEmail = async (token) => {
     const response = await fetch(`${backendUrl}/users/email`, {
         method: "GET",
@@ -206,7 +206,7 @@ export const handleChangeUsername = async (username, token) => {
     return await postUsername.json();
 };
 
-//articles
+/*===============ARTICLES===============*/
 
 export const toggleFavoriteArticle = async (articleyId, token) => {
     const response = await fetch(
@@ -247,6 +247,8 @@ export const handleDeleteUserCategory = async (categoryId, token) => {
     });
     return await response.json();
 };
+
+/*===============FEEDS===============*/
 
 export const getFeedsByCategory = async (categoryId, token) => {
     const response = await fetch(`${backendUrl}/feeds/${categoryId}`, {

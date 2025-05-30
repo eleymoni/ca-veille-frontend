@@ -24,7 +24,7 @@ const Header = ({
     const [showMenuBurger, setShowMenuBurger] = useState(false);
     // search bar state
     const [showSearch, setShowSearch] = useState(false);
-    // if the title length is too long, maxLength is the max length ofthe title
+    // if the title length is too long, maxLength is the max length of the title
 
     title = truncate(title, 40);
 
@@ -83,11 +83,11 @@ const Header = ({
                         <Ionicons name="search" size={28} style={styles.icon} />
                     </TouchableOpacity>
                 )}
-            <MenuBurger
-                menuVisible={showMenuBurger}
-                onClose={() => setShowMenuBurger(false)}
+                <MenuBurger
+                    menuVisible={showMenuBurger}
+                    onClose={() => setShowMenuBurger(false)}
                 />
-                </View>
+            </View>
         </SafeAreaView>
     );
 };

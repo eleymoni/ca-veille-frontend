@@ -1,9 +1,9 @@
-import { View, StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, StyleSheet } from "react-native";
+
 import theme from "../core/theme";
 import Header from "../components/Header";
 import Sections from "../components/Sections";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getCategories } from "../constants/Urls";
 import { useIsFocused } from "@react-navigation/native";

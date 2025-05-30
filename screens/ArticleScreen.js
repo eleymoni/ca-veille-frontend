@@ -7,19 +7,16 @@ import {
     Linking,
     ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header3 from "../components/Header3";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
-import { useSelector } from "react-redux";
 
 export default function ArticleScreen() {
     //Attention : nouvelle méthode react native : Linking (voir doc)
     const navigation = useNavigation();
     const route = useRoute();
-    const user = useSelector((state) => state.user.value);
     // articlesId is the id of the all the articles of the category sort by date
     const {
         articleId,

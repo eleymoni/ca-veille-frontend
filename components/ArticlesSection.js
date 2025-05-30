@@ -18,9 +18,6 @@ export default function ArticlesSection({
     const user = useSelector((state) => state.user.value);
     const navigation = useNavigation();
     const handleCategoryPress = () => {
-        // element to sends :
-        // category id => articlesArray._id
-
         if (screen === "category") {
             navigation.navigate("Category", {
                 categoryId: categoryObj._id,
@@ -43,9 +40,6 @@ export default function ArticlesSection({
         }
     };
     const handleArticlePress = (value) => {
-        // element to sends :
-        // category id, title category, color category. check for the others value to send
-        // value.date = value.date.toString();
         navigation.navigate("Article", {
             articleId: value._id,
             title: value.title,

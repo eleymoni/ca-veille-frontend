@@ -4,12 +4,11 @@ import {
     TouchableOpacity,
     StyleSheet,
     FlatList,
-    Alert,
     TextInput,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
@@ -24,7 +23,6 @@ import DefaultButton from "../components/DefaultButton";
 
 export default function ManageCategoryFeed() {
     const route = useRoute();
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
     const { name, color, id } = route.params;
     const isFocused = useIsFocused();
@@ -172,7 +170,6 @@ const styles = StyleSheet.create({
     },
     iconButton: {
         marginLeft: 25,
-        // padding: 6,
     },
     input: {
         borderWidth: 1,

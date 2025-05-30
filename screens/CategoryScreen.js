@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../core/theme";
 import Header2 from "../components/Header2";
 import { useRoute } from "@react-navigation/native";
@@ -13,7 +12,7 @@ export default function CategoryScreen({ navigation }) {
     const route = useRoute();
     const user = useSelector((state) => state.user.value);
     const isFocused = useIsFocused();
-    const { categoryId, title, color, articles } = route.params;
+    const { categoryId } = route.params;
     const [catName, setCatName] = useState("");
     const [catColor, setCatColor] = useState("");
     const [searchValue, setSearchValue] = useState("");

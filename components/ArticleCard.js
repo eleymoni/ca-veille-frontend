@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
@@ -21,8 +20,6 @@ export default function ArticleCard({
     date,
     url,
     author,
-    categoryId,
-    followedId,
 }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
@@ -170,7 +167,6 @@ const styles = StyleSheet.create({
         fontFamily: theme.fonts.openSansSemiBold,
     },
     category: {
-        // color: theme.colors.primary,
         fontSize: theme.fontSizes.small,
         marginBottom: 4,
         fontFamily: theme.fonts.openSansRegular,
