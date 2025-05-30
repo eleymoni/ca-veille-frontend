@@ -259,6 +259,17 @@ export const getFeedsByCategory = async (categoryId, token) => {
     return await response.json();
 };
 
+export const getAllFeedsWithCategories = async (token) => {
+    const response = await fetch(`${backendUrl}/feeds`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+};
+
 export const deleteFeedFromCategory = async (categoryId, feedId, token) => {
     const response = await fetch(
         `${backendUrl}/categories/${categoryId}/feed/${feedId}`,
