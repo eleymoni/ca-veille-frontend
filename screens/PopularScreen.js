@@ -5,15 +5,17 @@ import Sections from "../components/Sections";
 import { useState, useEffect } from "react";
 import { getPopulars } from "../constants/Urls";
 import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function PopularScreen() {
     const token = useSelector((state) => state.user.value.token);
     const [data, setData] = useState([]);
     const [searchValue, setSearchValue] = useState("");
+    const isFocused = useIsFocused();
 
     useEffect(() => {
-        getPopulars(token).then((res) => setData(res.users));
-    }, []);
+        isFocused && getPopulars(token).then((res) => setData(res.users));
+    }, [isFocused]);
     return (
         <View style={styles.container}>
             <Header
